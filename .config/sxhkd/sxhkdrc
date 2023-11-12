@@ -10,22 +10,27 @@ super + F4
 	tauon
 super + d
 	dmenu_run
+
+# Screens
 super + F1
 	~/.local/scripts/sxhkd/monitor-layout
 super + shift + F1
 	arandr
+
 super + F11
 	~/.local/scripts/sxhkd/powermenu
 super + F12
 	pavucontrol
+
+# Change song
 super + z
 	playerctl previous && kill -USR2 $(pgrep dwmblocks | head -n1)
 super + x
 	playerctl play-pause
 super + c
 	playerctl next && kill -USR2 $(pgrep dwmblocks | head -n1)
-super + shift + k
-	xkill
+
+# Screenshots
 super + p
 	import -window root jpg:- | xclip -selection clipboard -t image/png; notify-send 'Captura copiada al Portapapeles'
 super + shift + p
@@ -34,14 +39,12 @@ super + alt + p
 	cd $HOME/Pictures/Screenshots/; import -window root $(date +'%Y_%m_%d-%H_%M_%S').jpg; notify-send 'Captura guardada en ~/Imágenes'
 super + alt + shift + p
 	cd $HOME/Pictures/Screenshots/; import $(date +'%Y_%m_%d-%H_%M_%S').jpg; notify-send 'Captura guardada en ~/Imágenes'
+
+# Tray
 super + t
 	pkill trayer ||	trayer --align center --edge top --expand false --width 5
-super + F11
-	$HOME/.local/scripts/sxhkd/dmenu-powermenu.sh
-XF86AudioRaiseVolume
-	doas /usr/bin/mixerctl outputs.master=255 && sndioctl output.level=+0.025 && kill -USR1 $(pgrep dwmblocks | head -n1)
-XF86AudioLowerVolume
-	doas /usr/bin/mixerctl outputs.master=255 && sndioctl output.level=-0.025 && kill -USR1 $(pgrep dwmblocks | head -n1)
+
+# Audio
 super + m
 	sndioctl output.level=+0.025 && kill -USR1 $(pgrep dwmblocks | head -n1)
 super + n
@@ -50,12 +53,22 @@ super + shift + n
 	doas /usr/bin/mixerctl outputs.master=255 && sndioctl output.level=1 && kill -USR1 $(pgrep dwmblocks | head -n1)
 super + shift + m
 	doas /usr/bin/mixerctl outputs.master=255 && sndioctl output.level=0.75 && kill -USR1 $(pgrep dwmblocks | head -n1)
+super + shift + F4
+	~/.local/scripts/mic-mute-toggle
+
+# Change brigthness
+
+super + v
+	xbacklight -steps 1 -dec 25
+super + b
+	xbacklight -steps 1 -inc 25
+super + shift + v
+	xbacklight -steps 1 -set 100
+super + shift + b
+	xbacklight -steps 1 -set 30
+
+# Close window
 super + shift + c
 	xkill
 super + shift + k
 	xkill
-super + shift + F4
-	~/.local/scripts/mic-mute-toggle
-super + n
-	nitrogen --restore
-#	feh --bg-fill --no-fehbg $HOME/.dotfiles/img/wallpaper.jpg

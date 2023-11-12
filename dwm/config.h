@@ -137,7 +137,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_d,          spawn,                 {.v = dmenucmd } },
 	{ MODKEY,                       XK_Return,     spawn,                 {.v = termcmd } },
 	// toggle bar
-	{ MODKEY,                       XK_b,          togglebar,              {0} },
+	//{ MODKEY,                       XK_b,          togglebar,              {0} },
 	// toggle sticky
 	{ MODKEY|Mod1Mask,		XK_s,	       togglesticky,	       {0} },
 	// change tag
