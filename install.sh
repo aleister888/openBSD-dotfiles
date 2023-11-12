@@ -234,5 +234,12 @@ doas rcctl set apmd flags -L
 doas rcctl enable obsdfreqd
 doas rcctl set obsdfreqd flags -T 90,55
 
+#######
+# NPM #
+#######
+
+mkdir -p ~/.local/share/npm
+mkdir -p ~/.local/share/npm/lib
+
 # grep "kern.video.record=1" || doas sh -c 'echo "kern.video.record=1" >> /etc/sysctl.conf' && \
 # doas chown `whoami` /dev/video0
