@@ -1,0 +1,2 @@
+#!/usr/local/bin/zsh
+echo $(($(sndioctl | grep 'output\.level' | tail -c +14) * 100)) | awk -F'.' '{print $1}'

@@ -1,0 +1,17 @@
+#!/usr/local/bin/dash
+# for the script to work, add this to your doas.conf
+# permit nopass :wheel cmd /usr/bin/mixerctl
+
+dunstctl close-all
+
+if [ "$(doas /usr/bin/mixerctl | grep record.volume.mute | sed 's/=/ /' | awk '{print $2}')" = "off" ]; then
+	doas /usr/bin/mixerctl record.volume.mute=on
+else
+	doas /usr/bin/mixerctl record.volume.mute=off
+fi
+
+if [ "$(doas /usr/bin/mixerctl | grep record.volume.mute | sed 's/=/ /' | awk '{print $2}')" = "off" ]; then
+	notify-send "Microphone Unmuted"
+else
+	notify-send "Microphone Muted"
+fi

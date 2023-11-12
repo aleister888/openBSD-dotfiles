@@ -1,0 +1,291 @@
+#       _      _     _              _  __                    __ _
+#  __ _| | ___(_)___| |_ ___ _ __  | |/ _|   ___ ___  _ __  / _(_) __ _
+# / _` | |/ _ \ / __| __/ _ \ '__| | | |_   / __/ _ \| '_ \| |_| |/ _` |
+#| (_| | |  __/ \__ \ ||  __/ |    | |  _| | (_| (_) | | | |  _| | (_| |
+# \__,_|_|\___|_|___/\__\___|_|    |_|_|    \___\___/|_| |_|_| |_|\__, |
+#
+# Dependencies (OpenBSD):
+# ImageMagick bat cdrtools poppler odt2txt
+# gnupg mediainfo ripgrep fzf
+#
+# Openers:
+# 	These just are the programs i've choosen for my
+# 	system you can just change them in the "mimeopen"
+# 	section and use the ones you want.
+#
+# feh mpv zathura zathura-pdf-mupdf nsxiv keepassxc
+#
+# p5-File-MimeInfo:
+# 	IF NOT RUNNING ANY Desktop Enviroment, install p5-File-MimeInfo
+# 	and set XDG_CURRENT_DESKTOP=X-Generic variable, in order for
+# 	xdg-utils to determine file types correctly.
+#
+# Apps that need manual compiling and instructions:
+#
+# First of all add ~/.local/bin to your path with:
+# export PATH="$PATH":~/.local/bin
+#
+# atool: https://github.com/solsticedhiver/atool2.git
+# 	First change "/bin/bash" to "/usr/local/bin/bash" in
+# 	the "configure" script then install automake-1.16.5
+# 	Then run:
+#
+# 	rm build-aux/*; ln -s /usr/local/share/automake-1.16/missing ./build-aux/missing; ln -s /usr/local/share/automake-1.16/install-sh ./build-aux/install-sh
+#
+# 	Run "./configure" and copy the resulting binaries into
+# 	your path with:
+#
+# 	mkdir -p ~/.local/bin; cp acat adiff als apack arepack aunpack ~/.local/bin/
+#
+# trash-cli: https://github.com/andreafrancia/trash-cli.git
+# 	install "py3-pip" package, then run "pip install trash-cli"
+# 	And create the trash directory with:
+# 		doas mkdir --parent /.Trash
+#		doas chmod a+rw /.Trash
+# 		doas chmod +t /.Trash
+#
+# devour: https://github.com/salman-abedin/devour.git
+
+# Basic vars
+set shell dash
+set shellopts '-c'
+set ifs "\n"
+set scrolloff 10
+set icons
+set period 1
+set previewer '~/.config/lf/scope'
+set ratios 1:1:1
+set info size:time
+set filesep "\n"
+set hiddenfiles ".*:*.aux:*.log:*.toc:*.core:*.out:Missing-Tabs"
+
+# Keybindigs
+map p p-paste
+map x file-permissions-files
+map X file-permissions-folders
+map <c-r> bulk-rename
+map / :fzf_jump
+map <a-7> :fzf_search
+map Z home
+map S trash
+map <c-s> clean-trash
+map D delete
+map <a-s> restore-trash
+map E extract
+map <a-e> compress
+map r rename
+map R :reload; clean
+cmd open-with %export QT_QPA_PLATFORMTHEME=qt5ct; "$@" "$fx"
+map <enter> push :open-with<space>
+map o &mimeopen $f
+map O $mimeopen --ask $f
+map H vim-config
+map h set hidden!
+map s shell
+map V push :!nvim<space>
+map Y $printf "%s" "$fx" | xclip -selection clipboard
+map <a-z> dragon
+map P size
+
+# Commands
+
+cmd clean ${{
+	clear
+}}
+
+cmd dragon %dragon-drop -a -x $fx
+
+cmd compress ${{
+	clear; tput bold
+	set -f
+	echo "COMPRESS EVERYTHING:"
+	echo "  INSIDE => $(echo $f |sed 's#/[^/]*$##')"
+	echo "  INTO   => /tmp/$(echo $PWD | sed 's/\//\_/g').tar.gz"
+	printf "Compress? [y/N]"
+	read ans
+	[ $ans = "y" ] && tar -zcvf /tmp/$(date +'%H_%M_%S').tar.gz . && printf "done"
+	read ans
+}}
+
+cmd size &{{
+  notify-send "📚 Size is $(du -chs $fx | grep total | awk {'print $1'})"
+}}
+
+cmd on-cd &{{
+    # '&' commands run silently in background (which is what we want here),
+    # but are not connected to stdout.
+    # To make sure our escape sequence still reaches stdout we pipe it to /dev/tty
+    printf "\033]0; $PWD\007" > /dev/tty
+}}
+
+# also run at startup
+on-cd
+
+# cmds/functions
+cmd home :cd ~/
+
+cmd vim-config ${{
+	nvim $HOME/.config/lf/lfrc
+}}
+
+cmd bulk-rename ${{
+    old="$(mktemp)"
+    new="$(mktemp)"
+    if [ -n "$fs" ]; then
+        fs="$(basename $fs)"
+    else
+        fs="$(ls)"
+    fi
+    printf '%s\n' "$fs" >"$old"
+    printf '%s\n' "$fs" >"$new"
+    $EDITOR "$new"
+    [ "$(wc -l < "$new")" -ne "$(wc -l < "$old")" ] && exit
+    paste "$old" "$new" | while IFS= read -r names; do
+        src="$(printf '%s' "$names" | cut -f1)"
+        dst="$(printf '%s' "$names" | cut -f2)"
+        if [ "$src" = "$dst" ] || [ -e "$dst" ]; then
+            continue
+        fi
+        mv -- "$src" "$dst"
+    done
+    rm -- "$old" "$new"
+    lf -remote "send $id unselect"
+}}
+
+cmd fzf_search ${{
+    res="$( \
+        RG_PREFIX="rg --column --line-number --no-heading --color=always \
+            --smart-case "
+        FZF_DEFAULT_COMMAND="$RG_PREFIX ''" \
+            fzf --bind "change:reload:$RG_PREFIX {q} || true" \
+            --ansi --layout=reverse --header 'Search in files' \
+            | cut -d':' -f1
+    )"
+    [ ! -z "$res" ] && lf -remote "send $id select \"$res\""
+}}
+
+cmd fzf_jump ${{
+    res="$(find . -maxdepth 1 | fzf --reverse --header='Jump to location' | sed 's/\\/\\\\/g;s/"/\\"/g')"
+    if [ -d "$res" ] ; then
+        cmd="cd"
+    elif [ -f "$res" ] ; then
+        cmd="select"
+    else
+        exit 0
+    fi
+    lf -remote "send $id $cmd \"$res\""
+}}
+
+cmd file-permissions-files ${{
+	clear; tput bold
+	set -f
+	printf "Change file permissions (files):
+	[1] chmod a-x (non exectuable)
+	[2] chmod +x (exectuable)
+	[3] chmod 777 (everyone write/read)"
+	read ans
+	[ $ans = "1" ] && chmod a-x $fx && printf "done"
+	[ $ans = "2" ] && chmod +x $fx && printf "done"
+	[ $ans = "3" ] && chmod 777 $fx && printf "done"
+	read ans
+}}
+
+cmd file-permissions-folders ${{
+	clear; tput bold
+	set -f
+	printf "Change file permissions (for files inside {$fx})
+	[1] chmod a-x (non exectuable)
+	[2] chmod +x (exectuable)
+	[3] chmod 777 (everyone write/read)
+	[4] chmod 0444 (only read)"
+	read ans
+	[ $ans = "1" ] && find "$f" -type f -iname '*' -print0 | xargs -I {} -0 chmod a-x {} && printf "done"
+	[ $ans = "2" ] && find "$f" -type f -iname '*' -print0 | xargs -I {} -0 chmod +x {} && printf "done"
+	[ $ans = "3" ] && find "$f" -type f -iname '*' -print0 | xargs -I {} -0 chmod 777 {} && printf "done"
+	[ $ans = "4" ] && find "$f" -type f -iname '*' -print0 | xargs -I {} -0 chmod 0444 {} && printf "done"
+	read ans
+}}
+
+cmd clean-trash ${{
+	clear; tput bold
+	set -f
+	printf "TRASH BIN CONTENT:
+"
+	trash-list
+	printf "clean trash?[y/N]"
+	read ans
+	[ $ans = "y" ] && trash-empty -f && printf "done"
+	read ans
+}}
+
+cmd restore-trash ${{
+	clear; tput bold
+	set -f
+	printf "TRASH BIN CONTENT:
+"
+	trash-list
+	printf "restore trash?[y/N]"
+	read ans
+	[ $ans = "y" ] && trash-restore && printf "done"
+	read ans
+}}
+
+cmd open ${{
+    case $(xdg-mime query filetype "$(readlink -f $f)") in
+	image/svg+xml) display -- $f ;;
+	application/vnd.oasis.opendocument.spreadsheet) devour libreoffice $f ;;
+	application/vnd.oasis.opendocument.text) devour libreoffice $f ;;
+	application/pdf) devour zathura $fx ;;
+	application/x-keepass2) notify-send -i keepassxc "Just Open Keepass";;
+	text/*|application/json|inode/x-empty) $EDITOR $fx;;
+	application/x-shellscript) $EDITOR $fx;;
+	image/*) devour nsxiv $f ;;
+	audio/*) mpv --audio-display=no $f ;;
+	video/*) devour mpv $f ;;
+	application/pdf|application/vnd*|application/epub*) devour zathura $fx ;;
+	application/pgp-encrypted) $EDITOR $fx ;;
+        *) for f in $fx; do $OPENER $f >/dev/null 2>&1; done;;
+    esac
+}}
+
+cmd mkdir $mkdir -p "$(echo $* | tr ' ' '\ ')"
+
+cmd extract ${{
+	clear; tput bold
+	set -f
+	printf "%s\n\t" "$fx"
+	printf "extract $f?[y/N]"
+	read ans
+	[ $ans = "y" ] && aunpack $f && printf "done"
+	read ans
+}}
+
+cmd delete ${{
+	clear; tput bold
+	set -f
+	printf "%s\n\t" "$fx"
+	printf "delete?[y/N]"
+	read ans
+	[ $ans = "y" ] && rm -rf -- $fx
+}}
+
+cmd p-paste ${{
+    set -- $(cat ~/.local/share/lf/files)
+    mode="$1"
+    shift
+    case "$mode" in
+        copy) cp -r -- "$@" . && notify-send "📋 File(s) copied.";;
+        move) mv -- "$@" . && notify-send "📋 File(s) moved.";;
+    esac
+    rm ~/.local/share/lf/files
+    lf -remote "send clear"
+}}
+
+cmd trash ${{
+	clear; tput bold
+	set -f
+	printf "%s\n\t" "$fx"
+	printf "move to trash?[y/N]"
+	read ans
+	[ $ans = "y" ] && trash-put $fx
+}}

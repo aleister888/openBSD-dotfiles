@@ -1,0 +1,7 @@
+default
+:datasize-cur=86M:
+:datasize-max=256M:
+:maxproc-cur=96:
+:maxproc-max=192:
+:openfiles-max=3072:
+:openfiles-cur=4096:

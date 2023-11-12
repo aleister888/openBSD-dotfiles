@@ -1,0 +1,26 @@
+#!/bin/sh
+
+# Make a screenshot
+sleep 0.2; import -window root /tmp/lock.png
+
+# Get screenshot center
+convert /tmp/lock.png -gravity center -crop 60x60+0+0 +repage /tmp/lock-center.png
+
+# Reads screen center brightness by temporarily converting it
+# into a 1x1 image if it's more than 51 lock icon will be dark.
+if [[ $(echo "$(convert /tmp/lock-center.png -colorspace hsb -resize 1x1 txt:- | awk '{print $4}' | sed 's/,/ /g' | awk '{print $3}' | sed 's/\./ /g' | awk '{print $1}')") -lt 80 ]]
+then
+# Add blur to screenshot
+	convert /tmp/lock.png -blur 0x5 /tmp/lock.png && \
+# Add lock icon to the blurred screenshot
+	convert /tmp/lock.png ~/.dotfiles/img/lock.png -gravity center -composite -matte /tmp/lock.png && \
+# Lock screen
+	i3lock -eui /tmp/lock.png
+else
+# Add blur to screenshot
+	convert /tmp/lock.png -blur 0x5 /tmp/lock.png && \
+# Add dark lock icon to the blurred screenshot
+	convert /tmp/lock.png ~/.dotfiles/img/lock-dark.png -gravity center -composite -matte /tmp/lock.png && \
+# Lock screen
+	i3lock -eui /tmp/lock.png
+fi

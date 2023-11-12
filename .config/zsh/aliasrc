@@ -1,0 +1,30 @@
+#!/bin/sh
+#set opts
+
+# add opts./replace commands
+alias \
+	cp='cp -iv' \
+	ls='exa -lag' \
+	bat='bat -p' \
+	wget='wget --hsts-file="$XDG_CONFIG_HOME"/wget-hsts' \
+	gpg2='gpg2 --homedir "$XDG_DATA_HOME"/gnupg' \
+	v='nvim' \
+	d='devour' \
+	..='cd ..' \
+	...='cd ../..' \
+	xdotool_table='xmodmap -pk' \
+	update="doas pkg_add -uvi" \
+	cleanup="doas pkg_delete -a" \
+	net_restart="doas sh /etc/netstart iwm0" \
+	pkg_list="/bin/ls -1 /var/db/pkg" \
+	background="feh --bg-fill --no-fehbg" \
+	"xdg-ninja"="~/.local/scripts/xdg-ninja/xdg-ninja.sh" \
+	printfile='lp -d HP_Officejet_5740_series' \
+	cdUni='cd ~/Documents/Universidad/' \
+	push='git add . && git commit && git push' \
+	pull='git pull' \
+	ssh_home='ssh "$(cat /opt/Sync/Arch\ IP)"' \
+	ssh_vnc='ssh "$(cat /opt/Sync/Arch\ IP)" -L 5900:localhost:5900' \
+	ssh_vnc_vm='ssh "$(cat /opt/Sync/Arch\ IP)" -L 5900:localhost:5920' \
+	ssh_komga='ssh "$(cat /opt/Sync/Arch\ IP)" -L 8443:localhost:8443' \
+	sed='gsed' \

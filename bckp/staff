@@ -1,0 +1,7 @@
+staff
+:datasize-cur=1024M:
+:datasize-max=4096M:
+:maxproc-max=128:
+:maxproc-cur=256:
+:openfiles-cur=4096:
+:openfiles-max=8192:

@@ -1,0 +1,23 @@
+[Default Applications]
+x-scheme-handler/mailto=thunderbird.desktop
+message/rfc822=thunderbird.desktop
+x-scheme-handler/mid=thunderbird.desktop
+x-scheme-handler/http=firefox.desktop
+x-scheme-handler/https=firefox.desktop
+x-scheme-handler/chrome=firefox.desktop
+application/pdf=org.pwmt.zathura-pdf-mupdf.desktop
+audio/x-wav=mpv.desktop
+audio/mpeg=mpv.desktop
+audio/flac=mpv.desktop
+video/mp4=mpv.desktop
+inode/directory=lf.desktop
+image/jpeg=nsxiv.desktop
+image/png=nsxiv.desktop
+text/html=firefox.desktop
+x-scheme-handler/about=firefox.desktop
+x-scheme-handler/unknown=firefox.desktop
+application/vnd.comicbook+zip=org.pwmt.zathura-cb.desktop
+
+[Added Associations]
+x-scheme-handler/mailto=thunderbird.desktop
+x-scheme-handler/mid=thunderbird.desktop

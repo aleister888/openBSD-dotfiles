@@ -1,0 +1,7 @@
+#!/usr/local/bin/dash
+
+if [ "$(apm | grep "AC adapter state" | sed 's/AC adapter state: //' 2>&1)" = "connected" ]; then
+	echo ""
+else
+	echo ""
+fi

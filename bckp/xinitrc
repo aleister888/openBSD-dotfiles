@@ -1,0 +1,7 @@
+#!/usr/bin/sh
+
+[ -f xrdb $HOME/.config/Xresources ] && xrdb $HOME/.config/Xresources &
+
+xclickroot -r $HOME/.local/scripts/xmenu.sh &
+
+/usr/local/bin/dwm

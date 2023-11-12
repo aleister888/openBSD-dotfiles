@@ -1,0 +1,16 @@
+#!/bin/sh
+
+
+if [ "$(playerctl status -p tauon 2>&1)" = "No players found" ]; then
+	if [ "$(pgrep tauon-yad | wc -w)" = "1" ]; then
+		IP="192.168.0.178"
+		TRACK_TITLE=$(echo "$(curl -s "http://$IP:7814/api1/status" | sed 's/,/\\n/g')" | grep '"title"' | head -1 | sed 's/ "title": "//g' | sed 's/"//g')
+		echo "$TRACK_TITLE"
+	else
+		echo ""
+	fi
+elif [ "$(playerctl metadata --player=tauon --format '{{ artist }}/{{ title }}' | wc -c)" -ge 50 ]; then
+		echo "$(playerctl metadata --player=tauon --format '{{ title }}')" | tr -d '\200-\377'
+else
+		echo "$(playerctl metadata --player=tauon --format '{{ artist }}/{{ title }}')" | tr -d '\200-\377'
+fi

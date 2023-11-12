@@ -1,0 +1,109 @@
+#!/bin/sh
+
+rm /tmp/lyrics.txt
+
+dunstctl close-all
+
+IP=$1
+
+TRACK_ID=$(echo "$(curl -s "http://$IP:7814/api1/status" | gsed 's/,/\\n/g')" | ggrep '"id"' | gawk '{print $2}' | head -1)
+TRACK_TITLE=$(echo "$(curl -s "http://$IP:7814/api1/status" | gsed 's/,/\\n/g')" | ggrep '"title"' | head -1 | gsed 's/ "title": "//g' | gsed 's/"//g')
+PLAYLIST_ID=$(echo "$(curl -s "http://$IP:7814/api1/status" | gsed 's/,/\\n/g')" | ggrep '"playlist"' | gawk '{print $2}' | gsed 's/"//g')
+curl -s "http://$IP:7814/api1/pic/medium/$TRACK_ID" --output /tmp/cover.jpg
+
+echo $TRACK_TITLE | gsed 's/ /_/g' > /tmp/track_title
+echo $PLAYLIST_ID > /tmp/playlist_id
+
+TERMINAL="alacritty --title scratchpad -e"
+PAGER_LYRICS="bat --file-name $(cat /tmp/track_title) --paging always"
+PAGER_ALBUM_SELECTOR="bat --file-name Albums_List --paging always"
+PAGER_PLAYLIST_SELECTOR="bat --file-name Playlists_List --paging always"
+
+if [ "$2" = play-pause ]; then
+	if [ "$(curl -s "http://$IP:7814/api1/status" | grep -c paused 2>&1)" = "0" ]; then
+		curl "http://$IP:7814/api1/pause"
+		notify-send "Playing Paused"
+	else
+		curl "http://$IP:7814/api1/play"
+		notify-send "Playing Resumed"
+	fi
+		notify-send -i /tmp/cover.jpg " $TRACK_TITLE "
+fi
+
+if [ "$2" = next ]; then
+		curl "http://$IP:7814/api1/next"
+		TRACK_ID=$(echo "$(curl -s "http://$IP:7814/api1/status" | gsed 's/,/\\n/g')" | ggrep '"id"' | gawk '{print $2}' | head -1)
+		TRACK_TITLE=$(echo "$(curl -s "http://$IP:7814/api1/status" | gsed 's/,/\\n/g')" | ggrep '"title"' | head -1 | gsed 's/ "title": "//g' | gsed 's/"//g')
+		notify-send -i /tmp/cover.jpg " $TRACK_TITLE "
+fi
+
+if [ "$2" = previous ]; then
+		curl "http://$IP:7814/api1/back"
+		TRACK_ID=$(echo "$(curl -s "http://$IP:7814/api1/status" | gsed 's/,/\\n/g')" | ggrep '"id"' | gawk '{print $2}' | head -1)
+		TRACK_TITLE=$(echo "$(curl -s "http://$IP:7814/api1/status" | gsed 's/,/\\n/g')" | ggrep '"title"' | head -1 | gsed 's/ "title": "//g' | gsed 's/"//g')
+		notify-send -i /tmp/cover.jpg " $TRACK_TITLE "
+fi
+
+if [ "$2" = lyrics ]; then
+		echo "$(curl -s "http://$IP:7814/api1/lyrics/$TRACK_ID")" > /tmp/lyrics.txt
+		echo "$(cat /tmp/lyrics.txt | sed "s/${TRACK_ID}//g" | gsed 's/{"track_id": , "lyrics_text": "//g' | gsed '$d')" > /tmp/lyrics.txt
+		if [ "$(cat /tmp/lyrics.txt 2>&1)" = "" ]; then
+			notify-send "This Song Has No Lyrics"
+		else
+			$TERMINAL $PAGER_LYRICS /tmp/lyrics.txt &
+		fi
+		notify-send -i /tmp/cover.jpg " $TRACK_TITLE "
+fi
+
+if [ "$2" = album ]; then
+
+	echo "$(curl -s "http://$IP:7814/api1/albums/$PLAYLIST_ID" | gsed 's/,/\\n/g')" | ggrep '"album"\|"position"' > /tmp/albums.txt
+	echo "$(cat /tmp/albums.txt | gsed 's/"//g')" | grep album | gsed 's/ album: //g' > /tmp/albums_names.txt
+	echo "$(cat /tmp/albums.txt | gsed 's/"//g')" | grep position | gsed 's/ position: //g' > /tmp/albums_position.txt
+	echo "$(curl -s "http://$IP:7814/api1/albums/$PLAYLIST_ID" | gsed 's/,/\\n/g')" | ggrep '"artist"' > /tmp/albums_artists.txt
+	sed -i 's/"//g' /tmp/albums_artists.txt && sed -i 's/ artist: //g' /tmp/albums_artists.txt
+	paste /tmp/albums_names.txt /tmp/albums_artists.txt | pr -t -e30 > /tmp/albums_formatted.txt
+	$TERMINAL $PAGER_ALBUM_SELECTOR /tmp/albums_formatted.txt
+	$TERMINAL tauon-select $IP album
+
+	TRACK_ID=$(echo "$(curl -s "http://$IP:7814/api1/status" | gsed 's/,/\\n/g')" | ggrep '"id"' | gawk '{print $2}' | head -1)
+	TRACK_TITLE=$(echo "$(curl -s "http://$IP:7814/api1/status" | gsed 's/,/\\n/g')" | ggrep '"title"' | head -1 | gsed 's/ "title": "//g' | gsed 's/"//g')
+	curl -s "http://$IP:7814/api1/pic/medium/$TRACK_ID" --output /tmp/cover.jpg
+	notify-send -i /tmp/cover.jpg " $TRACK_TITLE "
+fi
+
+if [ "$2" = playlist ]; then
+
+	echo "$(curl -s "http://$IP:7814/api1/playlists" | gsed 's/,/\\n/g')" | ggrep '"name"\|"id"' > /tmp/playlists.txt
+	echo "$(cat /tmp/playlists.txt | gsed 's/\[/\\n/g' | gsed 's/"//g' )" | grep name | gawk '{print $2}' > /tmp/playlists_formatted.txt
+	echo "$(cat /tmp/playlists.txt | gsed 's/\[/\\n/g' | gsed 's/"//g' )" | grep "id:" | gawk '{print $2}' > /tmp/playlists_id.txt
+	$TERMINAL $PAGER_PLAYLIST_SELECTOR /tmp/playlists_formatted.txt
+	$TERMINAL tauon-select $IP playlist
+
+	TRACK_ID=$(echo "$(curl -s "http://$IP:7814/api1/status" | gsed 's/,/\\n/g')" | ggrep '"id"' | gawk '{print $2}' | head -1)
+	TRACK_TITLE=$(echo "$(curl -s "http://$IP:7814/api1/status" | gsed 's/,/\\n/g')" | ggrep '"title"' | head -1 | gsed 's/ "title": "//g' | gsed 's/"//g')
+	curl -s "http://$IP:7814/api1/pic/medium/$TRACK_ID" --output /tmp/cover.jpg
+	notify-send -i /tmp/cover.jpg " $TRACK_TITLE "
+fi
+
+if [ "$2" = volume ]; then
+	$TERMINAL tauon-select $IP volume
+fi
+
+if [ "$2" = shuffle ]; then
+	curl -s "http://$IP:7814/api1/shuffle"
+	if [ "$(echo "$(curl -s "http://$IP:7814/api1/status" | gsed 's/,/\\n/g')" | grep shuffle | gawk '{print $2}')" = "false" ]; then
+		notify-send "Shuffle Deactivated"
+	else
+		notify-send "Shuffle Activated"
+	fi
+fi
+
+if [ "$2" = repeat ]; then
+	curl -s "http://$IP:7814/api1/repeat"
+	if [ "$(echo "$(curl -s "http://$IP:7814/api1/status" | gsed 's/,/\\n/g')" | grep repeat | gawk '{print $2}')" = "false" ]; then
+		notify-send "Repeat Deactivated"
+	else
+		notify-send "Repeat Activated"
+	fi
+fi

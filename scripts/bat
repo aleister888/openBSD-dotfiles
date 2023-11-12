@@ -1,0 +1,9 @@
+#!/usr/local/bin/dash
+
+if [ "$(apm | grep "AC adapter state" | sed 's/AC adapter state: //' 2>&1)" = "connected" ]; then
+	exit
+else
+	if [ "$(apm | awk '{print $4}' | grep % | sed 's/%//' 2>&1)" -lt "10" ]; then
+		notify-send "Suspending..."; zzz
+	fi
+fi

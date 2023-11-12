@@ -1,0 +1,3 @@
+#!/bin/sh
+
+sysctl hw.sensors.acpitz0.temp0 | awk '{print $1}' | grep -o '.....$' | rev | grep -o '..$' | rev

@@ -1,0 +1,9 @@
+#!/usr/local/bin/zsh
+# Set limits
+ulimit -s 32768
+ulimit -l 262144
+ulimit -d 33554432
+ulimit -u 512
+ulimit -n 2048
+# Open Minecraft
+Blockgame

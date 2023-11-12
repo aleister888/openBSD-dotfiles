@@ -1,0 +1,4 @@
+#!/usr/local/bin/zsh
+
+/bin/rm /home/aleister/.serverauth.*
+/bin/rm /home/aleister/*.core
