@@ -31,10 +31,11 @@ if [ "$(ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | tail -1 | awk '
 fi
 
 while true; do
-	rm /home/aleister/.serverauth* /home/aleister/*.core
+	rm ~/.serverauth* ~/*.core ~/.pki
 	sleep 60;
 done &
 
+# Restart dwmblocks
 while true; do
 	sleep 60;
 	count="$(pgrep dwmblocks | wc -l)"

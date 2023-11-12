@@ -43,7 +43,7 @@ XF86AudioRaiseVolume
 XF86AudioLowerVolume
 	doas /usr/bin/mixerctl outputs.master=255 && sndioctl output.level=-0.025 && kill -USR1 $(pgrep dwmblocks | head -n1)
 super + m
-	ndioctl output.level=+0.025 && kill -USR1 $(pgrep dwmblocks | head -n1)
+	sndioctl output.level=+0.025 && kill -USR1 $(pgrep dwmblocks | head -n1)
 super + n
 	sndioctl output.level=-0.025 && kill -USR1 $(pgrep dwmblocks | head -n1)
 super + shift + n
