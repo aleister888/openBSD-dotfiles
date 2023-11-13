@@ -63,4 +63,3 @@ of the screen where the lock icon will be displayed.
 - Parse commands output to `/dev/null` and make the installation process more clean, and readable
 - Error handling
 - Autoinstall abaddon and bleachbit
-- Update list of my dwm/dmenu patches
