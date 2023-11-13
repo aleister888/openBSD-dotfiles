@@ -10,11 +10,9 @@ call plug#begin('~/.local/share/nvim/plugged')
 
 " Filetree
 Plug 'preservim/nerdtree'
-Plug 'ryanoasis/vim-devicons' " Icons for nerdtree
 
 " Syntax highlighting
 Plug 'frazrepo/vim-rainbow' " Symbols syntax highlighting
-Plug 'Gavinok/vim-troff' " Syntax highlighting for .troff files
 Plug 'kovetskiy/sxhkd-vim' " sxhkd config file syntax highlighting
 Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' } " Color previews
 let g:Hexokinase_highlighters = ['backgroundfull']
@@ -25,27 +23,13 @@ Plug 'vim-pandoc/vim-pandoc-syntax' " Pandoc syntax highlighting
 Plug 'ntpeters/vim-better-whitespace' " Highlight trailing whitespaces
 
 " Appearance
-Plug 'itchyny/lightline.vim' " Status line appearance
 Plug 'NLKNguyen/papercolor-theme' " Theme
 
-" Smooth Scrolling
-Plug 'psliwka/vim-smoothie'
-
-" Vim LaTeX
-Plug 'lervag/vimtex'
-
 " Autosugestions
+Plug 'lervag/vimtex'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'neoclide/coc-vimtex'
 inoremap <silent><expr> <tab> pumvisible() ? coc#pum#confirm() : "\<C-g>u\<tab>"
-
-" Fuzzyfinder Plugin
-Plug 'ctrlpvim/ctrlp.vim'
-nnoremap <M-3> :CtrlP<cr>
-
-" Notepad++-Like Search Function
-Plug 'kenng/vim-bettersearch'
-nnoremap <M-S-7> :BetterSearchPromptOn<CR>
 
 call plug#end()
 
@@ -94,29 +78,6 @@ colorscheme PaperColor
 
 
 
-" --- Ctrlpvim options ---
-let g:ctrlp_working_path_mode = 'ra'
-let g:ctrlp_custom_ignore = {
-  \ 'file': '\v\.(wav|pdf|exe|so|dll|flac
-  \ |png|eps|mid|gp5|gp4|gp3|gp|tg
-  \ |mp3|reapeaks|mp3)$',
-  \ }
-
-
-
-" --- Limelight ---
-let g:limelight_conceal_ctermfg = 'gray'
-let g:limelight_conceal_ctermfg = 240
-let g:limelight_conceal_guifg = 'DarkGray'
-let g:limelight_conceal_guifg = '#777777'
-let g:limelight_default_coefficient = 0.7
-let g:limelight_paragraph_span = 1
-let g:limelight_bop = '^\s'
-let g:limelight_eop = '\ze\n^\s'
-let g:limelight_priority = -1
-
-
-
 " --- Spellchecking ---
 map <M-z> :setlocal spell! spelllang=es_es<CR>
 map <C-z> :e ~/.config/nvim/spell/es.utf-8.add
@@ -143,7 +104,7 @@ endfunction
 
 
 " --- Nerdtree ---
-map <M-4> :NERDTreeToggle<CR>
+map <M-2> :NERDTreeToggle<CR>
 nnoremap <C-M-ñ> :call NERDTreeToggleInCurDir()<cr>
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 if has('nvim')
@@ -223,24 +184,6 @@ autocmd BufRead,BufNewFile *.tex set filetype=tex
 augroup pandoc_syntax
 	au! BufNewFile,BufFilePre,BufRead *.md set filetype=markdown.pandoc_syntax
 augroup END
-
-
-
-" --- Lightline colorscheme ---
-let g:lightline = {
-      \ 'colorscheme': 'wombat',
-      \ }
-
-
-
-" --- Vimtex options ---
-let g:vimtex_compiler_method = 'arara'
-let g:vimtex_compiler_arara = {
-    \ 'options' : [],
-    \ 'hooks' : [],
-    \}
-let g:vimtex_fold_manual = 1
-let g:vimtex_view_method = 'zathura'
 
 
 
