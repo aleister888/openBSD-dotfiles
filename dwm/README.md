@@ -33,6 +33,7 @@ dwm build for openBSD
 
 ## Patches
 
+- [Alt tags decoration](https://dwm.suckless.org/patches/alttagsdecoration/dwm-alttagsdecoration-2020010304-cb3f58a.diff)
 - [Always center](https://dwm.suckless.org/patches/alwayscenter/dwm-alwayscenter-20200625-f04cac6.diff)
 - [Attach above](https://dwm.suckless.org/patches/attachabove/dwm-attachabove-6.2-20200421.diff)
 - [Autostart](https://dwm.suckless.org/patches/autostart/dwm-autostart-20210120-cb3f58a.diff)
@@ -41,10 +42,14 @@ dwm build for openBSD
 - [Fixborders](https://dwm.suckless.org/patches/alpha/dwm-fixborders-6.2.diff)
 - [Fullgaps](https://dwm.suckless.org/patches/fullgaps/dwm-fullgaps-6.2.diff)
 - [Hide vacant tags](https://dwm.suckless.org/patches/hide_vacant_tags/dwm-hide_vacant_tags-6.3.diff)
+- [Notitle](https://dwm.suckless.org/patches/notitle/dwm-notitle-6.2.diff)
 - [Pertag](https://dwm.suckless.org/patches/pertag/dwm-pertag-20200914-61bb8b2.diff)
+- [Renamed scratchpads](https://raw.githubusercontent.com/bakkeby/patches/master/dwm/dwm-renamedscratchpads-6.3.diff)
 - [Rotatestack](https://dwm.suckless.org/patches/rotatestack/dwm-rotatestack-20161021-ab9571b.diff)
 - [Savefloats](https://dwm.suckless.org/patches/save_floats/dwm-savefloats-20181212-b69c870.diff)
-- [Scratchpads](https://raw.githubusercontent.com/bakkeby/patches/master/dwm/dwm-renamedscratchpads-6.3.diff)
+- [Selective fake fullscreen](https://dwm.suckless.org/patches/selectivefakefullscreen/dwm-selectivefakefullscreen-20201130-97099e7.diff)
 - [Shift view clients](https://raw.githubusercontent.com/bakkeby/patches/master/dwm/dwm-shiftviewclients-6.2.diff)
 - [Status2d](https://dwm.suckless.org/patches/status2d/dwm-status2d-6.3.diff)
 - [Steam](https://raw.githubusercontent.com/bakkeby/patches/master/dwm/dwm-steam-6.2.diff)
+- [Sticky](https://dwm.suckless.org/patches/sticky/dwm-sticky-6.4.diff)
+- [Tag layouts](https://dwm.suckless.org/patches/taglayouts/dwm-taglayouts-6.4.diff)

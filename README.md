@@ -15,7 +15,7 @@ Clone into your __HOME__ directory with
 
 then cd into `.dotfiles` and run `./install.sh`
 
-_WARNING:_ Run script as your regular user, _NOT ROOT_. Make sure you also have doas configured so that your unprivliged user can run commands as root with doas.
+_WARNING:_ Run script as your __regular user__, __NOT ROOT__. Make sure you also have doas configured so that your unprivliged user can run commands as root with doas.
 
 To configure doas add these 2 lines to /etc/doas.conf:
 

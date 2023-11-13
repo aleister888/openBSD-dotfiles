@@ -129,9 +129,6 @@ static const char *termcmd[]  = { "alacritty", NULL };
 static const char *scratchpadcmd[] = { "s", NULL };
 static const char *spawnscratchpadcmd[] = { "alacritty", "-t", "scratchpad", NULL };
 
-
-#include "selfrestart.c"
-
 static const Key keys[] = {
 	/* modifier                     key            function                argument */
 	// open dmenu
@@ -180,7 +177,6 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_r,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY|ShiftMask,             XK_e,      setlayout,      {.v = &layouts[2]} },
 	{ MODKEY|ShiftMask,             XK_r,      setlayout,      {.v = &layouts[3]} },
-	{ MODKEY|ShiftMask,             XK_t,      self_restart,   {0} },
 	TAGKEYS(                        XK_1,                                  0)
 	TAGKEYS(                        XK_2,                                  1)
 	TAGKEYS(                        XK_3,                                  2)
