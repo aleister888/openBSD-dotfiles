@@ -2,6 +2,8 @@
 
 xrandr --dpi 96
 
+doas /usr/bin/mixerctl outputs.hp_boost=on
+
 syncthing --no-browser > /tmp/syncthing.log &
 
 setxkbmap -model pc104 -layout es,us  -option grp:win_space_toggle -option caps:none &

@@ -8,7 +8,8 @@ static const int swallowfloating    = 0;        /* 1 means swallow floating wind
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const int user_bh            = 0;	/* 0 default, >= 1 user_bh as height */
-static const char *fonts[]          = { "Monospace:pixelsize=22:bold:antialias=true:autohint=true","Symbols Nerd Font:bold:pixelsize=22:antialias=true:autohint=true" };
+static const char *fonts[]          = { "Monospace:pixelsize=22:bold:antialias=true:autohint=true",
+					"Symbols Nerd Font:bold:pixelsize=22:antialias=true:autohint=true" };
 static const char autostartblocksh[] = "autostart_blocking.sh";
 static const char autostartsh[] = "autostart.sh";
 static const char dwmdir[] = "dwm";
