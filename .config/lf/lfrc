@@ -235,6 +235,7 @@ cmd open ${{
 	image/svg+xml) display -- $f ;;
 	application/vnd.oasis.opendocument.spreadsheet) devour libreoffice $f ;;
 	application/vnd.oasis.opendocument.text) devour libreoffice $f ;;
+	application/vnd.openxmlformats-officedocument.wordprocessingml.document) devour libreoffice $f;;
 	application/pdf) devour zathura $fx ;;
 	application/x-keepass2) notify-send -i keepassxc "Just Open Keepass";;
 	text/*|application/json|inode/x-empty) $EDITOR $fx;;
