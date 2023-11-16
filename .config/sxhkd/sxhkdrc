@@ -11,6 +11,10 @@ super + F4
 super + d
 	dmenu_run
 
+# Unmounter
+super + shift + F5
+	~/.local/scripts/sxhkd/dmenuumount
+
 # Screens
 super + F1
 	~/.local/scripts/sxhkd/monitor-layout

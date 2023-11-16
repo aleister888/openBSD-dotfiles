@@ -1,0 +1,17 @@
+#!/bin/sh
+
+set -e
+
+drives="$(mount)"
+mounteddrives="$(echo "$drives" | gawk '$3!~/\/boot|\/home$|\/tmp|\/usr|\/usr|\/var/&&length($3)>3{printf "💾%s (%s)\n",$3,$1}')"
+
+allunmountable="$(echo "$mounteddroids
+$mounteddrives" | sed "/^$/d;s/ *$//")"
+test -n "$allunmountable"
+
+chosen="$(echo "$allunmountable" | dmenu -p "Unmount which drive?")"
+chosen="${chosen%% *}"
+test -n "$chosen"
+
+xterm -title scratchpad -e "doas umount "/${chosen#*/}""
+notify-send "Device unmounted." "$chosen has been unmounted."
