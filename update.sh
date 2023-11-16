@@ -19,6 +19,11 @@ cat /etc/sysctl.conf > ~/.dotfiles/bckp/sysctl.conf
 # Make a backup of my crontab
 cat /etc/crontab > ~/.dotfiles/bckp/crontab
 
+# Make some configuration user-agnostic
+
+echo "file:///home/`whoami`/Downloads" > ~/.dotfiles/.config/gtk-3.0/bookmarks
+sed -i "s|$(cat ~/.config/qt5ct/qt5ct.conf | grep color_scheme)|/color_scheme_path=/home/`whoami`/.config/qt5ct/colors/Gruvbox.conf|g" ~/.config/qt5ct/qt5ct.conf
+
 # Make a backup of login.conf values for staff and default
 echo "staff" > ~/.dotfiles/bckp/staff
 echo "$(getcap -f /etc/login.conf staff | sed 's/	/\\n/g')" | grep datasize | head -n2 >>		~/.dotfiles/bckp/staff
