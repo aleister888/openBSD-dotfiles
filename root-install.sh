@@ -104,4 +104,6 @@ mkdir /etc/zsh
 echo 'ZDOTDIR="$HOME"/.config/zsh' > /etc/zshenv
 echo 'ZDOTDIR="$HOME"/.config/zsh' > /etc/zsh/zshenv
 
+ln -s /usr/local/bin/eza /usr/local/bin/exa
+
 syspatch

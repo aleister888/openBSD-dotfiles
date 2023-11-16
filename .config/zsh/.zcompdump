@@ -465,6 +465,7 @@ _comps=(
 'express' '_webbrowser'
 'extcheck' '_java'
 'extractres' '_psutils'
+'eza' '_eza'
 'fakeroot' '_fakeroot'
 'false' '_nothing'
 'fc' '_fc'
@@ -1855,7 +1856,7 @@ bindkey '^[,' _history-complete-newer
 bindkey '^[/' _history-complete-older
 bindkey '^[~' _bash_complete-word
 
-autoload -Uz _alacritty _exa _mpv _ninja _pulseaudio \
+autoload -Uz _alacritty _eza _mpv _ninja _pulseaudio \
             _rg _yt-dlp _zathura _cdr _floppy \
             _logical_volumes _lscfg _lsdev _lslv _lspv \
             _lsvg _object_classes _physical_volumes _smit _volume_groups \
