@@ -42,56 +42,7 @@ python3 ~/.local/src/tauon-music-box/tauon.py' > /usr/local/bin/tauon
 
 chmod +x /usr/local/bin/tauon
 
-echo '#!/bin/sh
-
-DEVCLASS=$1
-DEVNAME=$2
-MOUNTROOT="/mnt"
-DEBUG=1
-mount_helper=/sbin/mount
-group_prem=1000
-user_perm=1000
-export DISPLAY=:0.0
-export HOME=/home/aleister
-
-case $DEVCLASS in
-2)
-    # disk devices
-        /sbin/disklabel $DEVNAME 2>&1 | awk -F '[ ]*' '/^  [abd-z]:/' | while read line;
-        do
-        mount_flags="-o noexec,noatime,nodev"
-                slice=`echo $line | awk -F ':' '{print $1}'`
-                type=`echo $line | awk -F '[ ]*' '{print $4}'`
-                case $type in
-        ISO9660 | 4.2BSD)
-                        ;;
-        ext2fs)
-            mount_flags="$mount_flags -r"
-            ;;
-        NTFS)
-            mount_helper=/sbin/mount_ntfs
-            mount_flags="$mount_flags -g $group_prem -u $user_perm"
-            ;;
-        MSDOS)
-            mount_helper=/sbin/mount_msdos
-            mount_flags="$mount_flags -g $group_prem -u $user_perm"
-            ;;
-        *)
-            continue
-            ;;
-                esac
-
-                [ $DEBUG == 1 ] && logger -i "hotplugd attaching SLICE $slice of DEVICE $DEVNAME"
-        [ ! -d $MOUNTROOT/$DEVNAME$slice ] && mkdir -p -m 1777 $MOUNTROOT/$DEVNAME$slice
-        $mount_helper $mount_flags /dev/$DEVNAME$slice $MOUNTROOT/$DEVNAME$slice
-        /usr/local/bin/notify-send "Mounted $DEVNAME$slice ($type)"
-        done
-        ;;
-3)
-    # network devices; requires hostname.$DEVNAME
-    sh /etc/netstart $DEVNAME
-    ;;
-esac' > /etc/hotplug/attach
+doas cp ~/.dotfiles/attach /etc/hotplug/attach
 
 chmod 0755 /etc/hotplug/attach
 
