@@ -25,7 +25,7 @@ dbus-launch &
 pgrep sxhkd		|| sxhkd &
 pgrep picom		|| picom &
 pgrep dunst		|| dunst &
-pgrep dwmblocks		|| dwmblocks &
+#pgrep dwmblocks		|| dwmblocks &
 pgrep http-server	|| npx http-server ~/.local/share/startpage/ 8080 &
 
 if [ "$(ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | tail -1 | awk '{print $2}')" = "192.168.0.169" ]; then

@@ -3,7 +3,7 @@ window:
     x: 5
     y: 5
   dynamic_padding: false
-  opacity: 0.8
+  opacity: 0.95
 
 key_bindings:
   - { key: V,     mods: Alt,      action: Paste }
@@ -22,7 +22,7 @@ font:
 colors:
   # Default colors
   primary:
-    background: '0x1d2021'
+    background: '0x000000'
     foreground: '0xd4be98'
     bright_foreground: '#ffffff'
 
