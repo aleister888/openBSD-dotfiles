@@ -136,6 +136,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_Return,     spawn,                 {.v = termcmd } },
 	// toggle bar
 	//{ MODKEY,                       XK_b,          togglebar,              {0} },
+	{ MODKEY,                       XK_0,          togglebar,              {0} },
 	// toggle sticky
 	{ MODKEY|Mod1Mask,		XK_s,	       togglesticky,	       {0} },
 	// change tag
@@ -158,7 +159,6 @@ static const Key keys[] = {
 	// swap master/stack window
         { MODKEY|ControlMask,           XK_Left,       zoom,                   {0} },
         { MODKEY|ControlMask,           XK_Right,      zoom,                   {0} },
-	{ MODKEY,                       XK_0,          view,                   {0} },
 	{ MODKEY|ShiftMask,             XK_q,          killclient,             {0} },
 	{ MODKEY|ShiftMask,             XK_F11,        quit,                   {0} },
 	{ MODKEY|ShiftMask,             XK_space,      togglefloating,         {0} },
