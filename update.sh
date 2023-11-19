@@ -33,3 +33,10 @@ echo "default" > ~/.dotfiles/bckp/default
 echo "$(getcap -f /etc/login.conf default | sed 's/	/\\n/g')" | grep datasize | head -n2 >>		~/.dotfiles/bckp/default
 echo "$(getcap -f /etc/login.conf default | sed 's/	/\\n/g')" | grep maxproc | head -n2 >>		~/.dotfiles/bckp/default
 echo "$(getcap -f /etc/login.conf default | sed 's/	/\\n/g')" | grep openfiles | head -n2 >>	~/.dotfiles/bckp/default
+
+# Set Wallpaper
+mkdir -p ~/.config/nitrogen
+echo "[xin_-1]
+file=/home/`whoami`/.dotfiles/img/wallpaper.jpg
+mode=4
+bgcolor=#000000" > ~/.config/nitrogen/bg-saved.cfg

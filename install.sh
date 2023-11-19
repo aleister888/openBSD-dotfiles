@@ -12,7 +12,7 @@ nsxiv obsdfreqd odt2txt opusfile p5-File-MimeInfo p7zip pandoc papirus-icon-them
 poppler-utils py-gobject py3-pip qt5ct redshift remmina rhythmbox ripgrep sdl2 sdl2-audiolib sdl2-gfx sdl2-image \
 sdl2-mixer sdl2-net sdl2-pango sdl2-ttf stow sxhkd texlive_texmf-full thunderbird transmission-gtk trayer unrar \
 unzip-- wavpack wget wpa_supplicant xarchiver xclip xcursor-themes xdg-user-dirs xdotool yarn youtube-dl zathura \
-zathura-pdf-mupdf zim zsh neofetch gsed gawk ggrep gnuwatch symbola-ttf
+zathura-pdf-mupdf zim zsh neofetch gsed gawk ggrep gnuwatch symbola-ttf meson ninja cmake xcb libconfig libev uthash
 
 ########################
 # Download zsh plugins #
@@ -209,6 +209,14 @@ doas usermod -G operator $(whoami)
 doas usermod -G staff $(whoami)
 doas usermod -G users $(whoami)
 doas usermod -G wheel $(whoami)
+
+##########
+# Compfy #
+##########
+
+git clone https://github.com/allusive-dev/compfy.git ~/.local/src/compfy
+sh -c 'cd ~/.local/src/compfy && LDFLAGS="-L/usr/X11R6/lib -L/usr/local/lib" CPPFLAGS="-I/usr/X11R6/include -I/usr/local/include" meson --buildtype=release . build'
+sh -c 'cd ~/.local/src/compfy && ninja -C build'
 
 #########
 # Trash #

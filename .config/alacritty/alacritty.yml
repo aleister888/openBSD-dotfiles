@@ -3,7 +3,7 @@ window:
     x: 5
     y: 5
   dynamic_padding: false
-  opacity: 0.95
+  opacity: 0.9
 
 key_bindings:
   - { key: V,     mods: Alt,      action: Paste }
