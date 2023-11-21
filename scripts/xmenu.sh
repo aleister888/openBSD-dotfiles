@@ -5,7 +5,7 @@ ICONPATH="/usr/local/share/icons/Papirus-Dark/128x128/apps"
 cat <<EOF | xmenu -r | dash &
 IMG:$ICONPATH/internet-web-browser.svg				Internet
 	IMG:$ICONPATH/firefox.svg				Firefox			firefox
-	IMG:$ICONPATH/iridium-browser.svg			Iridium			iridium
+	IMG:$ICONPATH/chromium.svg				Chromium		chrome
 	IMG:$ICONPATH/thunderbird.svg				Thunderbird		thunderbird
 	IMG:$ICONPATH/discord.svg				Discord			cd ~/.local/src/abaddon/build && ./abaddon
 	IMG:$ICONPATH/syncthing-gtk.svg				Syncthing		xdg-open http://127.0.0.1:8384
@@ -27,7 +27,7 @@ IMG:$ICONPATH/preferences-desktop-color.svg			Graphics
 
 IMG:$ICONPATH/applications-office.svg				Office
 	IMG:$ICONPATH/zim.svg					Zim			zim
-	IMG:$ICONPATH/wireshark.svg				Wireshark		wireshark
+	IMG:$ICONPATH/octave.svg				Octave			$TERMINAL -e octave
 	IMG:$ICONPATH/libreoffice-writer.svg			Libre Office Writer	libreoffice --writer
 	IMG:$ICONPATH/libreoffice-calc.svg			Libre Office Calc	libreoffice --calc
 	IMG:$ICONPATH/libreoffice-impress.svg			Libre Office Impress	libreoffice --impress

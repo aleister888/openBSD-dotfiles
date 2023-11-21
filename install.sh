@@ -12,7 +12,8 @@ nsxiv obsdfreqd odt2txt opusfile p5-File-MimeInfo p7zip pandoc papirus-icon-them
 poppler-utils py-gobject py3-pip qt5ct redshift remmina rhythmbox ripgrep sdl2 sdl2-audiolib sdl2-gfx sdl2-image \
 sdl2-mixer sdl2-net sdl2-pango sdl2-ttf stow sxhkd texlive_texmf-full thunderbird transmission-gtk trayer unrar \
 unzip-- wavpack wget wpa_supplicant xarchiver xclip xcursor-themes xdg-user-dirs xdotool yarn youtube-dl zathura \
-zathura-pdf-mupdf zim zsh neofetch gsed gawk ggrep gnuwatch symbola-ttf meson ninja cmake xcb libconfig libev uthash
+zathura-pdf-mupdf zim zsh neofetch gsed gawk ggrep gnuwatch symbola-ttf meson ninja cmake xcb libconfig libev uthash \
+chromium octave
 
 ########################
 # Download zsh plugins #
@@ -248,6 +249,8 @@ doas rcctl set obsdfreqd flags -T 90,55
 
 mkdir -p ~/.local/share/npm
 mkdir -p ~/.local/share/npm/lib
+
+ln -s ~/.config/Xauthority ~/.Xauthority
 
 # grep "kern.video.record=1" || doas sh -c 'echo "kern.video.record=1" >> /etc/sysctl.conf' && \
 # doas chown `whoami` /dev/video0
