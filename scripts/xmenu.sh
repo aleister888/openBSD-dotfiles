@@ -27,7 +27,7 @@ IMG:$ICONPATH/preferences-desktop-color.svg			Graphics
 
 IMG:$ICONPATH/applications-office.svg				Office
 	IMG:$ICONPATH/zim.svg					Zim			zim
-	IMG:$ICONPATH/octave.svg				Octave			$TERMINAL -e octave
+	IMG:$ICONPATH/octave.svg				Octave			/usr/local/bin/octave --gui
 	IMG:$ICONPATH/libreoffice-writer.svg			Libre Office Writer	libreoffice --writer
 	IMG:$ICONPATH/libreoffice-calc.svg			Libre Office Calc	libreoffice --calc
 	IMG:$ICONPATH/libreoffice-impress.svg			Libre Office Impress	libreoffice --impress

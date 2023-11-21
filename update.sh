@@ -18,6 +18,8 @@ cat /etc/X11/xinit/xinitrc > ~/.dotfiles/bckp/xinitrc
 cat /etc/sysctl.conf > ~/.dotfiles/bckp/sysctl.conf
 # Make a backup of my crontab
 cat /etc/crontab > ~/.dotfiles/bckp/crontab
+# Make a backup of my mixerctl config
+cat /etc/mixerctl.conf > ~/.dotfiles/bckp/mixerctl.conf
 
 # Make some configuration user-agnostic
 

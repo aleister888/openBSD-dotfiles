@@ -18,12 +18,16 @@ kern.seminfo.semmni=1024
 
 kern.maxvnodes=8192
 kern.somaxconn=2048
-machdep.allowaperture=2
+machdep.allowaperture=1
 
 # Improve networking
-net.inet.udp.recvspace=98304
-net.inet.udp.sendspace=98304
-net.inet.icmp.errppslimit=256' > /etc/sysctl.conf
+net.inet.udp.recvspace=262144
+net.inet.udp.sendspace=262144
+net.inet.icmp.errppslimit=256
+
+# Enable Microphone/Webcam Access
+kern.audio.record=1
+kern.video.record=1' > /etc/sysctl.conf
 
 # These values are meant for my 16GB RAM laptop,
 # and usecase, where I run syncthing that needs
@@ -56,5 +60,7 @@ echo 'ZDOTDIR="$HOME"/.config/zsh' > /etc/zshenv
 echo 'ZDOTDIR="$HOME"/.config/zsh' > /etc/zsh/zshenv
 
 ln -s /usr/local/bin/eza /usr/local/bin/exa
+
+chmod 640 /dev/video0
 
 syspatch
