@@ -5,7 +5,7 @@
 ########################
 
 doas pkg_add ghostscript-- alacritty arandr automake-1.16.5 avahi bash bat cdrtools chafa coreutils cups czkawka-gui dash-- dbus \
-dragon-drop dunst easytag eza feh ffmpeg ffmpegthumbnailer firefox flac fzf gcc%8 gcolor2 gimp%snapshot git gmake \
+dragon-drop dunst easytag eza feh ffmpeg ffmpegthumbnailer flac fzf gcc%8 gcolor2 gimp%snapshot git gmake \
 gnome-calculator gnome-keyring go gnupg handbrake hplip htop i3lock imagemagick imlib2 jdk%8 jdk%11 jq keepassxc-- latexmk \
 lf libnotify libopenmpt libreoffice libsamplerate libvorbis lxappearance mediainfo mpg123 mpv neovim nitrogen node \
 nsxiv obsdfreqd odt2txt opusfile p5-File-MimeInfo p7zip pandoc papirus-icon-theme pavucontrol picom playerctl \
