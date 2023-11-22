@@ -269,8 +269,6 @@ if [[ "$(tty)" = "/dev/ttyC0" ]]; then
         startx
 fi
 if [[ "$(tty)" = "/dev/ttyC0" ]]; then
+	clear;
 	exit
-fi
-if [[ "$(tty)" = "/dev/ttyC0" ]]; then
-	pkill syncthing
 fi

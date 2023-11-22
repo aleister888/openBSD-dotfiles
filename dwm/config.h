@@ -55,8 +55,8 @@ typedef struct {
 
 /* tagging */	/* Sound & Video, Mail, Internet, Office, Games, Graphics, Utilities, Looking-Glass & Virt-Manager, Guitar */
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
-static const char *alttags[] = { "Music", "Mail", "Browser", "Work", "laTeX", "Graphics", "Settings", "File-Manager", "Misc" };
-static const int taglayouts[] = { 0, 2, 2, 2, 0, 0, 0, 3, 0 };
+static const char *alttags[] = { "", "", "", "", "", "", "", "", "" };
+static const int taglayouts[] = { 0, 2, 0, 3, 3, 0, 0, 3, 0 };
 
 // There are two options when it comes to per-client rules:
 static const Rule rules[] = {
@@ -74,6 +74,8 @@ static const Rule rules[] = {
 	/* Tag 3: INTERNET */
 	{ "Firefox",		NULL,		NULL,		1 << 2,		0,		1,		-1},
 	{ "firefox",		NULL,		NULL,		1 << 2,		0,		1,		-1},
+	{ "chromium-browser",	NULL,		NULL,		1 << 2,		0,		1,		-1},
+	{ "Chromium-browser",	NULL,		NULL,		1 << 2,		0,		1,		-1},
 	{ "Abaddon",		NULL,		NULL,		1 << 2,		0,		0,		-1},
 	{ "transmission-gtk",	NULL,		NULL,		1 << 2,		0,		0,		-1},
 	{ "Transmission-gtk",	NULL,		NULL,		1 << 2,		0,		0,		-1},
