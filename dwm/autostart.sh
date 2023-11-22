@@ -22,6 +22,7 @@ xrdb ~/.config/Xresources &
 nitrogen --restore &
 dbus-update-activation-environment --all &
 dbus-launch &
+pgrep unclutter		|| unclutter -idle 1 -grab &
 pgrep sxhkd		|| sxhkd &
 pgrep compfy		|| compfy &
 pgrep dunst		|| dunst &
