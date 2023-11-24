@@ -4,7 +4,7 @@ ICONPATH="/usr/local/share/icons/Papirus-Dark/128x128/apps"
 
 cat <<EOF | xmenu -r | dash &
 IMG:$ICONPATH/internet-web-browser.svg				Internet
-	IMG:$ICONPATH/chromium.svg				Chromium		chrome
+	IMG:$ICONPATH/chromium.svg				Chromium		ungoogled-chromium
 	IMG:$ICONPATH/thunderbird.svg				Thunderbird		thunderbird
 	IMG:$ICONPATH/discord.svg				Discord			cd ~/.local/src/abaddon/build && ./abaddon
 	IMG:$ICONPATH/syncthing-gtk.svg				Syncthing		xdg-open http://127.0.0.1:8384
