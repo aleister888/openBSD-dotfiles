@@ -61,6 +61,12 @@ echo 'ZDOTDIR="$HOME"/.config/zsh' > /etc/zsh/zshenv
 
 ln -s /usr/local/bin/eza /usr/local/bin/exa
 
+grep "proxy" /etc/ungoogled-chromium/unveil.main || \
+echo "
+# needed for keepassxc integration
+/usr/local/bin r
+/usr/local/bin/keepassxc-proxy rx" >> /etc/ungoogled-chromium/unveil.main
+
 chmod 640 /dev/video0
 
 syspatch
