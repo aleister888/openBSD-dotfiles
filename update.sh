@@ -39,6 +39,6 @@ echo "$(getcap -f /etc/login.conf default | sed 's/	/\\n/g')" | grep openfiles |
 # Set Wallpaper
 mkdir -p ~/.config/nitrogen
 echo "[xin_-1]
-file=/home/`whoami`/.dotfiles/img/wallpaper.jpg
+file=/home/`whoami`/.dotfiles/img/wallpaper.png
 mode=4
 bgcolor=#000000" > ~/.config/nitrogen/bg-saved.cfg
