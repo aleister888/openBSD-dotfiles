@@ -41,7 +41,7 @@ done &
 
 # Restart dwmblocks
 while true; do
-	sleep 60;
+	sleep 5;
 	count="$(pgrep dwmblocks | wc -l)"
 	for i in $(seq $count); do
 	kill -9 `pgrep dwmblocks | head -n1`

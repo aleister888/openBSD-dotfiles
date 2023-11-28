@@ -23,7 +23,7 @@
 # for that to be true, put this in your lf config:
 # 	set ratios 1:1:1
 
-PIXELS=12
+PIXELS=10
 
 WIDTH=$(($(xdotool getactivewindow getwindowgeometry --shell | grep WIDTH | sed 's/[^0-9]//g')/$PIXELS/3 - 5))
 
