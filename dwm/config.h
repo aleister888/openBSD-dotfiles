@@ -88,6 +88,7 @@ static const Rule rules[] = {
 	{ "Gimp",		NULL,		NULL,		1 << 5,		0,		0,		-1},
 	/* Tag 7: Utilities */
 	{ "org.gnome.clocks",	NULL,		NULL,		1 << 6,		1,		0,		-1},
+	{ "KeePassXC",		NULL,		NULL,		1 << 6,		0,		0,		-1},
 	{ "Timeshift-gtk",	NULL,		NULL,		1 << 6,		0,		0,		-1},
 	{ "BleachBit",		NULL,		NULL,		1 << 6,		0,		0,		-1},
 	{ "Nitrogen",		NULL,		NULL,		1 << 6,		1,		0,		-1},
