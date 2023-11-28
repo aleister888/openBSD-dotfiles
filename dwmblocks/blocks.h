@@ -17,8 +17,8 @@ static const Block blocks[] = {
 	// Battery percentage
 	{" ^c#8EC07C^"			, "apm | awk '{print $4}' | grep %",				1,	0},
 	// Weather
-	{" ^d^^c#D79921^"		, "curl 'wttr.in?m2&format=%c'|sed 's/ //g'|sed 's/☀//g'||echo 'X'",	0,	0},
-	{" ^c#FABD2F^"			, "curl 'wttr.in?m2&format=%t'||echo 'NC '",			0,	0},
+	{" ^d^^c#D79921^"		, "curl 'wttr.in?m2&format=%c'|sed 's/ //g'|sed 's/☀//g'",	0,	0},
+	{" ^c#FABD2F^"			, "curl 'wttr.in?m2&format=%t'||echo ' '",			0,	0},
 	// CPU Temp
 	//{" ^d^^c#D79921^ ^c#FABD2F^"	, "~/.local/scripts/sb/sb-temp",    				1,	0},
 	// Memory used
