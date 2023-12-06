@@ -46,7 +46,7 @@ IMG:$ICONPATH/applications-utilities.svg			Utilities
 	IMG:$ICONPATH/qt5ct.svg					QT Settings		qt5ct
 
 IMG:$ICONPATH/chromium.svg					Chromium		ungoogled-chromium
-IMG:$ICONPATH/multimc.svg					MultiMC			Blockgame
+IMG:$ICONPATH/multimc.svg					MultiMC			~/.local/scripts/minecraft
 IMG:$ICONPATH/thunderbird.svg					Thunderbird		thunderbird
 IMG:$ICONPATH/system-file-manager.svg				File-Manager		$TERMINAL -e lf
 IMG:$ICONPATH/terminal.svg					Terminal		$TERMINAL
