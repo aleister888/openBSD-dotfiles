@@ -35,8 +35,8 @@ if [ "$(ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | tail -1 | awk '
 fi
 
 while true; do
-	rm ~/.serverauth* ~/*.core ~/.pki
-	sleep 60;
+	rm ~/.serverauth* ~/*.core ~/.pki ~/.dvdcss
+	sleep 240;
 done &
 
 # Restart dwmblocks

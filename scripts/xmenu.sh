@@ -45,7 +45,8 @@ IMG:$ICONPATH/applications-utilities.svg			Utilities
 	IMG:$ICONPATH/preferences-desktop-theme.svg		GTK Settings		lxappearance
 	IMG:$ICONPATH/qt5ct.svg					QT Settings		qt5ct
 
-IMG:$ICONPATH/firefox.svg					Firefox			firefox
+IMG:$ICONPATH/chromium.svg					Chromium		ungoogled-chromium
+IMG:$ICONPATH/multimc.svg					MultiMC			Blockgame
 IMG:$ICONPATH/thunderbird.svg					Thunderbird		thunderbird
 IMG:$ICONPATH/system-file-manager.svg				File-Manager		$TERMINAL -e lf
 IMG:$ICONPATH/terminal.svg					Terminal		$TERMINAL

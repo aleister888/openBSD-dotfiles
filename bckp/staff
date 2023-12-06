@@ -3,5 +3,5 @@ staff
 :datasize-max=4096M:
 :maxproc-max=256:
 :maxproc-cur=256:
-:openfiles-cur=4096:
-:openfiles-max=8192:
+:openfiles-cur=8192:
+:openfiles-max=12288:
