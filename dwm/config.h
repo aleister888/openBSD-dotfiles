@@ -86,6 +86,9 @@ static const Rule rules[] = {
 	/* Tag 6: Graphics */
 	{ "Fr.handbrake.ghb",	NULL,		NULL,		1 << 5,		0,		0,		-1},
 	{ "Gimp",		NULL,		NULL,		1 << 5,		0,		0,		-1},
+	{ "Minecraft* 1.16.5",	NULL,		NULL,		1 << 5,		0,		0,		-1},
+	{ "Minecraft 1.12.2",	NULL,		NULL,		1 << 5,		0,		0,		-1},
+	{ "Blockgame",		NULL,		NULL,		1 << 5,		1,		0,		-1},
 	/* Tag 7: Utilities */
 	{ "org.gnome.clocks",	NULL,		NULL,		1 << 6,		1,		0,		-1},
 	{ "KeePassXC",		NULL,		NULL,		1 << 6,		0,		0,		-1},

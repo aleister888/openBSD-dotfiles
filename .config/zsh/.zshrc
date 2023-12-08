@@ -9,6 +9,7 @@ bindkey -e
 
 # aliases
 source $HOME/.config/zsh/aliasrc
+source $HOME/.config/ssh_hosts
 #source $HOME/.sshalias
 #compiling
 function smk() { sudo make install }

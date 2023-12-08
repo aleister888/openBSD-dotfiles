@@ -48,7 +48,6 @@ export XDG_CURRENT_DESKTOP=X-Generic
 
 # Cleanup $HOME directory of dotfiles
 export ICEAUTHORITY="$XDG_CACHE_HOME"/ICEauthority
-export XAUTHORITY="$XDG_CONFIG_HOME"/Xauthority
 export XINITRC="$XDG_CONFIG_HOME"/X11/xinitrc
 export GTK2_RC_FILES="$XDG_CONFIG_HOME"/gtk-2.0/gtkrc
 export GTK2_RC_FILES="${XDG_CONFIG_HOME:-$HOME/.config}/gtk-2.0/gtkrc"
@@ -266,9 +265,8 @@ fi=00:\
 
 # start dwm
 if [[ "$(tty)" = "/dev/ttyC0" ]]; then
-        startx
+        startx /etc/X11/xinit/xinitrc
 fi
 if [[ "$(tty)" = "/dev/ttyC0" ]]; then
-	clear;
-	exit
+	clear
 fi

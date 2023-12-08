@@ -50,7 +50,6 @@ export XDG_CURRENT_DESKTOP=X-Generic
 
 # Cleanup $HOME directory of dotfiles
 export ICEAUTHORITY="$XDG_CACHE_HOME"/ICEauthority
-export XAUTHORITY="$XDG_CONFIG_HOME"/Xauthority
 export XINITRC="$XDG_CONFIG_HOME"/X11/xinitrc
 export GTK2_RC_FILES="$XDG_CONFIG_HOME"/gtk-2.0/gtkrc
 export GTK2_RC_FILES="${XDG_CONFIG_HOME:-$HOME/.config}/gtk-2.0/gtkrc"
@@ -240,23 +239,3 @@ sg=01;32:\
 ex=01;32:\
 fi=00:\
 "
-
-#Start applications:
-# Sets background
-feh --no-fehbg --bg-fill ~/openBSD-dotfiles/img/wallpaper.jpg
-# App Launcher
-pgrep sxhkd || sxhkd &
-# Compositor
-pgrep xcompmgr || xcompmgr &
-# Status bar
-pgrep dwmblocks || dwmblocks &
-# Polkit
-pgrep polkit-gnome || /usr/local/libexec/polkit-gnome-authentication-agent-1 &
-# Keyring
-pgrep gnome-keyring || gnome-keyring &
-# Reads Xresources file
-xrdb ~/.config/Xresources &
-# Starts Syncthing
-# pgrep syncthing || syncthing --no-browser &
-# Disable screensaving
-xset -dpms ; xset s off

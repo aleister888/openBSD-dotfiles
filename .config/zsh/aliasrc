@@ -21,8 +21,4 @@ alias \
 	printfile='lp -d HP_Officejet_5740_series' \
 	push='git add . && git commit && git push' \
 	pull='git pull' \
-	ssh_home='ssh "$(cat /opt/Sync/Arch\ IP)"' \
-	ssh_vnc='ssh "$(cat /opt/Sync/Arch\ IP)" -L 5900:localhost:5900' \
-	ssh_vnc_vm='ssh "$(cat /opt/Sync/Arch\ IP)" -L 5900:localhost:5920' \
-	ssh_komga='ssh "$(cat /opt/Sync/Arch\ IP)" -L 8443:localhost:8443' \
 	sed='gsed' \

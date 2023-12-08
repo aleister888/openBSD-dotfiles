@@ -13,6 +13,7 @@ IMG:$ICONPATH/internet-web-browser.svg				Internet
 
 IMG:$ICONPATH/multimedia.svg					Sound & Video
 	IMG:$ICONPATH/tauonmb.svg				Tauon			tauon
+	IMG:$ICONPATH/spotify.svg				Spotify			$TERMINAL -e ncspot
 	IMG:$ICONPATH/jack_mixer.svg				Tauon Remote Control	tauon-yad 192.168.0.186
 	IMG:$ICONPATH/jack_mixer.svg				Tauon Control		tauon-yad localhost
 	IMG:$ICONPATH/mpv.svg					mpv			mpv --player-operation-mode=pseudo-gui
@@ -37,6 +38,7 @@ IMG:$ICONPATH/applications-office.svg				Office
 	IMG:$ICONPATH/system-users.svg				Campus Virtual		xdg-open https://campus.ual.es/
 
 IMG:$ICONPATH/applications-utilities.svg			Utilities
+	OpenVisualTraceRoute					~/.local/bin/OpenVisualTraceRoute2.0.0/run.sh
 	IMG:$ICONPATH/htop.svg					HTop			$TERMINAL -e htop
 	IMG:$ICONPATH/keepassxc.svg				KeePassXC		keepassxc
 	IMG:$ICONPATH/bleachbit.svg				Bleachbit		cd ~/.local/src/bleachbit && python3 ./bleachbit.py
