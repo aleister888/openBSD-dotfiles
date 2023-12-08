@@ -6,6 +6,8 @@ if [ "$(playerctl status -p tauon 2>&1)" = "No players found" ]; then
 		IP="192.168.0.178"
 		TRACK_TITLE=$(echo "$(curl -s "http://$IP:7814/api1/status" | sed 's/,/\\n/g')" | grep '"title"' | head -1 | sed 's/ "title": "//g' | sed 's/"//g')
 		echo "$TRACK_TITLE"
+	elif [ "$(cmus-remote -Q | grep "cmus-remote: cmus is not running")" = "" ]; then
+		echo "$(cmus-remote -Q | grep artist | sed 's/tag artist //g' | grep -v album)/$(cmus-remote -Q | grep title | sed 's/tag title //g')"
 	else
 		echo ""
 	fi

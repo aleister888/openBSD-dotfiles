@@ -13,7 +13,8 @@ IMG:$ICONPATH/internet-web-browser.svg				Internet
 
 IMG:$ICONPATH/multimedia.svg					Sound & Video
 	IMG:$ICONPATH/tauonmb.svg				Tauon			tauon
-	IMG:$ICONPATH/spotify.svg				Spotify			$TERMINAL -e ncspot
+	IMG:$ICONPATH/musikcube.svg				CMUS			$TERMINAL -e cmus
+	IMG:$ICONPATH/spotify.svg				Ncspot			$TERMINAL -e ncspot
 	IMG:$ICONPATH/jack_mixer.svg				Tauon Remote Control	tauon-yad 192.168.0.186
 	IMG:$ICONPATH/jack_mixer.svg				Tauon Control		tauon-yad localhost
 	IMG:$ICONPATH/mpv.svg					mpv			mpv --player-operation-mode=pseudo-gui

@@ -42,3 +42,8 @@ echo "[xin_-1]
 file=/home/`whoami`/.dotfiles/img/wallpaper.jpg
 mode=4
 bgcolor=#000000" > ~/.config/nitrogen/bg-saved.cfg
+
+# Add ncspot bindings
+
+mkdir -p ~/.config/ncspot
+ln -s ~/.dotfiles/no-stow/ncspot ~/.config/ncspot/config.toml
