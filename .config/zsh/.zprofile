@@ -270,3 +270,6 @@ fi
 if [[ "$(tty)" = "/dev/ttyC0" ]]; then
 	clear
 fi
+if [[ "$(tty)" = "/dev/ttyC0" ]]; then
+	exit 0
+fi
