@@ -20,9 +20,19 @@ IMG:$ICONPATH/multimedia.svg					Sound & Video
 	IMG:$ICONPATH/easytag.svg				EasyTAG			easytag
 	IMG:$ICONPATH/picard.svg				Picard			picard --stand-alone-instance
 
-IMG:$ICONPATH/radiotray.svg				Radio
+IMG:$ICONPATH/radiotray.svg					Radio
 	Your Classical - Relax	 				$TERMINAL -t scratchpad -e mpv "http://relax.stream.publicradio.org/relax.mp3"
 	Adroit Jazz Underground	 				$TERMINAL -t scratchpad -e mpv "https://icecast.walmradio.com:8443/jazz"
+	KCSM Jazz 91.1 FM					$TERMINAL -t scratchpad -e mpv "http://ice7.securenetsystems.net/KCSM2"
+	Deep House Radio					$TERMINAL -t scratchpad -e mpv "http://62.210.105.16:7000/stream"
+	Progulus (Prog Rock)					$TERMINAL -t scratchpad -e mpv "http://centova.radioservers.biz:8063/stream.ogg"
+	TEKNO1							$TERMINAL -t scratchpad -e mpv "http://cressida.shoutca.st:8591/stream/1/"
+	Radio Schizoid - Dub Techno				$TERMINAL -t scratchpad -e mpv "http://94.130.113.214:8000/dubtechno"
+	RNE 3							$TERMINAL -t scratchpad -e mpv "https://rtvelivestream.akamaized.net/rtvesec/rne/rne_r3_main.m3u8"
+	Onda Cero						$TERMINAL -t scratchpad -e mpv "https://livefastly-webs.ondacero.es/almeria-pull/audio/master.m3u8"
+	Cadena SER						$TERMINAL -t scratchpad -e mpv "http://21223.live.streamtheworld.com:80/CADENASER.mp3"
+	MSNBC							$TERMINAL -t scratchpad -e mpv "https://tunein.streamguys1.com/msnbc-tesla"
+	BBC							$TERMINAL -t scratchpad -e mpv "http://stream.live.vc.bbcmedia.co.uk/bbc_world_service"
 
 IMG:$ICONPATH/preferences-desktop-color.svg			Graphics
 	IMG:$ICONPATH/gimp.svg					GIMP			gimp-2.99
