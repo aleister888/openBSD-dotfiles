@@ -21,6 +21,10 @@ IMG:$ICONPATH/multimedia.svg					Sound & Video
 	IMG:$ICONPATH/pavucontrol.svg				Pavucontrol		pavucontrol
 	IMG:$ICONPATH/easytag.svg				EasyTAG			easytag
 
+IMG:$ICONPATH/radiotray.svg				Radio
+	Your Classical - Relax	 				$TERMINAL -t scratchpad -e mpv "http://relax.stream.publicradio.org/relax.mp3"
+	Adroit Jazz Underground	 				$TERMINAL -t scratchpad -e mpv "https://icecast.walmradio.com:8443/jazz"
+
 IMG:$ICONPATH/preferences-desktop-color.svg			Graphics
 	IMG:$ICONPATH/gimp.svg					GIMP			gimp-2.99
 	IMG:$ICONPATH/fr.handbrake.ghb.svg			HandBrake		ghb
