@@ -7,10 +7,10 @@ stow --target=${HOME}/.local/scripts/ scripts/
 stow --target=${HOME}/.config/ .config/
 
 # Symlink DWM autostart script
-ln -s ~/.dotfiles/dwm/autostart.sh ~/.local/share/dwm/
+ln -s ~/.dotfiles/dwm/autostart.sh ~/.local/share/dwm
 
 # Symlink shell profile into home directory
-ln -s ~/.dotfiles/.profile ~/
+ln -s ~/.dotfiles/.profile ~
 
 # Make a backup of my xinit script
 cat /etc/X11/xinit/xinitrc > ~/.dotfiles/bckp/xinitrc
