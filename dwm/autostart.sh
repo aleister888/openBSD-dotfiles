@@ -41,7 +41,7 @@ while true; do
 	sleep 240;
 done &
 
-# Restart dwmblocks
+# Restart dwmblocks every 5 seconds
 while true; do
 	sleep 5;
 	count="$(pgrep dwmblocks | wc -l)"

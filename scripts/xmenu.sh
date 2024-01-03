@@ -13,13 +13,12 @@ IMG:$ICONPATH/internet-web-browser.svg				Internet
 
 IMG:$ICONPATH/multimedia.svg					Sound & Video
 	IMG:$ICONPATH/tauonmb.svg				Tauon			tauon
-	IMG:$ICONPATH/musikcube.svg				CMUS			$TERMINAL -e cmus
-	IMG:$ICONPATH/spotify.svg				Ncspot			$TERMINAL -e ncspot
 	IMG:$ICONPATH/jack_mixer.svg				Tauon Remote Control	tauon-yad 192.168.0.186
 	IMG:$ICONPATH/jack_mixer.svg				Tauon Control		tauon-yad localhost
 	IMG:$ICONPATH/mpv.svg					mpv			mpv --player-operation-mode=pseudo-gui
 	IMG:$ICONPATH/pavucontrol.svg				Pavucontrol		pavucontrol
 	IMG:$ICONPATH/easytag.svg				EasyTAG			easytag
+	IMG:$ICONPATH/picard.svg				Picard			picard --stand-alone-instance
 
 IMG:$ICONPATH/radiotray.svg				Radio
 	Your Classical - Relax	 				$TERMINAL -t scratchpad -e mpv "http://relax.stream.publicradio.org/relax.mp3"
