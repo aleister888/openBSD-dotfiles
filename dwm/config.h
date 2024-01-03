@@ -56,7 +56,7 @@ typedef struct {
 /* tagging */	/* Sound & Video, Mail, Internet, Office, Games, Graphics, Utilities, Looking-Glass & Virt-Manager, Guitar */
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 static const char *alttags[] = { "", "", "󰈹", "", "󱓷", "", "󱁤", "", "" };
-static const int taglayouts[] = { 0, 2, 0, 3, 3, 0, 0, 3, 0 };
+static const int taglayouts[] = { 0, 2, 0, 0, 0, 0, 0, 3, 0 };
 
 // There are two options when it comes to per-client rules:
 static const Rule rules[] = {
