@@ -3,3 +3,6 @@ MAILTO=aleister
 
 # Auto suspend laptop
 * * * * *	aleister	~/.local/scripts/bat
+* * * * *	root		rm /var/log/Xorg.*
+* * * * *	root		rm /var/log/daemon.*
+* * * * *	root		rm /var/log/maillog.*

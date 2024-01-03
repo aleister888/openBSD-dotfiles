@@ -67,6 +67,9 @@ echo "
 /usr/local/bin r
 /usr/local/bin/keepassxc-proxy rx" >> /etc/ungoogled-chromium/unveil.main
 
+cp -p /etc/{hosts,localtime,resolv.conf} /var/icecast/etc
+cp -p /usr/share/misc/mime.types /var/icecast/etc
+
 chmod 640 /dev/video0
 
 syspatch
