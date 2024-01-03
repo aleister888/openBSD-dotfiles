@@ -1,0 +1,2 @@
+#!/bin/sh
+curl 'wttr.in?m2&format=%c'|sed 's/ //g'|sed 's/☀//g' &
