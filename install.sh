@@ -13,7 +13,7 @@ poppler-utils py-gobject py3-pip qt5ct redshift remmina rhythmbox ripgrep sdl2 s
 sdl2-mixer sdl2-net sdl2-pango sdl2-ttf stow sxhkd texlive_texmf-full thunderbird transmission-gtk trayer unrar \
 unzip-- wavpack wget wpa_supplicant xarchiver xclip xcursor-themes xdg-user-dirs xdotool yarn youtube-dl zathura \
 zathura-pdf-mupdf zim zsh neofetch gsed gawk ggrep gnuwatch symbola-ttf meson ninja cmake xcb libconfig libev uthash \
-ungoogled-chromium octave unclutter zathura-cb xscreensaver ncspot cmus icecast ices--%ices2
+ungoogled-chromium octave unclutter zathura-cb xscreensaver icecast ices--%ices2
 
 ########################
 # Download zsh plugins #

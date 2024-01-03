@@ -7,9 +7,7 @@ super + F2
 super + F3
 	$TERMINAL -e lf
 super + F4
-	$TERMINAL -e cmus
-super + shift + F4
-	$TERMINAL -e ncspot
+	tauon
 super + d
 	dmenu_run
 
@@ -29,18 +27,12 @@ super + F12
 	pavucontrol
 
 # Change song
-#super + z
-#	playerctl previous && kill -USR2 $(pgrep dwmblocks | head -n1)
-#super + x
-#	playerctl play-pause
-#super + c
-#	playerctl next && kill -USR2 $(pgrep dwmblocks | head -n1)
 super + z
-	cmus-remote -r && kill -USR2 $(pgrep dwmblocks | head -n1)
+	playerctl previous && kill -USR2 $(pgrep dwmblocks | head -n1)
 super + x
-	cmus-remote -u
+	playerctl play-pause
 super + c
-	cmus-remote -n && kill -USR2 $(pgrep dwmblocks | head -n1)
+	playerctl next && kill -USR2 $(pgrep dwmblocks | head -n1)
 
 # Screenshots
 super + p

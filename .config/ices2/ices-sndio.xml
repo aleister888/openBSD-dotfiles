@@ -4,7 +4,7 @@
     <!-- run in background  -->
     <background>0</background>
     <!-- where logs go. -->
-    <logpath>/var/log/ices</logpath>
+    <logpath>/tmp</logpath>
     <logfile>ices.log</logfile>
     <!-- size in kilobytes -->
     <logsize>2048</logsize>
@@ -37,7 +37,7 @@
             <!-- <param name="device">aucat:0</param> -->
             <!-- Read metadata (from stdin by default, or -->
             <!-- filename defined below (if the latter, only on SIGUSR1) -->
-            <param name="metadata">1</param>
+            <param name="metadata">0</param>
             <param name="metadatafilename">test</param>
         </input>
 
@@ -61,11 +61,11 @@
                 You define hostname and port for the server here, along
                 with the source password and mountpoint.  -->
 
-            <hostname>openbsd888</hostname>
+            <hostname>192.168.0.169</hostname>
             <port>8000</port>
             <password>just_some-audio</password>
             <mount>/stream.ogg</mount>
-            <yp>1</yp>   <!-- allow stream to be advertised on YP, default 0 -->
+            <yp>0</yp>   <!-- allow stream to be advertised on YP, default 0 -->
 
             <!--    Live encoding/reencoding:
 
@@ -73,24 +73,24 @@
                 and samplerate given in the parameters to the sun input
                 module above or the remsaple/downmix section below.  -->
 
-            <encode>  
-                <quality>0</quality>
-                <samplerate>22050</samplerate>
-                <channels>2</channels>
+            <encode>
+                <quality>-1</quality>
+                <samplerate>44100</samplerate>
+                <channels>1</channels>
+                <flush-samples>1</flush-samples>
             </encode>
 
             <!-- stereo->mono downmixing, enabled by setting this to 1 -->
-            <downmix>0</downmix>
+            <downmix>1</downmix>
 
             <!-- resampling.
-            
+
                 Set to the frequency (in Hz) you wish to resample to, -->
-             
+
             <resample>
                 <in-rate>44100</in-rate>
                 <out-rate>22050</out-rate>
             </resample>
         </instance>
-
     </stream>
 </ices>
