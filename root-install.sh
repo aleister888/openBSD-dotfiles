@@ -39,7 +39,9 @@ echo '#!/usr/bin/sh
 
 xclickroot -r $HOME/.local/scripts/xmenu.sh &
 
-/usr/local/bin/dwm' > /etc/X11/xinit/xinitrc
+while true; do
+	ck-launch-session /usr/local/bin/dwm >/dev/null 2>&1
+done' > /etc/X11/xinit/xinitrc
 
 echo '#!/bin/sh
 python3 ~/.local/src/tauon-music-box/tauon.py' > /usr/local/bin/tauon

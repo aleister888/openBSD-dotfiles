@@ -1,15 +1,18 @@
 #!/usr/local/bin/dash
-option0=" lock"
-option1="⏼ suspend"
-option2=" logout"
-option3=" shutdown"
-option4=" reboot"
-options="$option0\n$option1\n$option2\n$option3\n$option4"
-chosen="$(echo "$options" | dmenu -l 9 -p "")"
+option0=" Lock"
+option1="⏼ Suspend"
+option2=" Logout"
+option3=" Restart dwm"
+option4=" Shutdown"
+option5=" Reboot"
+options="$option0\n$option1\n$option2
+$option3\n$option4\n$option5"
+chosen="$(echo "$options" | dmenu -l 6 -p "")"
 case $chosen in
 $option0) ~/.local/scripts/i3lock-fancy ;;
 $option1) zzz ;;
-$option2) pkill dwm ;;
-$option3) xterm -title scratchpad -e "doas halt -p" ;;
-$option4) xterm -title scratchpad -e "doas reboot" ;;
+$option2) pkill xinit ;;
+$option3) pkill dwm ;;
+$option4) xterm -title scratchpad -e "doas halt -p" ;;
+$option5) xterm -title scratchpad -e "doas reboot" ;;
 esac

@@ -1,0 +1,98 @@
+From f709b1910af85d8ff2fdd5c38215c204f8bb34e7 Mon Sep 17 00:00:00 2001
+From: Danil Demchenko <mail@d-demchenko.ru>
+Date: Fri, 7 Feb 2020 00:11:53 +0300
+Subject: [PATCH] Add  rule to remove the opportunity to focus certain windows.
+ May be useful for tray applications.
+
+---
+ config.def.h |  6 +++---
+ dwm.c        | 15 ++++++++++-----
+ 2 files changed, 13 insertions(+), 8 deletions(-)
+
+diff --git a/config.def.h b/config.def.h
+index 1c0b587..a4468eb 100644
+--- a/config.def.h
++++ b/config.def.h
+@@ -26,9 +26,9 @@ static const Rule rules[] = {
+ 	 *	WM_CLASS(STRING) = instance, class
+ 	 *	WM_NAME(STRING) = title
+ 	 */
+-	/* class      instance    title       tags mask     isfloating   monitor */
+-	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
+-	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
++	/* class      instance    title       tags mask     isfloating canfocus   monitor */
++	{ "Gimp",     NULL,       NULL,       0,            1,         1,         -1 },
++	{ "Firefox",  NULL,       NULL,       1 << 8,       0,         1,         -1 },
+ };
+ 
+ /* layout(s) */
+diff --git a/dwm.c b/dwm.c
+index 4465af1..c678e90 100644
+--- a/dwm.c
++++ b/dwm.c
+@@ -92,7 +92,7 @@ struct Client {
+ 	int basew, baseh, incw, inch, maxw, maxh, minw, minh;
+ 	int bw, oldbw;
+ 	unsigned int tags;
+-	int isfixed, isfloating, isurgent, neverfocus, oldstate, isfullscreen;
++	int isfixed, isfloating, canfocus, isurgent, neverfocus, oldstate, isfullscreen;
+ 	Client *next;
+ 	Client *snext;
+ 	Monitor *mon;
+@@ -138,6 +138,7 @@ typedef struct {
+ 	const char *title;
+ 	unsigned int tags;
+ 	int isfloating;
++    int canfocus;
+ 	int monitor;
+ } Rule;
+ 
+@@ -286,6 +287,7 @@ applyrules(Client *c)
+ 
+ 	/* rule matching */
+ 	c->isfloating = 0;
++    c->canfocus = 1;
+ 	c->tags = 0;
+ 	XGetClassHint(dpy, c->win, &ch);
+ 	class    = ch.res_class ? ch.res_class : broken;
+@@ -298,6 +300,7 @@ applyrules(Client *c)
+ 		&& (!r->instance || strstr(instance, r->instance)))
+ 		{
+ 			c->isfloating = r->isfloating;
++            c->canfocus = r->canfocus;
+ 			c->tags |= r->tags;
+ 			for (m = mons; m && m->num != r->monitor; m = m->next);
+ 			if (m)
+@@ -788,6 +791,8 @@ focus(Client *c)
+ 	if (selmon->sel && selmon->sel != c)
+ 		unfocus(selmon->sel, 0);
+ 	if (c) {
++        if (!c->canfocus)
++            return;
+ 		if (c->mon != selmon)
+ 			selmon = c->mon;
+ 		if (c->isurgent)
+@@ -837,16 +842,16 @@ focusstack(const Arg *arg)
+ 	if (!selmon->sel)
+ 		return;
+ 	if (arg->i > 0) {
+-		for (c = selmon->sel->next; c && !ISVISIBLE(c); c = c->next);
++		for (c = selmon->sel->next; c && (!ISVISIBLE(c) || !c->canfocus); c = c->next);
+ 		if (!c)
+-			for (c = selmon->clients; c && !ISVISIBLE(c); c = c->next);
++			for (c = selmon->clients; c && (!ISVISIBLE(c) || !c->canfocus); c = c->next);
+ 	} else {
+ 		for (i = selmon->clients; i != selmon->sel; i = i->next)
+-			if (ISVISIBLE(i))
++			if (ISVISIBLE(i) && i->canfocus)
+ 				c = i;
+ 		if (!c)
+ 			for (; i; i = i->next)
+-				if (ISVISIBLE(i))
++				if (ISVISIBLE(i) && i->canfocus)
+ 					c = i;
+ 	}
+ 	if (c) {
+-- 
+2.25.0
+
