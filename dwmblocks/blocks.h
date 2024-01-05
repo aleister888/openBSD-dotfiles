@@ -3,7 +3,7 @@ static unsigned int delimLen = 0;
 static const Block blocks[] = {
 	/*Icon*/			/*Command*/					/*Updt. Interval & Signal*/
 	// Current song
-	{""				, "~/.local/scripts/sb/sb-music",				0,	2},
+	{""				, "~/.local/scripts/sb/sb-music",				1,	2},
 	// Free space
 	{" ^d^^c#98971A^ ^c#B8BB26^"	, "df -h | egrep 'home|data' | awk '{print $4}' | xargs",	0,	0},
 	// Kernel version

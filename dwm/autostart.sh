@@ -23,7 +23,7 @@ nitrogen --restore &
 dbus-update-activation-environment --all &
 dbus-launch &
 pgrep sxhkd		|| sxhkd &
-pgrep picom		|| picom &
+pgrep compfy		|| compfy &
 pgrep dunst		|| dunst &
 pgrep dwmblocks		|| dwmblocks &
 pgrep http-server	|| npx http-server ~/.local/share/startpage/ 8080 &
