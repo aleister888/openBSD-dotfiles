@@ -53,3 +53,4 @@ dwm build for openBSD
 - [Steam](https://raw.githubusercontent.com/bakkeby/patches/master/dwm/dwm-steam-6.2.diff)
 - [Sticky](https://dwm.suckless.org/patches/sticky/dwm-sticky-6.4.diff)
 - [Tag layouts](https://dwm.suckless.org/patches/taglayouts/dwm-taglayouts-6.4.diff)
+- [Allowkill](https://dwm.suckless.org/patches/allowkillrule/dwm-allowkillrule-6.4.diff)
