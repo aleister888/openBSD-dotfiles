@@ -103,7 +103,7 @@ struct Client {
 	int basew, baseh, incw, inch, maxw, maxh, minw, minh, hintsvalid;
 	int bw, oldbw;
 	unsigned int tags;
-	int isfixed, isfloating, canfocus, isurgent, neverfocus, oldstate, isfullscreen, isfakefullscreen, issticky;
+	int isfixed, isfloating, isurgent, neverfocus, oldstate, isfullscreen, isfakefullscreen, issticky;
 	char scratchkey;
 	int issteam;
 	Client *next;
@@ -154,7 +154,6 @@ typedef struct {
 	const char *title;
 	unsigned int tags;
 	int isfloating;
-	int canfocus;
 	int isfakefullscreen;
 	int monitor;
 	const char scratchkey;
@@ -331,7 +330,6 @@ applyrules(Client *c)
 
 	/* rule matching */
 	c->isfloating = 0;
-    c->canfocus = 1;
 	c->tags = 0;
 	c->scratchkey = 0;
 	XGetClassHint(dpy, c->win, &ch);
@@ -348,7 +346,6 @@ applyrules(Client *c)
 		&& (!r->instance || strstr(instance, r->instance)))
 		{
 			c->isfloating = r->isfloating;
-			c->canfocus = r->canfocus;
 			c->isfakefullscreen = r->isfakefullscreen;
 			c->tags |= r->tags;
 			c->scratchkey = r->scratchkey;
@@ -1015,8 +1012,6 @@ focus(Client *c)
 	if (selmon->sel && selmon->sel != c)
 		unfocus(selmon->sel, 0);
 	if (c) {
-        if (!c->canfocus)
-            return;
 		if (c->mon != selmon)
 			selmon = c->mon;
 		if (c->isurgent)
@@ -1069,16 +1064,16 @@ focusstack(const Arg *arg)
 	if (!selmon->sel || (selmon->sel->isfullscreen && lockfullscreen))
 		return;
 	if (arg->i > 0) {
-		for (c = selmon->sel->next; c && (!ISVISIBLE(c) || !c->canfocus); c = c->next);
+		for (c = selmon->sel->next; c && !ISVISIBLE(c); c = c->next);
 		if (!c)
-			for (c = selmon->clients; c && (!ISVISIBLE(c) || !c->canfocus); c = c->next);
+			for (c = selmon->clients; c && !ISVISIBLE(c); c = c->next);
 	} else {
 		for (i = selmon->clients; i != selmon->sel; i = i->next)
-			if (ISVISIBLE(i) && i->canfocus)
+			if (ISVISIBLE(i))
 				c = i;
 		if (!c)
 			for (; i; i = i->next)
-				if (ISVISIBLE(i) && i->canfocus)
+				if (ISVISIBLE(i))
 					c = i;
 	}
 	if (c) {

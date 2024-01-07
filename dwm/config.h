@@ -56,51 +56,52 @@ typedef struct {
 
 /* tagging */	/* Sound & Video, Mail, Internet, Office, Games, Graphics, Utilities, Looking-Glass & Virt-Manager, Guitar */
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
-static const char *alttags[] = { "", "", "󰈹", "", "󱓷", "", "󱁤", "", "󰋅" };
-static const int taglayouts[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+static const char *alttags[] = { "", "", "󰈹", "", "󱓷", "", "󱁤", "", "" };
+static const int taglayouts[] = { 0, 2, 0, 0, 0, 0, 0, 3, 0 };
 
 // There are two options when it comes to per-client rules:
 static const Rule rules[] = {
-	/* class		instance	title	tag	allowkill	float?	canfocus	isfakefullscreen monitor */
-	/* Tray */
-	{ "trayer",		NULL,		NULL,	0,	0,		1,	0,		0,		-1},
+	/* class		instance	title	tags mask	awkill	isfloating	isfakefullscreen monitor */
+	{ "trayer",		NULL,		NULL,	0,		0,	1,		0,		-1},
+//	{ "supertuxkart",	NULL,		NULL,	0,		1,	0,		0,		-1},
 	/* Floating Windows */
-	{ "Yad",		NULL,		NULL,	0,	1,		1,	1,		0,		-1},
-	{ "Gcolor2",		NULL,		NULL,	0,	1,		1,	1,		0,		-1},
-	{ "Pavucontrol",	NULL,		NULL,	0,	1,		1,	1,		0,		-1},
+	{ "Yad",		NULL,		NULL,	0,		1,	1,		0,		-1},
+	{ "Gcolor2",		NULL,		NULL,	0,		1,	1,		0,		-1},
+	{ "Pavucontrol",	NULL,		NULL,	0,		1,	1,		0,		-1},
 	/* Tag 1: MUSIC */
-	{ "Tauon Music Box",	NULL,		NULL,	1 << 0,	1,		0,	1,		0,		-1},
-	{ "Lrcget",		NULL,		NULL,	1 << 0,	1,		0,	1,		0,		-1},
-	{ "Easytag",		NULL,		NULL,	1 << 0,	1,		0,	1,		0,		-1},
+	{ "Tauon Music Box",	NULL,		NULL,	1 << 0,		1,	0,		0,		-1},
+	{ "Easytag",		NULL,		NULL,	1 << 0,		1,	0,		0,		-1},
 	/* Tag 3: Mail */
-	{ "thunderbird",	NULL,		NULL,	1 << 1,	1,		0,	1,		0,		-1},
+	{ "thunderbird",	NULL,		NULL,	1 << 1,		1,	0,		0,		-1},
 	/* Tag 3: INTERNET */
-	{ "Firefox",		NULL,		NULL,	1 << 2,	1,		0,	1,		1,		-1},
-	{ "firefox",		NULL,		NULL,	1 << 2,	1,		0,	1,		1,		-1},
-	{ "chromium-browser",	NULL,		NULL,	1 << 2,	1,		0,	1,		1,		-1},
-	{ "Chromium-browser",	NULL,		NULL,	1 << 2,	1,		0,	1,		1,		-1},
-	{ "Abaddon",		NULL,		NULL,	1 << 2,	1,		0,	1,		1,		-1},
-	{ "transmission-gtk",	NULL,		NULL,	1 << 2,	1,		0,	1,		0,		-1},
-	{ "Transmission-gtk",	NULL,		NULL,	1 << 2,	1,		0,	1,		0,		-1},
+	{ "Firefox",		NULL,		NULL,	1 << 2,		1,	0,		1,		-1},
+	{ "firefox",		NULL,		NULL,	1 << 2,		1,	0,		1,		-1},
+	{ "chromium-browser",	NULL,		NULL,	1 << 2,		1,	0,		1,		-1},
+	{ "Chromium-browser",	NULL,		NULL,	1 << 2,		1,	0,		1,		-1},
+	{ "Abaddon",		NULL,		NULL,	1 << 2,		1,	0,		0,		-1},
+	{ "transmission-gtk",	NULL,		NULL,	1 << 2,		1,	0,		0,		-1},
+	{ "Transmission-gtk",	NULL,		NULL,	1 << 2,		1,	0,		0,		-1},
 	/* Tag 4: Office */
-	{ "Soffice",		NULL,		NULL,	1 << 3,	1,		0,	1,		0,		-1},
-	{ "Zim",		NULL,		NULL,	1 << 3,	1,		1,	1,		0,		-1},
-	{ "gnome-calculator",	NULL,		NULL,	1 << 3,	1,		1,	1,		0,		-1},
-	/* Tag 6 */
-	{ "Fr.handbrake.ghb",	NULL,		NULL,	1 << 5,	1,		0,	1,		0,		-1},
-	{ "Gimp",		NULL,		NULL,	1 << 5,	1,		0,	1,		0,		-1},
-	{ "Minecraft* 1.16.5",	NULL,		NULL,	1 << 5,	1,		0,	1,		0,		-1},
-	{ "Minecraft 1.12.2",	NULL,		NULL,	1 << 5,	1,		0,	1,		0,		-1},
-	{ "Blockgame",		NULL,		NULL,	1 << 5,	1,		1,	1,		0,		-1},
+	{ "Soffice",		NULL,		NULL,	1 << 3,		1,	0,		0,		-1},
+	{ "Zim",		NULL,		NULL,	1 << 3,		1,	1,		0,		-1},
+	{ "gnome-calculator",	NULL,		NULL,	1 << 3,		1,	1,		0,		-1},
+	/* Tag 6: Graphics */
+	{ "Fr.handbrake.ghb",	NULL,		NULL,	1 << 5,		1,	0,		0,		-1},
+	{ "Gimp",		NULL,		NULL,	1 << 5,		1,	0,		0,		-1},
+	{ "Minecraft* 1.16.5",	NULL,		NULL,	1 << 5,		1,	0,		0,		-1},
+	{ "Minecraft 1.12.2",	NULL,		NULL,	1 << 5,		1,	0,		0,		-1},
+	{ "Blockgame",		NULL,		NULL,	1 << 5,		1,	1,		0,		-1},
 	/* Tag 7: Utilities */
-	{ "KeePassXC",		NULL,		NULL,	1 << 6,	1,		0,	1,		0,		-1},
-	{ "BleachBit",		NULL,		NULL,	1 << 6,	1,		0,	1,		0,		-1},
-	{ "Nitrogen",		NULL,		NULL,	1 << 6,	1,		1,	1,		0,		-1},
-	{ "Arandr",		NULL,		NULL,	1 << 6,	1,		0,	1,		0,		-1},
-	{ "Lxappearance",	NULL,		NULL,	1 << 6,	1,		0,	1,		0,		-1},
-	{ "qt5ct",		NULL,		NULL,	1 << 6,	1,		0,	1,		0,		-1},
-	/* class		instance	title		tags mask	allowkill	isfloating	canfocus	isfakefullscreen	monitor		scratch key */
-	{ NULL,			NULL,		"scratchpad",	0,		1,		1,		1,		0,			-1,		's' },
+	{ "org.gnome.clocks",	NULL,		NULL,	1 << 6,		1,	1,		0,		-1},
+	{ "KeePassXC",		NULL,		NULL,	1 << 6,		1,	0,		0,		-1},
+	{ "Timeshift-gtk",	NULL,		NULL,	1 << 6,		1,	0,		0,		-1},
+	{ "BleachBit",		NULL,		NULL,	1 << 6,		1,	0,		0,		-1},
+	{ "Nitrogen",		NULL,		NULL,	1 << 6,		1,	1,		0,		-1},
+	{ "Arandr",		NULL,		NULL,	1 << 6,		1,	0,		0,		-1},
+	{ "Lxappearance",	NULL,		NULL,	1 << 6,		1,	0,		0,		-1},
+	{ "qt5ct",		NULL,		NULL,	1 << 6,		1,	0,		0,		-1},
+	/* class instance title		tags mask	allowkill	isfloating	isfakefullscreen	monitor		scratch key */
+	{ NULL,	 NULL,	 "scratchpad",	0,		1,		1,		0,			-1,		's' },
 };
 
 /* layout(s) */
@@ -135,15 +136,14 @@ static const char *termcmd[]  = { "alacritty", NULL };
 static const char *scratchpadcmd[] = { "s", NULL };
 static const char *spawnscratchpadcmd[] = { "alacritty", "-t", "scratchpad", NULL };
 
-#include "selfrestart.c"
-
 static const Key keys[] = {
 	/* modifier                     key            function                argument */
 	// open dmenu
 	{ MODKEY,                       XK_d,          spawn,                 {.v = dmenucmd } },
 	{ MODKEY,                       XK_Return,     spawn,                 {.v = termcmd } },
 	// toggle bar
-	{ MODKEY,                       XK_b,          togglebar,              {0} },
+	//{ MODKEY,                       XK_b,          togglebar,              {0} },
+	{ MODKEY,                       XK_0,          togglebar,              {0} },
 	// toggle sticky
 	{ MODKEY|Mod1Mask,		XK_s,	       togglesticky,	       {0} },
 	// change tag
@@ -166,7 +166,6 @@ static const Key keys[] = {
 	// swap master/stack window
         { MODKEY|ControlMask,           XK_Left,       zoom,                   {0} },
         { MODKEY|ControlMask,           XK_Right,      zoom,                   {0} },
-	{ MODKEY,                       XK_0,          view,                   {0} },
 	{ MODKEY|ShiftMask,             XK_q,          killclient,             {0} },
 	{ MODKEY|ShiftMask,             XK_F11,        quit,                   {0} },
 	{ MODKEY|ShiftMask,             XK_space,      togglefloating,         {0} },
@@ -185,7 +184,6 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_r,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY|ShiftMask,             XK_e,      setlayout,      {.v = &layouts[2]} },
 	{ MODKEY|ShiftMask,             XK_r,      setlayout,      {.v = &layouts[3]} },
-	{ MODKEY|ShiftMask,             XK_t,      self_restart,   {0} },
 	TAGKEYS(                        XK_1,                                  0)
 	TAGKEYS(                        XK_2,                                  1)
 	TAGKEYS(                        XK_3,                                  2)

@@ -46,7 +46,7 @@ super + alt + shift + p
 
 # Tray
 super + t
-	pkill trayer ||	trayer --align center --edge top --expand false --width 8 --height 20 --distance 33 --iconspacing 6 
+	pkill trayer ||	trayer --align center --edge top --expand false --width 8 --height 20 --distance 33 --iconspacing 6
 # Audio
 super + m
 	sndioctl output.level=+0.025 && kill -USR1 $(pgrep dwmblocks | head -n1)

@@ -22,24 +22,19 @@ xrdb ~/.config/Xresources &
 nitrogen --restore &
 dbus-update-activation-environment --all &
 dbus-launch &
-#pgrep unclutter		|| unclutter -idle 1 -grab &
+pgrep unclutter		|| unclutter -idle 1 -grab &
 pgrep sxhkd		|| sxhkd &
 pgrep compfy		|| compfy &
 #pgrep picom		|| picom &
 pgrep dunst		|| dunst &
 pgrep dwmblocks		|| dwmblocks &
 pgrep xscreensaver	|| xscreensaver --no-splash &
-pgrep node		|| npx http-server ~/.local/share/startpage/ 8080 &
+pgrep http-server	|| npx http-server ~/.local/share/startpage/ 8080 &
 
 if [ "$(ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | tail -1 | awk '{print $2}')" = "192.168.0.169" ]; then
 	barrier-gui &
 	env AUDIORECDEVICE=snd/0.mon ices2 ~/.config/ices2/ices-sndio.xml &
 fi
-
-while true; do
-	pgrep node || npx http-server ~/.local/share/startpage/ 8080 &
-	sleep 30;
-done &
 
 while true; do
 	rm ~/.serverauth* ~/*.core ~/.pki ~/.dvdcss

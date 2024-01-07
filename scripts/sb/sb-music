@@ -1,11 +1,4 @@
 #!/bin/sh
 
 
-if [ "$(playerctl status -p tauon 2>&1)" = "No players found" ]; then
-	IP="192.168.0.178"
-	sleep 1.75; exit
-	TRACK_TITLE=$(echo "$(curl -f -s "http://$IP:7814/api1/status" | sed 's/,/\\n/g')" | grep '"title"' | head -1 | sed 's/ "title": "//g' | sed 's/"//g')
-	echo "$TRACK_TITLE"
-else
-	echo "$(playerctl metadata --player=tauon --format '{{ artist }}/{{ title }}')" | tr -d '\200-\377'
-fi
+echo "$(playerctl metadata --player=tauon --format '{{ artist }}/{{ title }}')" | tr -d '\200-\377'

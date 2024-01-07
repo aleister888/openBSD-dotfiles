@@ -103,7 +103,7 @@ struct Client {
 	int basew, baseh, incw, inch, maxw, maxh, minw, minh, hintsvalid;
 	int bw, oldbw;
 	unsigned int tags;
-	int isfixed, isfloating, canfocus, isurgent, neverfocus, oldstate, isfullscreen, isfakefullscreen, issticky;
+	int isfixed, isfloating, isurgent, neverfocus, oldstate, isfullscreen, isfakefullscreen, issticky;
 	int allowkill;
 	char scratchkey;
 	int issteam;
@@ -156,7 +156,6 @@ typedef struct {
 	unsigned int tags;
     int allowkill;
 	int isfloating;
-	int canfocus;
 	int isfakefullscreen;
 	int monitor;
 	const char scratchkey;
@@ -334,7 +333,6 @@ applyrules(Client *c)
 
 	/* rule matching */
 	c->isfloating = 0;
-	c->canfocus = 1;
 	c->tags = 0;
 	c->allowkill = allowkill;
 	c->scratchkey = 0;
@@ -352,10 +350,9 @@ applyrules(Client *c)
 		&& (!r->instance || strstr(instance, r->instance)))
 		{
 			c->isfloating = r->isfloating;
-			c->canfocus = r->canfocus;
-			c->allowkill = r->allowkill;
 			c->isfakefullscreen = r->isfakefullscreen;
 			c->tags |= r->tags;
+			c->allowkill = r->allowkill;
 			c->scratchkey = r->scratchkey;
 			for (m = mons; m && m->num != r->monitor; m = m->next);
 			if (m)
@@ -1020,8 +1017,6 @@ focus(Client *c)
 	if (selmon->sel && selmon->sel != c)
 		unfocus(selmon->sel, 0);
 	if (c) {
-        if (!c->canfocus)
-            return;
 		if (c->mon != selmon)
 			selmon = c->mon;
 		if (c->isurgent)
@@ -1074,16 +1069,16 @@ focusstack(const Arg *arg)
 	if (!selmon->sel || (selmon->sel->isfullscreen && lockfullscreen))
 		return;
 	if (arg->i > 0) {
-		for (c = selmon->sel->next; c && (!ISVISIBLE(c) || !c->canfocus); c = c->next);
+		for (c = selmon->sel->next; c && !ISVISIBLE(c); c = c->next);
 		if (!c)
-			for (c = selmon->clients; c && (!ISVISIBLE(c) || !c->canfocus); c = c->next);
+			for (c = selmon->clients; c && !ISVISIBLE(c); c = c->next);
 	} else {
 		for (i = selmon->clients; i != selmon->sel; i = i->next)
-			if (ISVISIBLE(i) && i->canfocus)
+			if (ISVISIBLE(i))
 				c = i;
 		if (!c)
 			for (; i; i = i->next)
-				if (ISVISIBLE(i) && i->canfocus)
+				if (ISVISIBLE(i))
 					c = i;
 	}
 	if (c) {

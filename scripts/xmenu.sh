@@ -41,6 +41,7 @@ IMG:$ICONPATH/preferences-desktop-color.svg			Graphics
 	IMG:$ICONPATH/gcolor2.svg				Gcolor2			gcolor2
 
 IMG:$ICONPATH/applications-office.svg				Office
+	IMG:$ICONPATH/rednotebook.svg				Rednotebook		rednotebook
 	IMG:$ICONPATH/zim.svg					Zim			zim
 	IMG:$ICONPATH/octave.svg				Octave			/usr/local/bin/octave --gui
 	IMG:$ICONPATH/libreoffice-writer.svg			Libre Office Writer	libreoffice --writer

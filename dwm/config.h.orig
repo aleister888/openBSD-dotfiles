@@ -2,13 +2,14 @@
 
 /* appearance */
 static const unsigned int borderpx  = 6;        /* border pixel of windows */
-static const unsigned int gappx     = 24;        /* gaps between windows */
+static const unsigned int gappx     = 36;        /* gaps between windows */
 static const unsigned int snap      = 0;       /* snap pixel */
 static const int swallowfloating    = 0;        /* 1 means swallow floating windows by default */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const int user_bh            = 0;	/* 0 default, >= 1 user_bh as height */
-static const char *fonts[]          = { "Monospace:pixelsize=22:bold:antialias=true:autohint=true","Symbols Nerd Font:bold:pixelsize=22:antialias=true:autohint=true" };
+static const char *fonts[]          = { "Monospace:pixelsize=22:bold:antialias=true:autohint=true",
+					"Symbols Nerd Font:bold:pixelsize=22:antialias=true:autohint=true" };
 static const char autostartblocksh[] = "autostart_blocking.sh";
 static const char autostartsh[] = "autostart.sh";
 static const char dwmdir[] = "dwm";
@@ -54,78 +55,49 @@ typedef struct {
 
 /* tagging */	/* Sound & Video, Mail, Internet, Office, Games, Graphics, Utilities, Looking-Glass & Virt-Manager, Guitar */
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
-static const char *alttags[] = { "Music", "Mail", "Browser", "Work", "Games", "Graphics", "Settings", "Windows", "Guitar" };
+static const char *alttags[] = { "", "", "󰈹", "", "󱓷", "", "󱁤", "", "" };
+static const int taglayouts[] = { 0, 2, 0, 0, 0, 0, 0, 3, 0 };
 
 // There are two options when it comes to per-client rules:
 static const Rule rules[] = {
 	/* class		instance	title		tags mask	isfloating	isfakefullscreen monitor */
 //	{ "supertuxkart",	NULL,		NULL,		0,		0,		0,		-1},
 	/* Floating Windows */
-	{ "Onboard",		NULL,		NULL,		0,		1,		0,		-1},
-	{ "Clamtk",		NULL,		NULL,		0,		1,		0,		-1},
 	{ "Yad",		NULL,		NULL,		0,		1,		0,		-1},
 	{ "Gcolor2",		NULL,		NULL,		0,		1,		0,		-1},
 	{ "Pavucontrol",	NULL,		NULL,		0,		1,		0,		-1},
 	/* Tag 1: MUSIC */
-	{ "Spotify",		NULL,		NULL,		1 << 0,		0,		0,		-1},
-	{ "tauonmb",		NULL,		NULL,		1 << 0,		0,		0,		-1},
-	{ "Lrcget",		NULL,		NULL,		1 << 0,		0,		0,		-1},
+	{ "Tauon Music Box",		NULL,		NULL,		1 << 0,		0,		0,		-1},
 	{ "Easytag",		NULL,		NULL,		1 << 0,		0,		0,		-1},
 	/* Tag 3: Mail */
 	{ "thunderbird",	NULL,		NULL,		1 << 1,		0,		0,		-1},
-	{ "electron-mail",	NULL,		NULL,		1 << 1,		0,		0,		-1},
 	/* Tag 3: INTERNET */
 	{ "Firefox",		NULL,		NULL,		1 << 2,		0,		1,		-1},
 	{ "firefox",		NULL,		NULL,		1 << 2,		0,		1,		-1},
-	{ "discord",		NULL,		NULL,		1 << 2,		0,		0,		-1},
-	{ "deemix-gui",		NULL,		NULL,		1 << 2,		0,		0,		-1},
-	{ "qBittorrent",	NULL,		NULL,		1 << 2,		0,		0,		-1},
+	{ "chromium-browser",	NULL,		NULL,		1 << 2,		0,		1,		-1},
+	{ "Chromium-browser",	NULL,		NULL,		1 << 2,		0,		1,		-1},
+	{ "Abaddon",		NULL,		NULL,		1 << 2,		0,		0,		-1},
+	{ "transmission-gtk",	NULL,		NULL,		1 << 2,		0,		0,		-1},
+	{ "Transmission-gtk",	NULL,		NULL,		1 << 2,		0,		0,		-1},
 	/* Tag 4: Office */
 	{ "Soffice",		NULL,		NULL,		1 << 3,		0,		0,		-1},
 	{ "Zim",		NULL,		NULL,		1 << 3,		1,		0,		-1},
 	{ "gnome-calculator",	NULL,		NULL,		1 << 3,		1,		0,		-1},
-	/* Tag 5: Games */
-	{ "MultiMC",		NULL,		NULL,		1 << 4,		1,		0,		-1},
-	{ "Lutris",		NULL,		NULL,		1 << 4,		0,		0,		-1},
-	{ "yuzu",		NULL,		NULL,		1 << 4,		0,		0,		-1},
-	{ "net.querz.mcaselector.ui.Window",	NULL,	NULL,	1 << 4,		0,		0,		-1},
-	{ "Citra",		NULL,		NULL,		1 << 4,		0,		0,		-1},
-	{ "steam",		NULL,		NULL,		1 << 4,		0,		0,		-1},
-	{ "vkquake",		NULL,		NULL,		1 << 4,		0,		0,		-1},
-	{ "Haguichi",		NULL,		NULL,		1 << 4,		0,		0,		-1},
-	{ "ProtonUp-Qt",	NULL,		NULL,		1 << 4,		0,		0,		-1},
-	{ "gzdoom",		NULL,		NULL,		1 << 4,		0,		0,		-1},
-	{ "Minecraft* 1.16.5",	NULL,		NULL,		1 << 4,		0,		0,		-1},
-	{ "Moonlight",		NULL,		NULL,		1 << 4,		0,		0,		-1},
 	/* Tag 6: Graphics */
-	{ "obs",		NULL,		NULL,		1 << 5,		0,		0,		-1},
-	{ "krita",		NULL,		NULL,		1 << 5,		0,		0,		-1},
 	{ "Fr.handbrake.ghb",	NULL,		NULL,		1 << 5,		0,		0,		-1},
 	{ "Gimp",		NULL,		NULL,		1 << 5,		0,		0,		-1},
+	{ "Minecraft* 1.16.5",	NULL,		NULL,		1 << 5,		0,		0,		-1},
+	{ "Minecraft 1.12.2",	NULL,		NULL,		1 << 5,		0,		0,		-1},
+	{ "Blockgame",		NULL,		NULL,		1 << 5,		1,		0,		-1},
 	/* Tag 7: Utilities */
 	{ "org.gnome.clocks",	NULL,		NULL,		1 << 6,		1,		0,		-1},
-	{ "corectrl",		NULL,		NULL,		1 << 6,		0,		0,		-1},
 	{ "KeePassXC",		NULL,		NULL,		1 << 6,		0,		0,		-1},
 	{ "Timeshift-gtk",	NULL,		NULL,		1 << 6,		0,		0,		-1},
-	{ "Cheese",		NULL,		NULL,		1 << 6,		0,		0,		-1},
 	{ "BleachBit",		NULL,		NULL,		1 << 6,		0,		0,		-1},
-	{ "Gnome-disks",	NULL,		NULL,		1 << 6,		0,		0,		-1},
-	{ "Clamtk",		NULL,		NULL,		1 << 6,		1,		0,		-1},
-	{ "balena-etcher",	NULL,		NULL,		1 << 6,		1,		0,		-1},
 	{ "Nitrogen",		NULL,		NULL,		1 << 6,		1,		0,		-1},
-	{ "Blueman-manager",	NULL,		NULL,		1 << 6,		0,		0,		-1},
 	{ "Arandr",		NULL,		NULL,		1 << 6,		0,		0,		-1},
 	{ "Lxappearance",	NULL,		NULL,		1 << 6,		0,		0,		-1},
 	{ "qt5ct",		NULL,		NULL,		1 << 6,		0,		0,		-1},
-	{ "Grub-customizer",	NULL,		NULL,		1 << 6,		0,		0,		-1},
-	{ "baobab",		NULL,		NULL,		1 << 6,		0,		0,		-1},
-	/* Tag 8: Looking Glass */
-	{ "looking-glass-client",	NULL,	NULL,		1 << 7,		0,		0,		-1},
-	{ "Virt-manager",	NULL,		NULL,		1 << 7,		0,		0,		-1},
-	/* Tag 9: Guitar */
-	{ "TuxGuitar",		NULL,		NULL,		1 << 8,		0,		0,		-1},
-	{ "REAPER",		NULL,		NULL,		1 << 8,		0,		0,		-1},
-	{ "Guitarix",		NULL,		NULL,		1 << 8,		0,		0,		-1},
 	/* class		instance	title		tags mask	isfloating	isfakefullscreen	monitor		scratch key */
 	{ NULL,			NULL,		"scratchpad",	0,		1,		0,			-1,		's' },
 };
@@ -162,16 +134,14 @@ static const char *termcmd[]  = { "alacritty", NULL };
 static const char *scratchpadcmd[] = { "s", NULL };
 static const char *spawnscratchpadcmd[] = { "alacritty", "-t", "scratchpad", NULL };
 
-
-#include "selfrestart.c"
-
 static const Key keys[] = {
 	/* modifier                     key            function                argument */
 	// open dmenu
 	{ MODKEY,                       XK_d,          spawn,                 {.v = dmenucmd } },
 	{ MODKEY,                       XK_Return,     spawn,                 {.v = termcmd } },
 	// toggle bar
-	{ MODKEY,                       XK_b,          togglebar,              {0} },
+	//{ MODKEY,                       XK_b,          togglebar,              {0} },
+	{ MODKEY,                       XK_0,          togglebar,              {0} },
 	// toggle sticky
 	{ MODKEY|Mod1Mask,		XK_s,	       togglesticky,	       {0} },
 	// change tag
@@ -194,7 +164,6 @@ static const Key keys[] = {
 	// swap master/stack window
         { MODKEY|ControlMask,           XK_Left,       zoom,                   {0} },
         { MODKEY|ControlMask,           XK_Right,      zoom,                   {0} },
-	{ MODKEY,                       XK_0,          view,                   {0} },
 	{ MODKEY|ShiftMask,             XK_q,          killclient,             {0} },
 	{ MODKEY|ShiftMask,             XK_F11,        quit,                   {0} },
 	{ MODKEY|ShiftMask,             XK_space,      togglefloating,         {0} },
@@ -213,7 +182,6 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_r,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY|ShiftMask,             XK_e,      setlayout,      {.v = &layouts[2]} },
 	{ MODKEY|ShiftMask,             XK_r,      setlayout,      {.v = &layouts[3]} },
-	{ MODKEY|ShiftMask,             XK_t,      self_restart,   {0} },
 	TAGKEYS(                        XK_1,                                  0)
 	TAGKEYS(                        XK_2,                                  1)
 	TAGKEYS(                        XK_3,                                  2)
@@ -229,8 +197,8 @@ static const Key keys[] = {
 /* click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin */
 static const Button buttons[] = {
 	/* click                event mask      button          function        argument */
-	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
-	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
+//	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
+//	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
 	{ ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd } },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
 	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
