@@ -15,9 +15,9 @@ cursor:
 
 font:
   normal:
-    family: Monospace
-    style: Regular
-  size: 7
+    family: agave Nerd Font Mono
+    style: Bold
+  size: 8
 
 colors:
   # Default colors

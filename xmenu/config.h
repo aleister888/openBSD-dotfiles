@@ -1,6 +1,6 @@
 static struct Config config = {
 	/* font, separate different fonts with comma */
-	.font = "Monospace:size=12",
+	.font = "agave Nerd Font Mono:size=14",
 
 	/* colors */
 	.background_color = "#222222",

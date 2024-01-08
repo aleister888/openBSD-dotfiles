@@ -9,13 +9,13 @@ static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const int allowkill          = 1;        /* allow killing clients by default? */
 static const int user_bh            = 0;	/* 0 default, >= 1 user_bh as height */
-static const char *fonts[]          = { "Monospace:pixelsize=22:bold:antialias=true:autohint=true",
-					"Symbols Nerd Font:bold:pixelsize=22:antialias=true:autohint=true" };
+static const char *fonts[]          = { "agave Nerd Font Mono:pixelsize=28:bold:antialias=true:autohint=true",
+					"Symbols Nerd Font:bold:pixelsize=20:antialias=true:autohint=true" };
 static const char autostartblocksh[] = "autostart_blocking.sh";
 static const char autostartsh[] = "autostart.sh";
 static const char dwmdir[] = "dwm";
 static const char localshare[] = ".local/share";
-static const char dmenufont[]       = "Monospace:pixelsize=20:antialias=true:autohint=true";
+static const char dmenufont[]       = "agave Nerd Font Mono:pixelsize=28:bold:antialias=true:autohint=true";
 static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#222222";
 static const char col_gray3[]       = "#bbbbbb";
