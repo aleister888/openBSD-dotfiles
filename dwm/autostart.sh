@@ -4,7 +4,7 @@ xrandr --dpi 96
 
 doas /usr/bin/mixerctl outputs.hp_boost=on
 
-syncthing --no-browser --reset-deltas > /tmp/syncthing.log &
+syncthing --no-browser > /tmp/syncthing.log &
 
 setxkbmap -model pc104 -layout es,us  -option grp:win_space_toggle -option caps:none &
 
@@ -22,28 +22,24 @@ xrdb ~/.config/Xresources &
 nitrogen --restore &
 dbus-update-activation-environment --all &
 dbus-launch &
-pgrep unclutter		|| unclutter -idle 1 -grab &
 pgrep sxhkd		|| sxhkd &
-#pgrep compfy		|| compfy &
 pgrep picom		|| picom &
 pgrep dunst		|| dunst &
-pgrep dwmblocks		|| dwmblocks &
-pgrep xscreensaver	|| xscreensaver --no-splash &
+#pgrep dwmblocks		|| dwmblocks &
 pgrep http-server	|| npx http-server ~/.local/share/startpage/ 8080 &
 
 if [ "$(ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | tail -1 | awk '{print $2}')" = "192.168.0.169" ]; then
-	pgrep barrier || barrier-gui &
-	env AUDIORECDEVICE=snd/0.mon ices2 ~/.config/ices2/ices-sndio.xml &
+	barrier-gui &
 fi
 
 while true; do
-	rm ~/.serverauth* ~/*.core ~/.pki ~/.dvdcss
-	sleep 240;
+	rm ~/.serverauth* ~/*.core ~/.pki
+	sleep 60;
 done &
 
-# Restart dwmblocks every 5 seconds
+# Restart dwmblocks
 while true; do
-	sleep 5;
+	sleep 60;
 	count="$(pgrep dwmblocks | wc -l)"
 	for i in $(seq $count); do
 	kill -9 `pgrep dwmblocks | head -n1`

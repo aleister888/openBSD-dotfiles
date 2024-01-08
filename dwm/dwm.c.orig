@@ -104,6 +104,7 @@ struct Client {
 	int bw, oldbw;
 	unsigned int tags;
 	int isfixed, isfloating, isurgent, neverfocus, oldstate, isfullscreen, isfakefullscreen, issticky;
+	int allowkill;
 	char scratchkey;
 	int issteam;
 	Client *next;
@@ -153,6 +154,7 @@ typedef struct {
 	const char *instance;
 	const char *title;
 	unsigned int tags;
+    int allowkill;
 	int isfloating;
 	int isfakefullscreen;
 	int monitor;
@@ -244,6 +246,7 @@ static void tile(Monitor *m);
 static void centeredmaster(Monitor *m);
 static void togglebar(const Arg *arg);
 static void togglefloating(const Arg *arg);
+static void toggleallowkill(const Arg *arg);
 static void togglesticky(const Arg *arg);
 static void togglescratch(const Arg *arg);
 static void toggletag(const Arg *arg);
@@ -331,6 +334,7 @@ applyrules(Client *c)
 	/* rule matching */
 	c->isfloating = 0;
 	c->tags = 0;
+	c->allowkill = allowkill;
 	c->scratchkey = 0;
 	XGetClassHint(dpy, c->win, &ch);
 	class    = ch.res_class ? ch.res_class : broken;
@@ -348,6 +352,7 @@ applyrules(Client *c)
 			c->isfloating = r->isfloating;
 			c->isfakefullscreen = r->isfakefullscreen;
 			c->tags |= r->tags;
+			c->allowkill = r->allowkill;
 			c->scratchkey = r->scratchkey;
 			for (m = mons; m && m->num != r->monitor; m = m->next);
 			if (m)
@@ -1226,7 +1231,7 @@ keypress(XEvent *e)
 void
 killclient(const Arg *arg)
 {
-	if (!selmon->sel)
+	if (!selmon->sel || !selmon->sel->allowkill)
 		return;
 	if (!sendevent(selmon->sel, wmatom[WMDelete])) {
 		XGrabServer(dpy);
@@ -2304,6 +2309,13 @@ togglebar(const Arg *arg)
 	updatebarpos(selmon);
 	XMoveResizeWindow(dpy, selmon->barwin, selmon->wx, selmon->by, selmon->ww, bh);
 	arrange(selmon);
+}
+
+void
+toggleallowkill(const Arg *arg)
+{
+    if (!selmon->sel) return;
+    selmon->sel->allowkill = !selmon->sel->allowkill;
 }
 
 void
