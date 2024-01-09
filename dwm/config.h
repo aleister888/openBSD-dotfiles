@@ -2,9 +2,9 @@
 
 /* appearance */
 static const unsigned int borderpx  = 4;        /* border pixel of windows */
-static const unsigned int gappx     = 24;        /* gaps between windows */
-static const int vertpad            = 24;       /* vertical padding of bar */
-static const int sidepad            = 24;       /* horizontal padding of bar */
+static const unsigned int gappx     = 16;        /* gaps between windows */
+static const int vertpad            = 16;       /* vertical padding of bar */
+static const int sidepad            = 16;       /* horizontal padding of bar */
 static const unsigned int snap      = 0;       /* snap pixel */
 static const int swallowfloating    = 0;        /* 1 means swallow floating windows by default */
 static const int showbar            = 1;        /* 0 means no bar */
