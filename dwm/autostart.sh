@@ -22,7 +22,7 @@ xrdb ~/.config/Xresources &
 nitrogen --restore &
 pgrep dbus || sh -c 'dbus-update-activation-environment --all & dbus-launch' &
 pgrep sxhkd		|| sxhkd &
-pgrep picom		|| picom &
+pgrep picom		|| sh -c 'picom --animation-clamping || picom' &
 pgrep dunst		|| dunst &
 pgrep dwmblocks		|| dwmblocks &
 pgrep node		|| npx http-server ~/.local/share/startpage/ 8080 &
