@@ -12,13 +12,6 @@ call plug#begin('~/.local/share/nvim/plugged')
 Plug 'preservim/nerdtree'
 
 " Syntax highlighting
-Plug 'frazrepo/vim-rainbow' " Symbols syntax highlighting
-Plug 'kovetskiy/sxhkd-vim' " sxhkd config file syntax highlighting
-Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' } " Color previews
-let g:Hexokinase_highlighters = ['backgroundfull']
-let g:Hexokinase_optInPatterns = 'full_hex,rgb,rgba,hsl,hsla'
-let skip_defaults_vim=1
-let g:rainbow_active = 1
 Plug 'vim-pandoc/vim-pandoc-syntax' " Pandoc syntax highlighting
 Plug 'ntpeters/vim-better-whitespace' " Highlight trailing whitespaces
 
