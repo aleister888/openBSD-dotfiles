@@ -2,7 +2,7 @@
 # for the script to work, add this to your doas.conf
 # permit nopass :wheel cmd /usr/bin/mixerctl
 if [ "$(doas /usr/bin/mixerctl | grep outputs.master.mute | sed 's/=/ /' | awk '{print $2}')" = "off" ]; then
-	echo ""
+	echo "󰕾"
 else
-	echo ""
+	echo "󰖁"
 fi
