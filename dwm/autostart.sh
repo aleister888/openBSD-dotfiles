@@ -31,6 +31,7 @@ pgrep sxhkd		|| sxhkd &
 pgrep picom		|| sh -c 'picom --animation-clamping || picom' &
 pgrep dunst		|| dunst &
 pgrep dwmblocks		|| dwmblocks &
+pgrep xscreensaver	|| xscreensaver --no-splash &
 pgrep node		|| npx http-server ~/.local/share/startpage/ 8080 &
 
 if [ "$(ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | tail -1 | awk '{print $2}')" = "192.168.0.169" ]; then
