@@ -1,4 +1,8 @@
 #!/usr/local/bin/zsh
+
+if [ ! -e /usr/local/bin/Blockgame ];then
+	notify-send -i multimc 'Package "blockgame" needed'
+fi
 # Set limits
 ulimit -s 32768
 ulimit -l 262144

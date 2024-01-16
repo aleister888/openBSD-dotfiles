@@ -1,5 +1,11 @@
 #!/bin/sh
 
+dbus-cleanup-sockets
+
+if [ "$(pgrep dbus | wc -l)" -gt 3]; then
+	pkill dbus
+fi
+
 xrandr --dpi 96
 
 doas /usr/bin/mixerctl outputs.hp_boost=on

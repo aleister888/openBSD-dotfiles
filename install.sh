@@ -9,11 +9,11 @@ dragon-drop dunst easytag eza feh ffmpeg ffmpegthumbnailer flac fzf gcc%8 gcolor
 gnome-calculator gnome-keyring go gnupg handbrake hplip htop i3lock imagemagick imlib2 jdk%8 jdk%11 jq keepassxc--browser latexmk \
 lf libnotify libopenmpt libreoffice libsamplerate libvorbis lxappearance mediainfo mpg123 mpv neovim nitrogen node \
 nsxiv obsdfreqd odt2txt opusfile p5-File-MimeInfo p7zip pandoc papirus-icon-theme pavucontrol picom playerctl \
-poppler-utils py-gobject py3-pip qt5ct redshift remmina rhythmbox ripgrep sdl2 sdl2-audiolib sdl2-gfx sdl2-image \
+poppler-utils py-gobject py3-pip qt5ct redshift remmina ripgrep sdl2 sdl2-audiolib sdl2-gfx sdl2-image \
 sdl2-mixer sdl2-net sdl2-pango sdl2-ttf stow sxhkd texlive_texmf-full thunderbird transmission-gtk trayer unrar \
 unzip-- wavpack wget wpa_supplicant xarchiver xclip xcursor-themes xdg-user-dirs xdotool yarn youtube-dl zathura \
 zathura-pdf-mupdf zim zsh neofetch gsed gawk ggrep gnuwatch symbola-ttf meson ninja cmake xcb libconfig libev uthash \
-ungoogled-chromium octave unclutter zathura-cb xscreensaver icecast ices--%ices2
+ungoogled-chromium octave zathura-cb xscreensaver icecast ices--%ices2
 
 ########################
 # Download zsh plugins #

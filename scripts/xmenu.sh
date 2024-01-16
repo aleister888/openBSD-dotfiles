@@ -41,7 +41,6 @@ IMG:$ICONPATH/preferences-desktop-color.svg			Graphics
 	IMG:$ICONPATH/gcolor2.svg				Gcolor2			gcolor2
 
 IMG:$ICONPATH/applications-office.svg				Office
-	IMG:$ICONPATH/rednotebook.svg				Rednotebook		rednotebook
 	IMG:$ICONPATH/zim.svg					Zim			zim
 	IMG:$ICONPATH/octave.svg				Octave			/usr/local/bin/octave --gui
 	IMG:$ICONPATH/libreoffice-writer.svg			Libre Office Writer	libreoffice --writer
@@ -54,7 +53,6 @@ IMG:$ICONPATH/applications-office.svg				Office
 	IMG:$ICONPATH/system-users.svg				Campus Virtual		xdg-open https://campus.ual.es/
 
 IMG:$ICONPATH/applications-utilities.svg			Utilities
-	OpenVisualTraceRoute					~/.local/bin/OpenVisualTraceRoute2.0.0/run.sh
 	IMG:$ICONPATH/htop.svg					HTop			$TERMINAL -e htop
 	IMG:$ICONPATH/keepassxc.svg				KeePassXC		keepassxc
 	IMG:$ICONPATH/bleachbit.svg				Bleachbit		cd ~/.local/src/bleachbit && python3 ./bleachbit.py
@@ -64,7 +62,6 @@ IMG:$ICONPATH/applications-utilities.svg			Utilities
 	IMG:$ICONPATH/qt5ct.svg					QT Settings		qt5ct
 
 IMG:$ICONPATH/chromium.svg					Chromium		ungoogled-chromium
-IMG:$ICONPATH/multimc.svg					MultiMC			~/.local/scripts/minecraft
 IMG:$ICONPATH/thunderbird.svg					Thunderbird		thunderbird
 IMG:$ICONPATH/system-file-manager.svg				File-Manager		$TERMINAL -e lf
 IMG:$ICONPATH/terminal.svg					Terminal		$TERMINAL
@@ -77,3 +74,5 @@ IMG:$ICONPATH/system-shutdown.svg				Power
 	IMG:$ICONPATH/system-reboot.svg				Reboot			xterm -title scratchpad -e "doas reboot"
 	IMG:$ICONPATH/preferences-desktop-screensaver.svg	Screensaver		xscreensaver-command --suspend
 EOF
+
+#IMG:$ICONPATH/multimc.svg					MultiMC			~/.local/scripts/minecraft

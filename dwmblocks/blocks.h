@@ -22,7 +22,7 @@ static const Block blocks[] = {
 	// CPU Temp
 	//{" ^d^^c#D79921^ ^c#FABD2F^"	, "~/.local/scripts/sb/sb-temp",    				1,	0},
 	// Memory used
-	{" ^d^^c#D79921^ ^c#FABD2F^"	, "vmstat | awk 'END {printf $3}'",    				5,	0},
+	{"% ^d^^c#D79921^ ^c#FABD2F^"	, "vmstat | awk 'END {printf $3}'",    				5,	0},
 	// Date
 	{" ^d^^c#AE4335^ ^c#DB5947^"	, "date +'%d/%m'",    						0,	0},
 	//{"C ^d^^c#AE4335^ ^c#DB5947^", "date +'%d/%m'",    						0,	0},
