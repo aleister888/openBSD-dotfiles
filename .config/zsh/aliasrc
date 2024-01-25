@@ -6,7 +6,7 @@ alias \
 	..='cd ..' \
 	...='cd ../..' \
 	cp='cp -iv' \
-	ls='exa -lag' \
+	ls='exa -lagH --group-directories-first --smart-group' \
 	bat='bat -p' \
 	du='BLOCKSIZE=1073741824 du -s * | sort -rnk 1' \
 	wget='wget --hsts-file="$XDG_CONFIG_HOME"/wget-hsts' \
