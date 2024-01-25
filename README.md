@@ -57,7 +57,7 @@ of the screen where the lock icon will be displayed.
 
 ## TODO
 
-- Configure Tauon configuration to match the gruvbox colorscheme
+- Configure Tauon automatically to match the gruvbox colorscheme
 - Calculate and set execution limits in `limits.conf` automatically
     - Install syncthing
 - Parse commands output to `/dev/null` and make the installation process more clean, and readable
