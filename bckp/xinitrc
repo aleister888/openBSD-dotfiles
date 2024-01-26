@@ -4,4 +4,6 @@
 
 xclickroot -r $HOME/.local/scripts/xmenu.sh &
 
-ck-launch-session /usr/local/bin/dwm
+while true; do
+	ck-launch-session /usr/local/bin/dwm
+done
