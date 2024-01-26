@@ -1,12 +1,12 @@
 #!/bin/sh
 
 find ~ -type d -exec chmod 700 {} \;
-find ~ -type f \( -not -path "~/.dotfiles/scripts" -o -not -path "~/.local/bin" \) -exec chmod 600 {} \;
+find ~ -type f ! \( -path "$HOME/.dotfiles/scripts/*" -o -path "$HOME/.local/bin/*" \) -exec chmod 600 {} \;
 
 find ~/.local/bin/ -type f -exec chmod 700 {} \; &
 
-#find ~/.dotfiles/scripts/ -type f -exec chmod 700 {} \; && \
-#find ~/.dotfiles/scripts -type f \( -name "*.tar" -o -name "*.zip" \) -exec chmod 600 {} \; &
+find ~/.dotfiles/scripts/ -type f -exec chmod 700 {} \; && \
+find ~/.dotfiles/scripts -type f \( -name "*.tar" -o -name "*.zip" \) -exec chmod 600 {} \; &
 
 find ~/.cache/ -type f -exec chmod 700 {} \; && \
 find ~/.cache/ -type f \( -name "*.txt" -o -name "thumb.*" -o -name "*.log" -o -name "*.json" -o -name "*.jpg" \) -exec chmod 600 {} \; &
