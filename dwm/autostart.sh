@@ -1,5 +1,7 @@
 #!/bin/sh
 
+LOCATION="$(curl -s "https://location.services.mozilla.com/v1/geolocate?key=geoclue" | jq -r '"\(.location.lat):\(.location.lng)"')"
+
 dbus-cleanup-sockets
 
 if [ "$(pgrep dbus | wc -l)" -gt 3]; then
@@ -33,6 +35,7 @@ pgrep dunst		|| dunst &
 pgrep dwmblocks		|| dwmblocks &
 pgrep xscreensaver	|| xscreensaver --no-splash &
 pgrep node		|| npx http-server ~/.local/share/startpage/ 8080 &
+pgrep redshift		|| redshift -l $LOCATION
 
 if [ "$(ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | tail -1 | awk '{print $2}')" = "192.168.0.169" ]; then
 	pgrep barrier || barrier-gui &
