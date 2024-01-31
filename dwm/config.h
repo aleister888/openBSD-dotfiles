@@ -58,7 +58,7 @@ typedef struct {
 
 /* tagging */	/* Sound & Video, Mail, Internet, Office, Games, Graphics, Utilities, Looking-Glass & Virt-Manager, Guitar */
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
-static const char *alttags[] = { "", "", "󰈹", "", "󱓷", "", "󱁤", "󰢹", "󰚰" };
+static const char *alttags[] = { "", "", "󰈹", "", "󱓷", "", "󱁤", "󰢹", "󰚰" };
 static const int taglayouts[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
 // There are two options when it comes to per-client rules:
@@ -71,11 +71,11 @@ static const Rule rules[] = {
 	{ "Yad",		NULL,		NULL,	0,		1,	1,		0,		-1},
 	{ "Gcolor2",		NULL,		NULL,	0,		1,	1,		0,		-1},
 	{ "Pavucontrol",	NULL,		NULL,	0,		1,	1,		0,		-1},
-	/* Tag 1: MUSIC */
-	{ "Tauon Music Box",	NULL,		NULL,	1 << 0,		1,	0,		0,		-1},
-	{ "Easytag",		NULL,		NULL,	1 << 0,		1,	0,		0,		-1},
-	/* Tag 3: Mail */
-	{ "thunderbird",	NULL,		NULL,	1 << 1,		1,	0,		0,		-1},
+	/* Tag 1: MAIL */
+	{ "thunderbird",	NULL,		NULL,	1 << 0,		1,	0,		0,		-1},
+	/* Tag 2: MUSIC */
+	{ "Tauon Music Box",	NULL,		NULL,	1 << 1,		1,	0,		0,		-1},
+	{ "Easytag",		NULL,		NULL,	1 << 1,		1,	0,		0,		-1},
 	/* Tag 3: INTERNET */
 	{ "Firefox",		NULL,		NULL,	1 << 2,		1,	0,		1,		-1},
 	{ "firefox",		NULL,		NULL,	1 << 2,		1,	0,		1,		-1},
@@ -189,7 +189,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_r,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY|ShiftMask,             XK_e,      setlayout,      {.v = &layouts[2]} },
 	{ MODKEY|ShiftMask,             XK_r,      setlayout,      {.v = &layouts[3]} },
-	{ MODKEY|ShiftMask,             XK_t,      self_restart,   {0} },
+	//{ MODKEY|ShiftMask,             XK_t,      self_restart,   {0} },
 	TAGKEYS(                        XK_1,                                  0)
 	TAGKEYS(                        XK_2,                                  1)
 	TAGKEYS(                        XK_3,                                  2)

@@ -10,6 +10,8 @@ super + F4
 	tauon
 super + d
 	dmenu_run
+super + shift + t
+	~/.local/scripts/typemode
 
 # Unmounter
 super + shift + F5

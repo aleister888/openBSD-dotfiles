@@ -1,7 +1,7 @@
 staff
-:datasize-cur=4096M:
-:datasize-max=8192M:
-:maxproc-max=320:
-:maxproc-cur=320:
+:datasize-cur=1024M:
+:datasize-max=1024M:
+:maxproc-max=256:
+:maxproc-cur=256:
 :openfiles-cur=8192:
 :openfiles-max=12288:

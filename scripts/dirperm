@@ -15,4 +15,4 @@ find ~/.cache/ -type f \( -name "*.txt" -o -name "thumb.*" -o -name "*.log" -o -
 # Multimedia
 find ~/Music/ -type d -exec chmod 700 {} \; && \
 find ~/Music/ -type f -name "*.mp3" -exec chmod 600 {} \; &
-find ~/Videos/ -type f -exec chmod 400 {} \;
+find ~/Videos/ -type f -exec chmod 600 {} \;
