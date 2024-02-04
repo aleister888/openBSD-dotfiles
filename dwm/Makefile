@@ -43,9 +43,11 @@ install: all
 	mkdir -p ${DESTDIR}${MANPREFIX}/man1
 	sed "s/VERSION/${VERSION}/g" < dwm.1 > ${DESTDIR}${MANPREFIX}/man1/dwm.1
 	chmod 644 ${DESTDIR}${MANPREFIX}/man1/dwm.1
+	cp -f layoutmenu.sh ${DESTDIR}${PREFIX}/bin
 
 uninstall:
 	rm -f ${DESTDIR}${PREFIX}/bin/dwm\
-		${DESTDIR}${MANPREFIX}/man1/dwm.1
+		${DESTDIR}${MANPREFIX}/man1/dwm.1\
+	rm -f ${DESTDIR}${PREFIX}/bin/layoutmenu.sh
 
 .PHONY: all options clean dist install uninstall

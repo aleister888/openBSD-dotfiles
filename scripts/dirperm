@@ -1,8 +1,8 @@
 #!/bin/sh
 
 find ~ -type d -exec chmod 700 {} \;
-find ~ -type f \( -path "$HOME/.dotfiles/scripts/*" -o -path "$HOME/.local/bin/*" -o -name "*.sh" \) -exec chmod 700 {} \; &
-find ~ -type f ! \( -path "$HOME/.dotfiles/scripts/*" -o -path "$HOME/.local/bin/*" -o -name "*.sh" \) -exec chmod 600 {} \;
+find ~ -type f \( -path "$HOME/.dotfiles/scripts/*" -o -path "$HOME/.local/bin/*" -o -name "*.sh" -o -path "$HOME/.dotfiles/.config/lf/scope"\) -exec chmod 700 {} \; &
+find ~ -type f ! \( -path "$HOME/.dotfiles/scripts/*" -o -path "$HOME/.local/bin/*" -o -name "*.sh" -o -path "$HOME/.dotfiles/.config/lf/scope"\) -exec chmod 600 {} \;
 
 find ~/.local/bin/ -type f -exec chmod 700 {} \; &
 

@@ -66,12 +66,19 @@
 #define TAGMASK                 ((1 << LENGTH(tags)) - 1)
 #define TEXTW(X)                (drw_fontset_getwidth(drw, (X)) + lrpad)
 
+#define MWM_HINTS_FLAGS_FIELD       0
+#define MWM_HINTS_DECORATIONS_FIELD 2
+#define MWM_HINTS_DECORATIONS       (1 << 1)
+#define MWM_DECOR_ALL               (1 << 0)
+#define MWM_DECOR_BORDER            (1 << 1)
+#define MWM_DECOR_TITLE             (1 << 3)
+
 /* enums */
 enum { CurNormal, CurResize, CurMove, CurLast }; /* cursor */
-enum { SchemeNorm, SchemeSel, SchemeStatus, SchemeTagsSel, SchemeTagsNorm, SchemeInfoSel, SchemeInfoNorm, SchemeScratchNorm, SchemeScratchSel }; /* color schemes */
-enum { NetSupported, NetWMName, NetWMState, NetWMCheck,
-       NetWMFullscreen, NetWMSticky, NetActiveWindow, NetWMWindowType,
-       NetWMWindowTypeDialog, NetClientList, NetLast }; /* EWMH atoms */
+enum { SchemeNorm, SchemeSel, SchemeUrg, SchemeStatus, SchemeTagsSel, SchemeTagsNorm, SchemeInfoSel, SchemeInfoNorm, SchemeScratchNorm, SchemeScratchSel }; /* color schemes */
+enum { NetSupported, NetWMName, NetWMState, NetWMCheck, NetWMFullscreen,
+       NetWMSticky, NetActiveWindow, NetWMWindowType, NetWMWindowTypeDesktop,
+       NetWMWindowTypeDialog, NetClientList, NetClientInfo, NetLast }; /* EWMH atoms */
 enum { WMProtocols, WMDelete, WMState, WMTakeFocus, WMLast }; /* default atoms */
 enum { ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle,
        ClkClientWin, ClkRootWin, ClkLast }; /* clicks */
@@ -202,6 +209,7 @@ static void grabkeys(void);
 static void incnmaster(const Arg *arg);
 static void keypress(XEvent *e);
 static void killclient(const Arg *arg);
+static void layoutmenu(const Arg *arg);
 static void manage(Window w, XWindowAttributes *wa);
 static void mappingnotify(XEvent *e);
 static void maprequest(XEvent *e);
@@ -225,10 +233,10 @@ static void scan(void);
 static int sendevent(Client *c, Atom proto);
 static void sendmon(Client *c, Monitor *m);
 static void setclientstate(Client *c, long state);
+static void setclienttagprop(Client *c);
 static void setfocus(Client *c);
 static void setfullscreen(Client *c, int fullscreen);
 static void setsticky(Client *c, int sticky);
-static void setgaps(const Arg *arg);
 static void setlayout(const Arg *arg);
 static void setcfact(const Arg *arg);
 static void setmfact(const Arg *arg);
@@ -246,7 +254,6 @@ static void tile(Monitor *m);
 static void centeredmaster(Monitor *m);
 static void togglebar(const Arg *arg);
 static void togglefloating(const Arg *arg);
-static void toggleallowkill(const Arg *arg);
 static void togglesticky(const Arg *arg);
 static void togglescratch(const Arg *arg);
 static void toggletag(const Arg *arg);
@@ -258,6 +265,7 @@ static void updatebarpos(Monitor *m);
 static void updatebars(void);
 static void updateclientlist(void);
 static int updategeom(void);
+static void updatemotifhints(Client *c);
 static void updatenumlockmask(void);
 static void updatesizehints(Client *c);
 static void updatestatus(void);
@@ -299,7 +307,7 @@ static void (*handler[LASTEvent]) (XEvent *) = {
 	[PropertyNotify] = propertynotify,
 	[UnmapNotify] = unmapnotify
 };
-static Atom wmatom[WMLast], netatom[NetLast];
+static Atom wmatom[WMLast], netatom[NetLast], motifatom;
 static int running = 1;
 static Cur *cursor[CurLast];
 static Clr **scheme;
@@ -317,7 +325,6 @@ struct Pertag {
 	float mfacts[LENGTH(tags) + 1]; /* mfacts per tag */
 	unsigned int sellts[LENGTH(tags) + 1]; /* selected layouts */
 	const Layout *ltidxs[LENGTH(tags) + 1][2]; /* matrix of tags and layouts indexes  */
-	int showbars[LENGTH(tags) + 1]; /* display bar for the current tag */
 };
 
 /* compile-time check if all tags fit into an unsigned int bit array. */
@@ -602,15 +609,15 @@ clientmessage(XEvent *e)
 			setfullscreen(c, (cme->data.l[0] == 1 /* _NET_WM_STATE_ADD    */
 				      || (cme->data.l[0] == 2 /* _NET_WM_STATE_TOGGLE */
                                       && (!c->isfullscreen || c->isfakefullscreen))));
-
-
+	} else if (cme->message_type == netatom[NetActiveWindow]) {
+		if (c != selmon->sel && !c->isurgent)
+			seturgent(c, 1);
+	}
         if (cme->data.l[1] == netatom[NetWMSticky]
                 || cme->data.l[2] == netatom[NetWMSticky])
             setsticky(c, (cme->data.l[0] == 1 || (cme->data.l[0] == 2 && !c->issticky)));
-	}
 //	} else if (cme->message_type == netatom[NetActiveWindow]) {
 //		if (c != selmon->sel && !c->isurgent)
-//			seturgent(c, 1);
 //	}
 }
 
@@ -744,8 +751,6 @@ createmon(void)
 		}
 		m->pertag->ltidxs[i][1] = m->lt[1];
 		m->pertag->sellts[i] = m->sellt;
-
-		m->pertag->showbars[i] = m->showbar;
 	}
 
 	m->lt[0] = m->pertag->ltidxs[1][0];
@@ -925,7 +930,7 @@ drawbar(Monitor *m)
 		return;
 
 	/* draw status first so it can be overdrawn by tags later */
-	if (m == selmon) { /* status is only drawn on selected monitor */
+	if (m == selmon || 1) { /* status is only drawn on selected monitor */
 		tw = m->ww - drawstatusbar(m, bh, stext) - 2 * sp;
 	}
 
@@ -1259,6 +1264,24 @@ killclient(const Arg *arg)
 }
 
 void
+layoutmenu(const Arg *arg) {
+	FILE *p;
+	char c[3], *s;
+	int i;
+
+	if (!(p = popen(layoutmenu_cmd, "r")))
+		 return;
+	s = fgets(c, sizeof(c), p);
+	pclose(p);
+
+	if (!s || *s == '\0' || c[0] == '\0')
+		 return;
+
+	i = atoi(c);
+	setlayout(&((Arg) { .v = &layouts[i] }));
+}
+
+void
 manage(Window w, XWindowAttributes *wa)
 {
 	Client *c, *t = NULL;
@@ -1267,6 +1290,14 @@ manage(Window w, XWindowAttributes *wa)
 
 	c = ecalloc(1, sizeof(Client));
 	c->win = w;
+
+	if (getatomprop(c, netatom[NetWMWindowType]) == netatom[NetWMWindowTypeDesktop]) {
+		XMapWindow(dpy, c->win);
+		XLowerWindow(dpy, c->win);
+		free(c);
+		return;
+	}
+
 	/* geometry */
 	c->x = c->oldx = wa->x;
 	c->y = c->oldy = wa->y;
@@ -1299,6 +1330,26 @@ manage(Window w, XWindowAttributes *wa)
 	updatewindowtype(c);
 	updatesizehints(c);
 	updatewmhints(c);
+	{
+		int format;
+		unsigned long *data, n, extra;
+		Monitor *m;
+		Atom atom;
+		if (XGetWindowProperty(dpy, c->win, netatom[NetClientInfo], 0L, 2L, False, XA_CARDINAL,
+				&atom, &format, &n, &extra, (unsigned char **)&data) == Success && n == 2) {
+			c->tags = *data;
+			for (m = mons; m; m = m->next) {
+				if (m->num == *(data+1)) {
+					c->mon = m;
+					break;
+				}
+			}
+		}
+		if (n > 0)
+			XFree(data);
+	}
+	updatemotifhints(c);
+	setclienttagprop(c);
 	c->x = c->mon->mx + (c->mon->mw - WIDTH(c)) / 2;
 	c->y = c->mon->my + (c->mon->mh - HEIGHT(c)) / 2;
 	c->sfx = c->x;
@@ -1492,6 +1543,8 @@ propertynotify(XEvent *e)
 		}
 		if (ev->atom == netatom[NetWMWindowType])
 			updatewindowtype(c);
+		if (ev->atom == motifatom)
+			updatemotifhints(c);
 	}
 }
 
@@ -1788,6 +1841,7 @@ sendmon(Client *c, Monitor *m)
 	c->tags = m->tagset[m->seltags]; /* assign tags of target monitor */
 	attachabove(c);
 	attachstack(c);
+	setclienttagprop(c);
 	focus(NULL);
 	arrange(NULL);
 }
@@ -1835,6 +1889,8 @@ setfocus(Client *c)
 			XA_WINDOW, 32, PropModeReplace,
 			(unsigned char *) &(c->win), 1);
 	}
+	if (c->issteam)
+		setclientstate(c, NormalState);
 	sendevent(c, wmatom[WMTakeFocus]);
 }
 
@@ -1872,16 +1928,6 @@ setfullscreen(Client *c, int fullscreen)
 		resizeclient(c, c->x, c->y, c->w, c->h);
 		arrange(c->mon);
 	}
-}
-
-void
-setgaps(const Arg *arg)
-{
-	if ((arg->i == 0) || (selmon->gappx + arg->i < 0))
-		selmon->gappx = 0;
-	else
-		selmon->gappx += arg->i;
-	arrange(selmon);
 }
 
 void
@@ -1996,7 +2042,10 @@ setup(void)
     netatom[NetWMSticky] = XInternAtom(dpy, "_NET_WM_STATE_STICKY", False);
 	netatom[NetWMWindowType] = XInternAtom(dpy, "_NET_WM_WINDOW_TYPE", False);
 	netatom[NetWMWindowTypeDialog] = XInternAtom(dpy, "_NET_WM_WINDOW_TYPE_DIALOG", False);
+	netatom[NetWMWindowTypeDesktop] = XInternAtom(dpy, "_NET_WM_WINDOW_TYPE_DESKTOP", False);
 	netatom[NetClientList] = XInternAtom(dpy, "_NET_CLIENT_LIST", False);
+	netatom[NetClientInfo] = XInternAtom(dpy, "_NET_CLIENT_INFO", False);
+	motifatom = XInternAtom(dpy, "_MOTIF_WM_HINTS", False);
 	/* init cursors */
 	cursor[CurNormal] = drw_cur_create(drw, XC_left_ptr);
 	cursor[CurResize] = drw_cur_create(drw, XC_sizing);
@@ -2022,6 +2071,7 @@ setup(void)
 	XChangeProperty(dpy, root, netatom[NetSupported], XA_ATOM, 32,
 		PropModeReplace, (unsigned char *) netatom, NetLast);
 	XDeleteProperty(dpy, root, netatom[NetClientList]);
+	XDeleteProperty(dpy, root, netatom[NetClientInfo]);
 	/* select events */
 	wa.cursor = cursor[CurNormal]->cursor;
 	wa.event_mask = SubstructureRedirectMask|SubstructureNotifyMask
@@ -2144,10 +2194,21 @@ void spawnscratch(const Arg *arg)
 }
 
 void
+setclienttagprop(Client *c)
+{
+	long data[] = { (long) c->tags, (long) c->mon->num };
+	XChangeProperty(dpy, c->win, netatom[NetClientInfo], XA_CARDINAL, 32,
+			PropModeReplace, (unsigned char *) data, 2);
+}
+
+void
 tag(const Arg *arg)
 {
+	Client *c;
 	if (selmon->sel && arg->ui & TAGMASK) {
+		c = selmon->sel;
 		selmon->sel->tags = arg->ui & TAGMASK;
+		setclienttagprop(c);
 		focus(NULL);
 		arrange(selmon);
 	}
@@ -2326,17 +2387,10 @@ centeredmaster(Monitor *m)
 void
 togglebar(const Arg *arg)
 {
-	selmon->showbar = selmon->pertag->showbars[selmon->pertag->curtag] = !selmon->showbar;
+	selmon->showbar = !selmon->showbar;
 	updatebarpos(selmon);
 	XMoveResizeWindow(dpy, selmon->barwin, selmon->wx + sp, selmon->by + vp, selmon->ww - 2 * sp, bh);
 	arrange(selmon);
-}
-
-void
-toggleallowkill(const Arg *arg)
-{
-    if (!selmon->sel) return;
-    selmon->sel->allowkill = !selmon->sel->allowkill;
 }
 
 void
@@ -2500,6 +2554,7 @@ toggletag(const Arg *arg)
 	newtags = selmon->sel->tags ^ (arg->ui & TAGMASK);
 	if (newtags) {
 		selmon->sel->tags = newtags;
+		setclienttagprop(selmon->sel);
 		focus(NULL);
 		arrange(selmon);
 	}
@@ -2532,13 +2587,9 @@ toggleview(const Arg *arg)
 		selmon->sellt = selmon->pertag->sellts[selmon->pertag->curtag];
 		selmon->lt[selmon->sellt] = selmon->pertag->ltidxs[selmon->pertag->curtag][selmon->sellt];
 		selmon->lt[selmon->sellt^1] = selmon->pertag->ltidxs[selmon->pertag->curtag][selmon->sellt^1];
-
-		if (selmon->showbar != selmon->pertag->showbars[selmon->pertag->curtag])
-			togglebar(NULL);
-
-		focus(NULL);
-		arrange(selmon);
 	}
+	focus(NULL);
+	arrange(selmon);
 }
 
 void
@@ -2725,6 +2776,39 @@ updategeom(void)
 }
 
 void
+updatemotifhints(Client *c)
+{
+	Atom real;
+	int format;
+	unsigned char *p = NULL;
+	unsigned long n, extra;
+	unsigned long *motif;
+	int width, height;
+
+	if (!decorhints)
+		return;
+
+	if (XGetWindowProperty(dpy, c->win, motifatom, 0L, 5L, False, motifatom,
+	                       &real, &format, &n, &extra, &p) == Success && p != NULL) {
+		motif = (unsigned long*)p;
+		if (motif[MWM_HINTS_FLAGS_FIELD] & MWM_HINTS_DECORATIONS) {
+			width = WIDTH(c);
+			height = HEIGHT(c);
+
+			if (motif[MWM_HINTS_DECORATIONS_FIELD] & MWM_DECOR_ALL ||
+			    motif[MWM_HINTS_DECORATIONS_FIELD] & MWM_DECOR_BORDER ||
+			    motif[MWM_HINTS_DECORATIONS_FIELD] & MWM_DECOR_TITLE)
+				c->bw = c->oldbw = borderpx;
+			else
+				c->bw = c->oldbw = 0;
+
+			resize(c, c->x, c->y, width - (2*c->bw), height - (2*c->bw), 0);
+		}
+		XFree(p);
+	}
+}
+
+void
 updatenumlockmask(void)
 {
 	unsigned int i, j;
@@ -2787,9 +2871,11 @@ updatesizehints(Client *c)
 void
 updatestatus(void)
 {
+	Monitor* m;
 	if (!gettextprop(root, XA_WM_NAME, stext, sizeof(stext)))
 		strcpy(stext, "dwm-"VERSION);
-	drawbar(selmon);
+	for(m = mons; m; m = m->next)
+		drawbar(m);
 }
 
 void
@@ -2825,8 +2911,11 @@ updatewmhints(Client *c)
 		if (c == selmon->sel && wmh->flags & XUrgencyHint) {
 			wmh->flags &= ~XUrgencyHint;
 			XSetWMHints(dpy, c->win, wmh);
-		} else
+		} else {
 			c->isurgent = (wmh->flags & XUrgencyHint) ? 1 : 0;
+			if (c->isurgent)
+				XSetWindowBorder(dpy, c->win, scheme[SchemeUrg][ColBorder].pixel);
+		}
 		if (wmh->flags & InputHint)
 			c->neverfocus = !wmh->input;
 		else
@@ -2865,9 +2954,6 @@ view(const Arg *arg)
 	selmon->sellt = selmon->pertag->sellts[selmon->pertag->curtag];
 	selmon->lt[selmon->sellt] = selmon->pertag->ltidxs[selmon->pertag->curtag][selmon->sellt];
 	selmon->lt[selmon->sellt^1] = selmon->pertag->ltidxs[selmon->pertag->curtag][selmon->sellt^1];
-
-	if (selmon->showbar != selmon->pertag->showbars[selmon->pertag->curtag])
-		togglebar(NULL);
 
 	focus(NULL);
 	arrange(selmon);
