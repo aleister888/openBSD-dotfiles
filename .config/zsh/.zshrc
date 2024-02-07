@@ -1,5 +1,4 @@
-# aleister888 zsh config file
-
+# Plugins
 source ~/.config/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.config/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source ~/.config/zsh/zsh-history-substring-search/zsh-history-substring-search.plugin.zsh
@@ -7,26 +6,22 @@ source ~/.config/zsh/ohmyzsh/dirhistory.plugin.zsh
 
 bindkey -e
 
-# aliases
+# Aliases
 source $HOME/.config/zsh/aliasrc
 source $HOME/.config/ssh_hosts
-#source $HOME/.sshalias
-#compiling
-function smk() { sudo make install }
-function smu() { sudo make uninstall }
 
-# Basic auto/tab complete:
+# Autocompletación con TAB
 autoload -U compinit
 zstyle ':completion:*' menu select
 zmodload zsh/complist
 compinit
-_comp_options+=(globdots)		# Include hidden files.
+_comp_options+=(globdots) # Incluir archivos ocultos
 
-# delete till word-break
+# Tipo de autocompletación
 autoload -U select-word-style
 select-word-style bash
 
-# lf switching directories
+# Cambiar directorios con lf
 lfcd () {
     tmp="$(mktemp)"
     lf -last-dir-path="$tmp" "$@"
@@ -38,11 +33,12 @@ lfcd () {
 }
 bindkey -s '^o' 'lfcd\n'
 
-# history file location
-HISTSIZE=100
-SAVEHIST=100
+# Historial en directorio temporal
+HISTSIZE=256
+SAVEHIST=128
 HISTFILE=/tmp/zsh_history
 
+# Bindings de teclado
 bindkey  "^[[3~"  delete-char
 
 bindkey '^[[A' history-substring-search-up
@@ -54,6 +50,7 @@ bindkey '^[[3;5~' kill-word
 bindkey "^[[1;5C" forward-word
 bindkey "^[[1;5D" backward-word
 
+# Funcion para imprimir la dirección IP local en el prompt
 function get_local_ip {
 	if [ "$(ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | tail -1 | awk '{print $2}' 2>&1)" = "127.0.0.1" ]; then
 		echo "NO CONNECTION"

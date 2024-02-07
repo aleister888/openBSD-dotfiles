@@ -1,3 +1,15 @@
 #!/bin/sh
 
-playerctl metadata --player=tauon --format '{{ artist }}/{{ title }}'
+FACT=30
+
+# Almacenar la salida del comando playerctl
+TITLE=$(playerctl metadata --player=tauon title)
+
+# Verificar si la salida no está vacía
+if [ -n "$TITLE" ]; then
+	if [ "$(echo "$title" | wc -c)" -gt "$FACT" ]; then
+		echo " ...$(echo "$TITLE" | awk -v last_chars="$(($FACT-3))" '{print substr($0, length($0) - last_chars + 1)}')"
+	else
+		echo " $TITLE"
+	fi
+fi

@@ -2,7 +2,7 @@
 
 ## dwm - OpenBSD
 
-dwm build for openBSDM
+dwm build for openBSD
 
 <img src="https://raw.githubusercontent.com/aleister888/dwm/main/screenshot.jpg" width="80%" />
 

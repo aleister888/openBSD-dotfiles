@@ -14,7 +14,6 @@ alias \
 	v='nvim' \
 	d='devour' \
 	xdotool_table='xmodmap -pk' \
-	update="doas pkg_add -uvi" \
 	cleanup="doas pkg_delete -a" \
 	pkg_list="/bin/ls -1 /var/db/pkg" \
 	"xdg-ninja"="~/.local/scripts/xdg-ninja/xdg-ninja.sh" \
@@ -22,3 +21,8 @@ alias \
 	push='git add . && git commit && git push' \
 	pull='git pull' \
 	sed='gsed' \
+
+update(){
+	npm install http-server --prefix ./.local/share/npm/bin/ && rm -rf ~/.npm
+	doas pkg_add -uvi
+}
