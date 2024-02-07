@@ -1,15 +1,14 @@
 #!/bin/zsh
 
-PATH="$HOME/.local/src/build-rust/install_dir/nightly/bin:$HOME/.local/bin:/bin:/sbin:/usr/bin:/usr/sbin:/usr/X11R6/bin:/usr/local/bin:/usr/local/sbin:/usr/local/jdk-11/bin"
-export PATH HOME TERM
+export PATH="$HOME/.local/src/build-rust/install_dir/nightly/bin:$HOME/.local/bin:/bin:/sbin:/usr/bin:/usr/sbin:/usr/X11R6/bin:/usr/local/bin:/usr/local/sbin:/usr/local/jdk-17/bin"
 
+# Empezar siempre en el directorio $HOME
 if [ "$PWD" != "$HOME" ] && [ "$PWD" -ef "$HOME" ] ; then cd ; fi
 
-# Set default locale
 export CHARSET=UTF-8
 export LANG="es_ES.UTF-8"
 
-# Apps
+# Aplicaciones predeterminadas
 export EDITOR="nvim"
 export SUDO_EDITOR="nvim"
 export READER="zathura"
@@ -24,13 +23,13 @@ export WM="dwm"
 
 export _JAVA_AWT_WM_NONREPARENTING=1
 
-# QT Apps Settings
+# Ajustes de QT
 export QT_QPA_PLATFORMTHEME=qt5ct
 export QT_FONT_DPI=96
 
 export GTK_THEME=Gruvbox-Dark-B
 
-# Export XDG Dirs
+# Exportar directorios XDG
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_CACHE_HOME="$HOME/.cache"
@@ -43,7 +42,7 @@ export XDG_VIDEOS_DIR="$HOME/Videos"
 
 export XDG_CURRENT_DESKTOP=X-Generic
 
-# Cleanup $HOME directory of dotfiles
+# Evitar que $HOME se llene con archivos de configuración
 export ICEAUTHORITY="$XDG_CACHE_HOME"/ICEauthority
 export XINITRC="$XDG_CONFIG_HOME"/X11/xinitrc
 export GTK2_RC_FILES="$XDG_CONFIG_HOME"/gtk-2.0/gtkrc
@@ -54,7 +53,6 @@ export _JAVA_OPTIONS=-Djava.util.prefs.userRoot="$XDG_CONFIG_HOME"/java
 alias wget='wget --hsts-file="$XDG_CONFIG_HOME"/wget-hsts'
 alias gpg2='gpg2 --homedir "$XDG_DATA_HOME"/gnupg'
 
-# lf Icons
 export LF_ICONS="di=:fi=:tw=󱝏:ow=:ex=:ln=:or=:\
 *.mp3=:*.opus=:*.ogg=:*.m4a=:*.flac=:*.ape=:*.wav=:*.cue=:\
 *.RPP=󰋅:*.RPP-bak=󰋅:*.rpp=󰋅:*.rpp-bak=󰋅:*.rpp-PROX=󰋅:*drums.wav=󰋅:\
@@ -100,10 +98,7 @@ export LF_ICONS="di=:fi=:tw=󱝏:ow=:ex=:ln=:or=:\
 *.bin=:\
 *.py="
 
-# lf Colors
-export LF_COLORS="~/.config/=01;32:~/.local/=01;32:\
-~/.local/share=01;36:~/.local/src=01;36:~/.local/scripts=01;36:\
-.github/=33:.git/=33:.git*=32:.git*=32:\
+export LF_COLORS=".github/=33:.git/=33:.git*=32:.git*=32:\
 tw=01;34:ow=01;34:st=01;34:di=01;34:\
 su=01;32:sg=01;32:ex=01;32:\
 bd=33;01:cd=33;01:\
@@ -113,7 +108,7 @@ or=31;01:\
 pi=33:\
 fi=00"
 
-# start dwm
+# Si se inicia sesión desde el primer TTY, iniciar la sesión gráfica
 if [[ "$(tty)" = "/dev/ttyC0" ]]; then
         startx /etc/X11/xinit/xinitrc
 fi
