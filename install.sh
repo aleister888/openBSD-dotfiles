@@ -235,7 +235,7 @@ bgcolor=#000000" > "$HOME/.config/nitrogen/bg-saved.cfg"
 # Añadir el usuario a los grupos deseados
 groups_add() {
 	# Añadir el usuario actual a los grupos especificados
-	doas usermod -G operator,staff,users,wheel "$(whoami)"
+	doas usermod -G operator,users,wheel "$(whoami)"
 }
 
 # Instalar app de cli para manejar la basura
@@ -374,9 +374,9 @@ fi
 doas "$HOME/.dotfiles/root-install.sh"
 
 if groups_add; then
-	echo "Usuario añadido correctamente a los grupos operator,staff,users,wheel"
+	echo "Usuario añadido correctamente a los grupos operator,users,wheel"
 else
-	echo "Hubo un error al añadir el usuario a los grupos operator,staff,users,wheel"
+	echo "Hubo un error al añadir el usuario a los grupos operator,users,wheel"
 fi
 
 if trash_dir; then
