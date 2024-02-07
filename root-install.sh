@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/local/bin/bash
 echo '# Enable hyper-threading
 hw.smt=1
 # Maximum file descriptors
@@ -23,15 +23,22 @@ machdep.allowaperture=1
 # Improve networking
 net.inet.udp.recvspace=262144
 net.inet.udp.sendspace=262144
-net.inet.icmp.errppslimit=256
+net.inet.icmp.errppslimit=256' > /etc/sysctl.conf
 
-# Enable Microphone/Webcam Access
-kern.audio.record=1
-kern.video.record=1' > /etc/sysctl.conf
+multimedia_enable(){
 
-# These values are meant for my 16GB RAM laptop,
-# and usecase, where I run syncthing that needs
-# a lot of file descriptors, ymmv.
+if ! grep -q "record" /etc/sysctl.conf; then
+# Si no esta ya activado, permitir acceder al micrófono y webcam
+echo "kern.audio.record=1
+kern.video.record=1" >> /etc/sysctl.conf
+fi
+# Establecer permisos para /dev/video0
+chmod 640 /dev/video0
+
+}
+
+# Estos valores estan elegidos para mi portátil con 16GB RAM y mi uso específico.
+# Deberias ajustarlos en función de tu necesidad más tarde
 
 echo '#!/usr/bin/sh
 
@@ -44,34 +51,43 @@ while true; do
 done' > /etc/X11/xinit/xinitrc
 
 echo '#!/bin/sh
-python3 ~/.local/src/tauon-music-box/tauon.py' > /usr/local/bin/tauon
+python3 $HOME/.local/src/tauon-music-box/tauon.py' > /usr/local/bin/tauon
 
-chmod +x /usr/local/bin/tauon
-
+# Copiar attach a /etc/hotplug
 doas cp ~/.dotfiles/attach /etc/hotplug/attach
-
 chmod 0755 /etc/hotplug/attach
 
-if [ "$(grep hotplugd /etc/rc.conf.local 2>&1)" = "" ]; then
-	echo 'hotplugd_flags=""' >> /etc/rc.conf.local
+# Verificar hotplugd en /etc/rc.conf.local y agregar si no existe
+if ! grep -q hotplugd /etc/rc.conf.local; then
+    echo 'hotplugd_flags=""' >> /etc/rc.conf.local
 fi
 
-mkdir /etc/zsh
-
+# Configurar ZSH
+mkdir -p /etc/zsh
 echo 'ZDOTDIR="$HOME"/.config/zsh' > /etc/zshenv
 echo 'ZDOTDIR="$HOME"/.config/zsh' > /etc/zsh/zshenv
 
-ln -s /usr/local/bin/eza /usr/local/bin/exa
+# Crear enlace simbólico para exa
+ln -s /usr/local/bin/eza /usr/local/bin/exa 2>/dev/null
 
-grep "proxy" /etc/ungoogled-chromium/unveil.main || \
-echo "
-# needed for keepassxc integration
+# Configurar unveil.main para ungoogled-chromium si no está configurado
+if ! grep -q proxy /etc/ungoogled-chromium/unveil.main; then
+    echo '
+# Needed for keepassxc-browser integration
 /usr/local/bin r
-/usr/local/bin/keepassxc-proxy rx" >> /etc/ungoogled-chromium/unveil.main
+/usr/local/bin/keepassxc-proxy rx' >> /etc/ungoogled-chromium/unveil.main
+fi
 
+# Copiar archivos necesarios a /var/icecast/etc
 cp -p /etc/{hosts,localtime,resolv.conf} /var/icecast/etc
 cp -p /usr/share/misc/mime.types /var/icecast/etc
 
-chmod 640 /dev/video0
+# Instalar parches de seguridad
+syspatch 2>/dev/null
 
-syspatch
+read -rp "¿Desea permitir el uso de webcam/micrófono? (s/n): " answer
+
+# Verifica la respuesta del usuario
+if [ "$answer" = "s" ]; then
+	multimedia_enable
+fi
