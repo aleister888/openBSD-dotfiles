@@ -10,7 +10,7 @@ if [ "$(id -u)" = "0" ]; then
 	exit 1
 fi
 
-if [ "$(dirname "$0")" != "$HOME/.dotfiles" ]; then
+if [ "$(pwd)" != "$HOME/.dotfiles" ]; then
 	echo "Este script debe ejecutarse desde el directorio \$HOME/.dotfiles."
 	exit 1
 fi
