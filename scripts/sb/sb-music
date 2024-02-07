@@ -1,4 +1,3 @@
 #!/bin/sh
 
-
-echo "$(playerctl metadata --player=tauon --format '{{ artist }}/{{ title }}')" | tr -d '\200-\377'
+playerctl metadata --player=tauon --format '{{ artist }}/{{ title }}'

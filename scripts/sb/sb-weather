@@ -1,2 +1,0 @@
-#!/bin/sh
-curl 'wttr.in?m2&format=%t'||echo ' ' &

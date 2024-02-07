@@ -9,7 +9,7 @@ static const int topbar               = 1;  // 0 Means bottom bar
 static const int startontag           = 0;  // 0 Means no tag active on start
 static const int allowkill            = 1;  // Allow killing clients by default?
 static const int user_bh              = 12; // 0 Default, >= 1 Is added to user_bh as height
-static const char *fonts[]            = { "Symbols Nerd Font:bold:pixelsize=24:antialias=true:autohint=true","Iosevka Nerd Font:bold:pixelsize=24:antialias=true:autohint=true" };
+static const char *fonts[]            = { "Symbols Nerd Font:pixelsize=24:antialias=true:autohint=true","Iosevka Nerd Font:bold:pixelsize=24:antialias=true:autohint=true" };
 static const char autostartblocksh[]  = "autostart_blocking.sh";
 static const char autostartsh[]       = "autostart.sh";
 static const char dwmdir[]            = "dwm";

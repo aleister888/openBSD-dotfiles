@@ -1,6 +1,6 @@
 #!/bin/sh
 
-LOCATION="$(curl -s "https://location.services.mozilla.com/v1/geolocate?key=geoclue" | jq -r '"\(.location.lat):\(.location.lng)"')"
+LOCATION="$(curl -s "https://location.services.mozilla.com/v1/geolocate?key=geoclue" | jq -r '"\(.location.lat):\(.location.lng)"' &)"
 
 dbus-cleanup-sockets
 
@@ -10,9 +10,9 @@ fi
 
 xrandr --dpi 96
 
-doas /usr/bin/mixerctl outputs.hp_boost=on
+doas /usr/bin/mixerctl outputs.hp_boost=on >/dev/null
 
-pgrep syncthing || syncthing --no-browser > /tmp/syncthing.log &
+pgrep syncthing || syncthing --no-browser >/tmp/syncthing.log 2>/dev/null &
 
 setxkbmap -model pc104 -layout es,us  -option grp:win_space_toggle -option caps:none &
 

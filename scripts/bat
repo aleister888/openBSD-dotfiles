@@ -1,9 +1,16 @@
-#!/usr/local/bin/dash
+#!/bin/sh
 
-if [ "$(apm | grep "AC adapter state" | sed 's/AC adapter state: //' 2>&1)" = "connected" ]; then
-	exit
-else
-	if [ "$(apm | awk '{print $4}' | grep % | sed 's/%//' 2>&1)" -lt "10" ]; then
-		notify-send "Suspending..."; zzz
-	fi
+# Obtener el estado del adaptador de CA y el nivel de batería
+adapter_state=$(apm | awk '/AC adapter state/ {print $(NF-1), $NF}' | sed 's/state: //')
+battery_level=$(apm | awk -F ', ' '/Battery state/ {print substr($2, 1, length($2)-11)}')
+
+# Verificar si el adaptador está conectado
+if [ "$adapter_state" = "connected" ]; then
+    exit
+fi
+
+# Verificar si el nivel de la batería es menor al 10%
+if [ "$battery_level" -lt 10 ]; then
+    notify-send "Suspending..."
+    zzz
 fi

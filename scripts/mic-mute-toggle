@@ -1,17 +1,19 @@
-#!/usr/local/bin/dash
-# for the script to work, add this to your doas.conf
-# permit nopass :wheel cmd /usr/bin/mixerctl
+#!/usr/local/bin/bash
 
+# Cerrar todas las notificaciones de Dunst
 dunstctl close-all
 
-if [ "$(doas /usr/bin/mixerctl | grep record.volume.mute | sed 's/=/ /' | awk '{print $2}')" = "off" ]; then
-	doas /usr/bin/mixerctl record.volume.mute=on
+# Obtener el estado actual del micrófono
+mic_status=$(doas /usr/bin/mixerctl record.volume.mute | awk -F= '{print $2}')
+
+# Cambiar el estado del micrófono
+if [ "$mic_status" = "off" ]; then
+    doas /usr/bin/mixerctl record.volume.mute=on
+    notify_message="Microphone Unmuted"
 else
-	doas /usr/bin/mixerctl record.volume.mute=off
+    doas /usr/bin/mixerctl record.volume.mute=off
+    notify_message="Microphone Muted"
 fi
 
-if [ "$(doas /usr/bin/mixerctl | grep record.volume.mute | sed 's/=/ /' | awk '{print $2}')" = "off" ]; then
-	notify-send "Microphone Unmuted"
-else
-	notify-send "Microphone Muted"
-fi
+# Notificar el cambio de estado del micrófono
+notify-send "$notify_message"

@@ -1,18 +1,21 @@
-#!/usr/local/bin/dash
-option0=" Lock"
-option1="⏼ Suspend"
-option2=" Logout"
-option3=" Restart dwm"
-option4=" Shutdown"
-option5=" Reboot"
-options="$option0\n$option1\n$option2
-$option3\n$option4\n$option5"
-chosen="$(echo "$options" | dmenu -l 6 -p "")"
+#!/usr/local/bin/bash
+
+options=(
+	" Lock"
+	"⏼ Suspend"
+	" Logout"
+	" Restart dwm"
+	" Shutdown"
+	" Reboot"
+)
+
+chosen=$(printf "%s\n" "${options[@]}" | dmenu -l ${#options[@]} -p "")
+
 case $chosen in
-$option0) ~/.local/scripts/i3lock-fancy ;;
-$option1) zzz ;;
-$option2) pkill xinit ;;
-$option3) pkill dwm ;;
-$option4) xterm -title scratchpad -e "doas halt -p" ;;
-$option5) xterm -title scratchpad -e "doas reboot" ;;
+	"${options[0]}") ~/.local/scripts/i3lock-fancy ;;
+	"${options[1]}") zzz ;;
+	"${options[2]}") pkill xinit ;;
+	"${options[3]}") pkill dwm ;;
+	"${options[4]}") xterm -title scratchpad -e "doas halt -p" ;;
+	"${options[5]}") xterm -title scratchpad -e "doas reboot" ;;
 esac

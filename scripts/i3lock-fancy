@@ -1,26 +1,25 @@
 #!/bin/sh
 
-# Make a screenshot
-sleep 0.2; import -window root /tmp/lock.png
+# Define nombres de archivos temporales
+lock_original="/tmp/lock.png"
+lock_center="/tmp/lock-center.png"
 
-# Get screenshot center
-convert /tmp/lock.png -gravity center -crop 60x60+0+0 +repage /tmp/lock-center.png
+# Realiza una captura de pantalla
+sleep 0.2; import -window root "$lock_original"
 
-# Reads screen center brightness by temporarily converting it
-# into a 1x1 image if it's more than 51 lock icon will be dark.
-if [[ $(echo "$(convert /tmp/lock-center.png -colorspace hsb -resize 1x1 txt:- | awk '{print $4}' | sed 's/,/ /g' | awk '{print $3}' | sed 's/\./ /g' | awk '{print $1}')") -lt 80 ]]
-then
-# Add blur to screenshot
-	convert /tmp/lock.png -blur 0x5 /tmp/lock.png && \
-# Add lock icon to the blurred screenshot
-	convert /tmp/lock.png ~/.dotfiles/img/lock.png -gravity center -composite -matte /tmp/lock.png && \
-# Lock screen
-	i3lock -eui /tmp/lock.png
+# Obtiene el brillo del centro de la captura de pantalla
+brightness=$(convert /tmp/lock.png -colorspace hsb -resize 1x1 txt:- | awk '{print $4}' | awk -F ',' '{gsub(/[^0-9]/,"",$3); print substr($3,1,length($3)-4)}')
+
+# Determina si se debe utilizar el icono de bloqueo oscuro
+if [ "$brightness" -lt 80 ]; then
+    lock_icon="lock.png"
 else
-# Add blur to screenshot
-	convert /tmp/lock.png -blur 0x5 /tmp/lock.png && \
-# Add dark lock icon to the blurred screenshot
-	convert /tmp/lock.png ~/.dotfiles/img/lock-dark.png -gravity center -composite -matte /tmp/lock.png && \
-# Lock screen
-	i3lock -eui /tmp/lock.png
+    lock_icon="lock-dark.png"
 fi
+
+# Agrega desenfoque a la captura de pantalla
+convert "$lock_original" -blur 0x5 "$lock_original" && \
+# Agrega el icono de bloqueo a la captura de pantalla desenfocada
+convert "$lock_original" "$HOME/.dotfiles/img/$lock_icon" -gravity center -composite -matte "$lock_original" && \
+# Bloquea la pantalla
+i3lock -eui "$lock_original"

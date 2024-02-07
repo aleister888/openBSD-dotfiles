@@ -1,8 +1,8 @@
-#!/usr/local/bin/dash
-# for the script to work, add this to your doas.conf
-# permit nopass :wheel cmd /usr/bin/mixerctl
-if [ "$(doas /usr/bin/mixerctl | grep outputs.master.mute | sed 's/=/ /' | awk '{print $2}')" = "off" ]; then
-	echo "󰕾"
+#!/bin/sh
+
+if doas /usr/bin/mixerctl outputs.master.mute | grep -q 'off'; then
+    echo "󰕾"
 else
-	echo "󰖁"
+    echo "󰖁"
 fi
+

@@ -3,7 +3,7 @@ static unsigned int delimLen = 0;
 static const Block blocks[] = {
 	/*Icon*/			/*Command*/					/*Updt. Interval & Signal*/
 	// Current song
-	{""				, "~/.local/scripts/sb/sb-music &",				1,	2},
+	{""				, "~/.local/scripts/sb/sb-music",				1,	2},
 	// Charging status
 	{" ^d^^c#CC241D^"		, "~/.local/scripts/sb/sb-bat",  				1,	0},
 	// Battery percentage

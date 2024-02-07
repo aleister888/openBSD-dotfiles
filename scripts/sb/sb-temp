@@ -1,3 +1,3 @@
 #!/bin/sh
 
-sysctl hw.sensors.acpitz0.temp0 | awk '{print $1}' | grep -o '.....$' | rev | grep -o '..$' | rev
+sysctl hw.sensors.acpitz0.temp0 | awk -F= '{print $2}' | tr -d ' ' | sed 's/\([0-9]*\)\..*/\1/'

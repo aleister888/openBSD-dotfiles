@@ -1,84 +1,33 @@
-#!/usr/local/bin/bash
-#bash script for selecting monitor setup via dmenu
-XRANDR=$(which xrandr)
-MONITORS=( $( ${XRANDR} | awk '( $2 == "connected" ){ print $1 }' ) )
-NUM_MONITORS=${#MONITORS[@]}
-TITLES=()
-COMMANDS=()
+#!/bin/sh
 
-function gen_xrandr_only()
-{
-    selected=$1
-    cmd="xrandr --output ${MONITORS[$selected]} --auto "
-    for entry in $(seq 0 $((${NUM_MONITORS}-1)))
-    do
-        if [ $selected != $entry ]
-        then
-            cmd="$cmd --output ${MONITORS[$entry]} --off"
-        fi
+XRANDR=$(command -v xrandr)
+MONITORS=$( ${XRANDR} | awk '/ connected/ { print $1 }' )
+NUM_MONITORS=$(echo "$MONITORS" | wc -w)
+
+gen_xrandr_only() {
+    selected="$1"
+    cmd="xrandr --output ${MONITORS[$selected]} --auto"
+    for entry in $MONITORS; do
+        [ "$selected" != "$entry" ] && cmd="$cmd --output $entry --off"
     done
-    echo $cmd
+    echo "$cmd"
 }
 
-declare -i index=0
-TILES[$index]="Cancel"
-COMMANDS[$index]="true"
-index+=1
-
-for entry in $(seq 0 $((${NUM_MONITORS}-1)))
-do
-    TILES[$index]="Only ${MONITORS[$entry]}"
-    COMMANDS[$index]=$(gen_xrandr_only $entry)
-    index+=1
-done
-
-##
-# Dual screen options
-##
-for entry_a in $(seq 0 $((${NUM_MONITORS}-1)))
-do
-    for entry_b in $(seq 0 $((${NUM_MONITORS}-1)))
-    do
-        if [ $entry_a != $entry_b ]
-        then
-            TILES[$index]="Dual Screen ${MONITORS[$entry_a]} -> ${MONITORS[$entry_b]}"
-            COMMANDS[$index]="xrandr --output ${MONITORS[$entry_a]} --auto \
-                              --output ${MONITORS[$entry_b]} --auto --left-of ${MONITORS[$entry_a]}"
-            index+=1
-        fi
+# Definimos la lista de opciones
+OPTIONS="Cancel\n"
+for entry_a in $MONITORS; do
+    OPTIONS="${OPTIONS}Only $entry_a\n"
+    for entry_b in $MONITORS; do
+        [ "$entry_a" != "$entry_b" ] && OPTIONS="${OPTIONS}Dual Screen $entry_a -> $entry_b\n"
+        [ "$entry_a" != "$entry_b" ] && OPTIONS="${OPTIONS}Clone Screen $entry_a -> $entry_b\n"
     done
 done
 
-##
-# Clone monitors
-##
-for entry_a in $(seq 0 $((${NUM_MONITORS}-1)))
-do
-    for entry_b in $(seq 0 $((${NUM_MONITORS}-1)))
-    do
-        if [ $entry_a != $entry_b ]
-        then
-            TILES[$index]="Clone Screen ${MONITORS[$entry_a]} -> ${MONITORS[$entry_b]}"
-            COMMANDS[$index]="xrandr --output ${MONITORS[$entry_a]} --auto \
-                              --output ${MONITORS[$entry_b]} --auto --same-as ${MONITORS[$entry_a]}"
-            index+=1
-        fi
-    done
-done
+# Seleccionamos la opción utilizando dmenu
+CHOICE=$(echo -e "$OPTIONS" | dmenu -p "Monitor Setup:")
 
-##
-#  Generate entries, where first is key.
-##
-function gen_entries()
-{
-    for a in $(seq 0 $(( ${#TILES[@]} -1 )))
-    do
-        echo $a ${TILES[a]}
-    done
-}
-
-# Call menu
-SEL=$( gen_entries | dmenu -p "Monitor Setup:" | awk '{print $1}' )
-
-# Call xrandr
-$( ${COMMANDS[$SEL]} )
+# Procesamos la elección
+case "$CHOICE" in
+    "Cancel") ;;
+    *) eval "$(echo "${COMMANDS[$CHOICE]}")";;
+esac

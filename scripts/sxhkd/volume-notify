@@ -1,9 +1,0 @@
-#!/usr/local/bin/zsh
-
-dunstctl close-all
-
-if [ "$(doas /usr/bin/mixerctl | grep outputs.master.mute | sed 's/=/ /' | awk '{print $2}')" = "on" ]; then
-        notify-send "AUDIO MUTED"
-else
-	notify-send "Volume: `echo $(($(sndioctl | grep 'output\.level' | tail -c +14) * 100)) | awk -F'.' '{print $1}'`%"
-fi
