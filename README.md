@@ -9,7 +9,7 @@
     <img src="https://raw.githubusercontent.com/aleister888/openBSD-dotfiles/main/img/screenshot.jpg" width="49.5%" />
 </p>
 
-Steps:
+## Steps to Install
 
 - Configure doas and install bash with `doas pkg_add bash`
     - `permit persist keepenv setenv { XAUTHORITY LANG LC_ALL } :wheel`
