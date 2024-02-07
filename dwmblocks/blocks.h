@@ -4,14 +4,12 @@ static const Block blocks[] = {
 	/*Icon*/			/*Command*/					/*Updt. Interval & Signal*/
 	// Current song
 	{""				, "~/.local/scripts/sb/sb-music",				1,	2},
-	// Charging status
-	{" ^d^^c#CC241D^"		, "~/.local/scripts/sb/sb-bat",  				1,	0},
-	// Battery percentage
-	{" ^c#FB4934^"			, "apm | awk '{print $4}' | grep %",				1,	0},
 	// Free space
 	{" ^d^^c#98971A^ ^c#B8BB26^"	, "df -h | egrep 'home|data' | awk '{print $4}' | xargs",	0,	0},
-	// Kernel version
-	{" ^d^^c#D79921^ ^c#FABD2F^"	, "uname -r",							0,	0},
+	// Charging status
+	{" ^d^^c#D79921^"		, "~/.local/scripts/sb/sb-bat",  				1,	0},
+	// Battery percentage
+	{" ^c#FABD2F^"			, "apm | awk '{print $4}' | grep %",				1,	0},
 	// Volume icon
 	{" ^d^^c#458588^"		, "~/.local/scripts/sb/sb-vol-icon",    			1,	1},
 	// Volume level

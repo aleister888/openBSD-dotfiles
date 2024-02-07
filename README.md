@@ -11,17 +11,18 @@
 
 ## Steps to Install
 
-- Configure doas and install bash with `doas pkg_add bash`
+- Log in as root, configure doas (Put these lines in /etc/doas.conf)
     - `permit persist keepenv setenv { XAUTHORITY LANG LC_ALL } :wheel`
     - `permit nopass :wheel as root cmd /usr/bin/mixerctl`
-- Add youtself to the staff group with: `doas usermod -L staff $(whoami)`
+- Add yourself to the wheel and staff group with: `doas usermod -L wheel,staff your_username`
+- Log in as your regular user and install bash with `doas pkg_add bash`
 - Clone into your __HOME__ directory with:
     - `git clone https://github.com/aleister888/openBSD-dotfiles.git ~/.dotfiles`,
 - cd into `~/.dotfiles` and run `install.sh`
 
-For only stowing dotfiles install "stow" then run `update.sh`
+For only stowing dotfiles install "stow" and run instead `update.sh`
 
-_NOTE:_ With the `persist` option in `doas.conf`, doas will not require confirmation by password for five minutes after the last doas command was entered. If the installation of packages takes more than 5 minutes (and it will most likely will) password authentication will be required again. To make the script fully automated replace `persist` with `nopass` in the first `doas.conf` example line.
+_NOTE:_ With the `persist` option in `doas.conf`, doas will not require authentication via password-entry for five minutes after the last time doas was ran. If the installation of packages takes more than 5 minutes (and it will most likely will) password authentication will be required again. To make the script fully automated replace `persist` with `nopass` in the first `doas.conf` example line.
 
 ## Software used
 
