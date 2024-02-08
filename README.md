@@ -49,6 +49,10 @@ of the screen where the lock icon will be displayed.
 
 I provide scripts to compile bleachbit and abaddon automatically
 
+### Login.conf script
+
+I provide a perl script to set staff login group limits automatically
+
 ## GTK gruvbox theme from:
 
 - [GTK theme](https://github.com/jmattheis/gruvbox-dark-icons-gtk)
@@ -57,7 +61,5 @@ I provide scripts to compile bleachbit and abaddon automatically
 ## TODO
 
 - Configure Tauon automatically to match the gruvbox colorscheme
-- Calculate and set execution limits in `limits.conf` automatically
-    - Install syncthing
 - Asking the user if they want to autoinstall abaddon and/or bleachbit
 - Translate the README to Spanish

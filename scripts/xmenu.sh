@@ -6,6 +6,7 @@ RADIOFLAG="-t scratchpad -e mpv"
 cat <<EOF | xmenu -r | dash &
 IMG:$ICONPATH/internet-web-browser.svg				Internet
 	IMG:$ICONPATH/chromium.svg				Chromium		ungoogled-chromium
+	IMG:$ICONPATH/discord.svg				Abaddon			cd "$HOME/.local/src/abaddon/" && ./build/abaddon || notify-send "Abaddon not installed"
 	IMG:$ICONPATH/thunderbird.svg				Thunderbird		thunderbird
 	IMG:$ICONPATH/discord.svg				Discord			cd ~/.local/src/abaddon/build && ./abaddon
 	IMG:$ICONPATH/syncthing-gtk.svg				Syncthing		xdg-open http://127.0.0.1:8384
@@ -55,7 +56,7 @@ IMG:$ICONPATH/applications-office.svg				Office
 IMG:$ICONPATH/applications-utilities.svg			Utilities
 	IMG:$ICONPATH/htop.svg					HTop			$TERMINAL -e htop
 	IMG:$ICONPATH/keepassxc.svg				KeePassXC		keepassxc
-	IMG:$ICONPATH/bleachbit.svg				Bleachbit		cd ~/.local/src/bleachbit && python3 ./bleachbit.py
+	IMG:$ICONPATH/bleachbit.svg				Bleachbit		cd ~/.local/src/bleachbit && python3 ./bleachbit.py || notify-send "Bleachbit not installed"
 	IMG:$ICONPATH/fr.romainvigier.MetadataCleaner.svg	Czkawka			czkawka_gui
 	IMG:$ICONPATH/grandr.svg				Display Settings	arandr
 	IMG:$ICONPATH/preferences-desktop-theme.svg		GTK Settings		lxappearance
