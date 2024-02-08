@@ -57,9 +57,9 @@ fontdownload() {
 # Instalar nuestros plugins de zsh
 plugindownload(){
 repositories=(
-	"https://github.com/zsh-users/zsh-history-substring-search.git $HOME/.dotfiles/.config/zsh/zsh-history-substring-search"
-	"https://github.com/zsh-users/zsh-syntax-highlighting.git $HOME/.dotfiles/.config/zsh/zsh-syntax-highlighting"
-	"https://github.com/zsh-users/zsh-autosuggestions.git $HOME/.dotfiles/.config/zsh/zsh-autosuggestions"
+	https://github.com/zsh-users/zsh-history-substring-search.git "$HOME/.dotfiles/.config/zsh/zsh-history-substring-search"
+	https://github.com/zsh-users/zsh-syntax-highlighting.git "$HOME/.dotfiles/.config/zsh/zsh-syntax-highlighting"
+	https://github.com/zsh-users/zsh-autosuggestions.git "$HOME/.dotfiles/.config/zsh/zsh-autosuggestions"
 )
 # Clonar los repositorios
 for repo in "${repositories[@]}"; do
@@ -345,9 +345,9 @@ else
 fi
 
 if atool2_install; then
-	echo "atool2 Box se instaló correctamente"
+	echo "atool2 se instaló correctamente"
 else
-	echo "Hubo un error al instalar atool"
+	echo "Hubo un error al instalar atool2"
 fi
 
 if vim_configure; then
