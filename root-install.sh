@@ -40,11 +40,9 @@ chmod 640 /dev/video0
 # Estos valores estan elegidos para mi portátil con 16GB RAM y mi uso específico.
 # Deberias ajustarlos en función de tu necesidad más tarde
 
-echo '#!/usr/bin/sh
+echo '#!/bin/sh
 
 [ -f xrdb $HOME/.config/Xresources ] && xrdb $HOME/.config/Xresources
-
-xclickroot -r $HOME/.local/scripts/xmenu.sh &
 
 while true; do
 	ck-launch-session /usr/local/bin/dwm >/dev/null 2>&1
@@ -72,10 +70,13 @@ ln -s /usr/local/bin/eza /usr/local/bin/exa 2>/dev/null
 
 # Configurar unveil.main para ungoogled-chromium si no está configurado
 if ! grep -q proxy /etc/ungoogled-chromium/unveil.main; then
-    echo '
+    echo "
+# Let's save us some trouble and provide access to everything
+~/ rwc
+
 # Needed for keepassxc-browser integration
 /usr/local/bin r
-/usr/local/bin/keepassxc-proxy rx' >> /etc/ungoogled-chromium/unveil.main
+/usr/local/bin/keepassxc-proxy rx" >> /etc/ungoogled-chromium/unveil.main
 fi
 
 # Copiar archivos necesarios a /var/icecast/etc

@@ -39,6 +39,7 @@ pgrep sxhkd		|| sxhkd &
 pgrep picom		|| sh -c 'picom --animation-clamping || picom' &
 pgrep dunst		|| dunst &
 pgrep dwmblocks		|| dwmblocks &
+pgrep xclickroot	|| xclickroot -r $HOME/.local/scripts/xmenu.sh &
 pgrep node		|| npx http-server ~/.local/share/startpage/ 8080 &
 pgrep redshift		|| redshift -l $LOCATION
 
