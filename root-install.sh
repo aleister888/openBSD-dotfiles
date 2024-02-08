@@ -36,6 +36,7 @@ if ! grep -q "record" /etc/sysctl.conf; then
 # Si no esta ya activado, permitir acceder al micrófono y webcam
 echo "kern.audio.record=1
 kern.video.record=1" >> /etc/sysctl.conf
+install -m 777 /dev/null /tmp/multimedia
 fi
 # Establecer permisos para /dev/video0
 chmod 640 /dev/video0
@@ -61,7 +62,7 @@ chmod 0755 /usr/local/bin/tauon
 
 # Instalar servicio de automontado de discos duros
 hotplugd_install(){
-doas cp ~/.dotfiles/attach /etc/hotplug/attach
+cp ./attach /etc/hotplug/attach
 chmod 0755 /etc/hotplug/attach
 if ! grep -q hotplugd /etc/rc.conf.local; then
     echo 'hotplugd_flags=""' >> /etc/rc.conf.local

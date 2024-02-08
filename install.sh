@@ -152,19 +152,19 @@ devour_compile() {
 	# Clonar el repositorio devour
 	git clone https://github.com/salman-abedin/devour.git "$HOME/.local/src/devour" >/dev/null 2>&1
 	# Añadir X11LIB después de VERSION en el Makefile de devour
-	sed -i '/VERSION =/a X11LIB = /usr/X11R6/lib' "$HOME/.local/src/devour/Makefile"
+	gsed -i '/VERSION =/a X11LIB = /usr/X11R6/lib' "$HOME/.local/src/devour/Makefile"
 	# Modificar CFLAGS en el Makefile de devour
 	sed -i "s/^CFLAGS.*/CFLAGS = -std=c11 -D_POSIX_C_SOURCE=200809L -Wall -Wextra -pedantic -O2 -I\/usr\/X11R6\/include/" "$HOME/.local/src/devour/Makefile"
 	# Modificar LDLIBS en el Makefile de devour
 	sed -i "s/^LDLIBS.*$/LDLIBS = -s -lX11 -L\${X11LIB}/" "$HOME/.local/src/devour/Makefile"
 	# Compilar e instalar devour
-	doas gmake install --directory "$HOME/.local/src/devour"
+	doas gmake install --directory "$HOME/.local/src/devour" >/dev/null
 }
 
 # Instalar nuestro reproductor de música
 tauon_music_box() {
 	# Clonar el repositorio TauonMusicBox
-	git clone https://github.com/Taiko2k/TauonMusicBox.git "$HOME/.local/src/tauon-music-box" --branch v7.5.0
+	git clone https://github.com/Taiko2k/TauonMusicBox.git "$HOME/.local/src/tauon-music-box" --branch v7.5.0 >/dev/null 2>&1
 	# Patch Tauon Compile Script
 	sed -i 's/gcc/egcc/g' "$HOME/.local/src/tauon-music-box/compile-phazor.sh"
 	# Actualizar submódulos
@@ -189,7 +189,7 @@ atool2_install() {
 	ln -s /usr/local/share/automake-1.16/missing "$HOME/.local/src/atool2/build-aux/missing"
 	ln -s /usr/local/share/automake-1.16/install-sh "$HOME/.local/src/atool2/build-aux/install-sh"
 	# Compilar
-	sh -c "cd $HOME/.local/src/atool2 && ./configure"
+	sh -c "cd $HOME/.local/src/atool2 && ./configure" >/dev/null
 	gmake --directory "$HOME/.local/src/atool2" >/dev/null 2>&1
 	# Copiar binarios a ~/.local/bin
 	sh -c "cd $HOME/.local/src/atool2 && cp -f acat adiff als apack arepack atool aunpack $HOME/.local/bin/"
@@ -366,9 +366,9 @@ else
 fi
 
 if nitrogen_configure; then
-	echo "Cronie se configuró correctamente"
+	echo "Nitrogen se configuró correctamente"
 else
-	echo "Hubo un error al configurar Cronie"
+	echo "Hubo un error al configurar nitrogen"
 fi
 
 # configures startx and runs syspatch
@@ -397,11 +397,10 @@ mkdir -p "$HOME/.local/share/npm/lib"
 
 ln -s "$HOME/.config/Xauthority" "$HOME/.Xauthority" 2>/dev/null
 
-# grep "kern.video.record=1" || doas sh -c 'echo "kern.video.record=1" >> /etc/sysctl.conf' && \
-# doas chown `whoami` /dev/video0
-
-if [ $? -eq 0 ]; then
-    echo "Se instalo todo correctamente."
-else
-    echo "Es posible que hubo algun error en la instalación."
+# Cambia los permisos de la webcam si se decidio
+# permitir el uso de webcam en root-install.sh
+if [ -f /tmp/multimedia ]; then
+	doas chown $(whoami) /dev/video0
 fi
+
+echo "Instalación terminada"

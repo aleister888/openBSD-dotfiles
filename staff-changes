@@ -78,7 +78,7 @@ close($tmp_fh);
 rename("$file.tmp", $file) or die "No se puede renombrar el archivo temporal: $!";
 
 # Reconstruir la base de datos de login.conf
-system("cap_mkdb $file");
+system("cap_mkdb $file" >/dev/null 2>&1);
 
 # Mensaje de finalización
 print "Los valores han sido modificados correctamente.\n";
