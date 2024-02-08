@@ -3,7 +3,7 @@ super + shift + {F, Return,}
 	$TERMINAL {-t scratchpad, } -e ssh "$(cat /opt/Sync/Arch\ IP)"
 # Abrir aplicaciones usadas frequentemente
 super + {F2,F3,F4}
-	{$BROWSER,$TERMINAL -e lf, tauon}
+	{$BROWSER,$TERMINAL -e lf ~, tauon}
 # Desactivar/Activar PageUp/Down
 super + shift + t
 	~/.local/scripts/typemode

@@ -175,6 +175,7 @@ tauon_music_box() {
 	pip install --user -r "$HOME/.local/src/tauon-music-box/requirements.txt" >/dev/null 2>&1
 	# Compilar TauonMusicBox
 	sh -c "cd $HOME/.local/src/tauon-music-box && git submodule update --init --recursive && bash compile-phazor.sh" >/dev/null 2>&1
+	rm "$HOME/.local/src/tauon-music-box/.gitignore"
 }
 
 # Instalar atool (Programa para descomprimir ficheros)

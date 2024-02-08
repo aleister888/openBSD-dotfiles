@@ -73,7 +73,6 @@ IMG:$ICONPATH/system-shutdown.svg				Power
 	IMG:$ICONPATH/system-log-out.svg			Logout			pkill dwm
 	IMG:$ICONPATH/system-shutdown.svg			Shutdown		xterm -title scratchpad -e "doas halt -p"
 	IMG:$ICONPATH/system-reboot.svg				Reboot			xterm -title scratchpad -e "doas reboot"
-	IMG:$ICONPATH/preferences-desktop-screensaver.svg	Screensaver		xscreensaver-command --suspend
 EOF
 
 #IMG:$ICONPATH/multimc.svg					MultiMC			~/.local/scripts/minecraft

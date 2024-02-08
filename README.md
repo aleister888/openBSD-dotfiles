@@ -60,6 +60,6 @@ I provide a perl script to set staff login group limits automatically
 
 ## TODO
 
-- Configure Tauon automatically (set gruvbox theme and agave font, disable developer mode)
+- Configure Tauon automatically (set gruvbox theme and agave font)
 - Asking the user if they want to autoinstall abaddon and/or bleachbit
 - Translate the README to Spanish
