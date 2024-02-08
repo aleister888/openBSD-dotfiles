@@ -15,9 +15,10 @@
     - `permit persist keepenv setenv { XAUTHORITY LANG LC_ALL } :wheel`
     - `permit nopass :wheel as root cmd /usr/bin/mixerctl`
 - Add yourself to the staff login group, and the wheel group with:
-    - `doas usermod -L staff username`
-    - `doas usermod -G wheel username`
-- Log in as your regular user and install bash with `doas pkg_add bash`
+    - `usermod -L staff username`
+    - `usermod -G wheel username`
+- Log in as your regular user and install bash and git with:
+    - `doas pkg_add bash git`
 - Clone into your __HOME__ directory with:
     - `git clone https://github.com/aleister888/openBSD-dotfiles.git ~/.dotfiles`,
 - cd into `~/.dotfiles` and run `install.sh`
