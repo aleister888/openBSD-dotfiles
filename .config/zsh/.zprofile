@@ -43,6 +43,8 @@ export XDG_VIDEOS_DIR="$HOME/Videos"
 export XDG_CURRENT_DESKTOP=X-Generic
 
 # Evitar que $HOME se llene con archivos de configuración
+export CARGO_HOME="$XDG_DATA_HOME"/cargo
+export DVDCSS_CACHE="$XDG_DATA_HOME"/dvdcss
 export ICEAUTHORITY="$XDG_CACHE_HOME"/ICEauthority
 export XINITRC="$XDG_CONFIG_HOME"/X11/xinitrc
 export GTK2_RC_FILES="$XDG_CONFIG_HOME"/gtk-2.0/gtkrc

@@ -26,7 +26,7 @@ packageinstall() {
 	sdl2-mixer sdl2-net sdl2-pango sdl2-ttf stow sxhkd texlive_texmf-full thunderbird transmission-gtk trayer unrar \
 	unzip-- wavpack wget wpa_supplicant xarchiver xclip xcursor-themes xdg-user-dirs xdotool yarn youtube-dl zathura \
 	zathura-pdf-mupdf zim zsh neofetch gsed gawk ggrep gnuwatch symbola-ttf meson ninja cmake xcb libconfig libev uthash \
-	ungoogled-chromium octave zathura-cb xscreensaver icecast ices--%ices2
+	ungoogled-chromium octave zathura-cb icecast ices--%ices2 curl
 }
 
 # Instalar las fuentes necesarias
@@ -202,7 +202,7 @@ vim_configure() {
 	# Crear enlace simbólico de neovim a vim
 	doas ln -s /usr/local/bin/nvim /usr/local/bin/vim 2>/dev/null
 	# Instalar los plugins
-	nvim -c :PlugInstall --headless >/dev/null 2>&1
+	nvim +'PlugInstall --sync' +qa >/dev/null 2>&1
 }
 
 # Configurar cronie
