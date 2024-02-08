@@ -1,79 +1,64 @@
-super + shift + Return
-	$TERMINAL -e ssh "$(cat /opt/Sync/Arch\ IP)"
-super + shift + F
-	$TERMINAL -t scratchpad -e ssh "$(cat /opt/Sync/Arch\ IP)"
-super + F2
-	$BROWSER
-super + F3
-	$TERMINAL -e lf
-super + F4
-	tauon
-super + d
-	dmenu_run
+# Acceder terminal SSH
+super + shift + {F, Return,}
+	$TERMINAL {-t scratchpad, } -e ssh "$(cat /opt/Sync/Arch\ IP)"
+# Abrir aplicaciones usadas frequentemente
+super + {F2,F3,F4}
+	{$BROWSER,$TERMINAL -e lf, tauon}
+# Desactivar/Activar PageUp/Down
 super + shift + t
 	~/.local/scripts/typemode
 
-# Unmounter
+# Desmontar discos montados en el sistema
 super + shift + F5
 	~/.local/scripts/sxhkd/dmenuumount
 
-# Screens
+# Configurar pantallas
 super + F1
 	~/.local/scripts/sxhkd/monitor-layout
 super + shift + F1
 	arandr
 
+# Menu de apagado
 super + F11
 	~/.local/scripts/sxhkd/powermenu
-super + F12
-	pavucontrol
 
-# Change song
-super + z
-	playerctl previous && kill -USR2 $(pgrep dwmblocks | head -n1)
+# Cambiar canción
 super + x
 	playerctl play-pause
-super + c
-	playerctl next && kill -USR2 $(pgrep dwmblocks | head -n1)
+super + {z,c}
+	playerctl {previous,next} && kill -USR2 $(pgrep dwmblocks | head -n1)
 
-# Screenshots
+# Capturas de pantalla al portapapeles
 super + p
 	import -window root jpg:- | xclip -selection clipboard -t image/png; notify-send 'Captura copiada al Portapapeles'
 super + shift + p
 	import png:- | xclip -selection clipboard -t image/png; notify-send 'Captura copiada al Portapapeles'
+# Guardar capturas de pantallas en ~/Pictures/Screenshots
 super + alt + p
 	cd $HOME/Pictures/Screenshots/; import -window root $(date +'%Y_%m_%d-%H_%M_%S').jpg; notify-send 'Captura guardada en ~/Imágenes'
 super + alt + shift + p
 	cd $HOME/Pictures/Screenshots/; import $(date +'%Y_%m_%d-%H_%M_%S').jpg; notify-send 'Captura guardada en ~/Imágenes'
 
-# Tray
+# Abrir/Cerrar barra de tareas
 super + t
 	pkill trayer ||	trayer --align center --edge top --expand false --width 8 --height 20 --distance 34 --iconspacing 6
-# Audio
-super + m
-	sndioctl output.level=+0.025 && kill -USR1 $(pgrep dwmblocks | head -n1)
-super + n
-	sndioctl output.level=-0.025 && kill -USR1 $(pgrep dwmblocks | head -n1)
-super + shift + n
-	doas /usr/bin/mixerctl outputs.master=255 && sndioctl output.level=1 && kill -USR1 $(pgrep dwmblocks | head -n1)
-super + shift + m
-	doas /usr/bin/mixerctl outputs.master=255 && sndioctl output.level=0.75 && kill -USR1 $(pgrep dwmblocks | head -n1)
+
+# Subir bajar volumen
+super + {m,n}
+	sndioctl output.level={+,-}0.025 && kill -USR1 $(pgrep dwmblocks | head -n1)
+# Volumen al 100%/50%
+super + shift + {n,m}
+	doas /usr/bin/mixerctl outputs.master=255 && sndioctl output.level={1,0.75} && kill -USR1 $(pgrep dwmblocks | head -n1)
+# Desactivar o activar el micrófono
 super + shift + F4
 	~/.local/scripts/mic-mute-toggle
 
-# Change brigthness
-
-super + v
-	xbacklight -steps 1 -dec 25
-super + b
-	xbacklight -steps 1 -inc 25
-super + shift + v
-	xbacklight -steps 1 -set 100
-super + shift + b
-	xbacklight -steps 1 -set 30
+# Cambiar el brillo
+super + {v,b}
+	xbacklight -steps 1 -{dec,inc} 25
+super + shift + {v,b}
+	xbacklight -steps 1 -set {100,40}
 
 # Close window
-super + shift + c
-	xkill
-super + shift + k
+super + shift + {c,k}
 	xkill
