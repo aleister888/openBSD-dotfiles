@@ -4,8 +4,6 @@
 
 dwm build for openBSD
 
-<img src="https://raw.githubusercontent.com/aleister888/dwm/main/screenshot.jpg" width="80%" />
-
 ## Keybindings
 
 - `Super + b` Toggle bar
@@ -54,6 +52,7 @@ dwm build for openBSD
     - I removed the bar function from pertag so bar toggles for all tags.
 - [Preserve on Restart](https://dwm.suckless.org/patches/preserveonrestart/dwm-preserveonrestart-6.3.diff)
 - [Renamed scratchpads](https://raw.githubusercontent.com/bakkeby/patches/master/dwm/dwm-renamedscratchpads-6.3.diff)
+- [Resize corners](https://raw.githubusercontent.com/bakkeby/patches/master/dwm/dwm-resizecorners-6.3.diff)
 - [Rotatestack](https://dwm.suckless.org/patches/rotatestack/dwm-rotatestack-20161021-ab9571b.diff)
 - [Savefloats](https://dwm.suckless.org/patches/save_floats/dwm-savefloats-20181212-b69c870.diff)
 - [Selective fake fullscreen](https://dwm.suckless.org/patches/selectivefakefullscreen/dwm-selectivefakefullscreen-20201130-97099e7.diff)
@@ -63,4 +62,4 @@ dwm build for openBSD
 - [Steam](https://raw.githubusercontent.com/bakkeby/patches/master/dwm/dwm-steam-6.2.diff)
 - [Sticky](https://dwm.suckless.org/patches/sticky/dwm-sticky-6.4.diff)
 - [Tag layouts](https://dwm.suckless.org/patches/taglayouts/dwm-taglayouts-6.4.diff)
-- Changed maximum refreshrate to 240 in "movemouse" and "resizemouse"
+- Changed maximum refreshrate to 120 in "movemouse" and "resizemouse"
