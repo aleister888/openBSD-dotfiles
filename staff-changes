@@ -1,84 +1,21 @@
-#!/usr/bin/perl
+#!/usr/local/bin/bash
 
-use strict;
-use warnings;
+cp /etc/login.conf /etc/login.conf.backup
 
-# Archivo de configuración
-my $file = '/etc/login.conf';
+# Especificamos los valores para los parámetros
+new_datasize_cur="1024M"
+new_datasize_max="1024M"
+new_maxproc_cur="256"
+new_maxproc_max="256"
+new_openfiles_cur="8192"
+new_openfiles_max="12288"
 
-# Valores nuevos para los parámetros
-my $new_datasize_cur = '1024M';
-my $new_datasize_max = '1024M';
-my $new_maxproc_max = '256';
-my $new_maxproc_cur = '256';
-my $new_openfiles_cur = '8192';
-my $new_openfiles_max = '12288';
-
-# Indicador para determinar si se necesita agregar una nueva línea
-my %needs_new_lines = (
-	'datasize-cur' => 1,
-	'datasize-max' => 1,
-	'maxproc-max' => 1,
-	'maxproc-cur' => 1,
-	'openfiles-cur' => 1,
-	'openfiles-max' => 1
-);
-
-# Indicador para determinar si estamos dentro del grupo 'staff'
-my $in_staff_group = 0;
-
-# Indicador para determinar si ya hemos encontrado el grupo 'staff'
-my $found_staff_group = 0;
-
-# Abrir el archivo para lectura
-open(my $fh, '<', $file) or die "No se puede abrir el archivo: $!";
-
-# Abrir un nuevo archivo temporal para escritura
-open(my $tmp_fh, '>', "$file.tmp") or die "No se puede abrir el archivo temporal: $!";
-
-# Procesar el archivo línea por línea
-while (my $line = <$fh>) {
-	# Verificar si estamos en el grupo 'staff'
-	if ($line =~ /^staff:\\/) {
-		$in_staff_group = 1;
-		$found_staff_group = 1; # Indicamos que hemos encontrado el grupo 'staff'
-		print $tmp_fh $line;
-
-		# Si estamos en el grupo 'staff', agregamos las líneas faltantes
-		if ($in_staff_group) {
-			foreach my $param (keys %needs_new_lines) {
-				print $tmp_fh "\t:$param=$new_datasize_cur:\n";
-			}
-			%needs_new_lines = (); # Borramos las líneas que ya hemos agregado
-		}
-		next;
-	}
-
-	# Si estamos dentro del grupo 'staff' y ya hemos encontrado 'staff',
-	# imprimimos las líneas tal cual, sin importar si son de otros grupos
-	if ($in_staff_group && $found_staff_group) {
-		print $tmp_fh $line;
-		next;
-	}
-
-	# Si no estamos en el grupo 'staff', simplemente copiamos la línea tal cual
-	print $tmp_fh $line;
-
-	# Verificar si la línea siguiente es un nuevo grupo o un comentario
-	if ($in_staff_group && ($line =~ /^[a-zA-Z]/ || $line =~ /^#/)) {
-		$in_staff_group = 0; # Salimos del grupo 'staff'
-	}
-}
-
-# Cerrar los archivos
-close($fh);
-close($tmp_fh);
-
-# Reemplazar el archivo original con el archivo temporal
-rename("$file.tmp", $file) or die "No se puede renombrar el archivo temporal: $!";
-
-# Reconstruir la base de datos de login.conf
-system("cap_mkdb $file >/dev/null 2>&1");
-
-# Mensaje de finalización
-print "Los valores han sido modificados correctamente.\n";
+# Utilizamos sed para establecer los nuevos valores para el grupo staff
+sed -i -e "/^staff:/,/^[a-zA-Z]+:\\$/ {
+    s/\(:datasize-cur=\)[^:]*:/\1$new_datasize_cur:/g
+    s/\(:datasize-max=\)[^:]*:/\1$new_datasize_max:/g
+    s/\(:maxproc-cur=\)[^:]*:/\1$new_maxproc_cur:/g
+    s/\(:maxproc-max=\)[^:]*:/\1$new_maxproc_max:/g
+    s/\(:openfiles-cur=\)[^:]*:/\1$new_openfiles_cur:/g
+    s/\(:openfiles-max=\)[^:]*:/\1$new_openfiles_max:/g
+}" /etc/login.conf
