@@ -1,5 +1,5 @@
 # Acceder terminal SSH
-super + shift + {F, Return,}
+super + shift + {F, Return}
 	$TERMINAL {-t scratchpad, } -e ssh "$(cat /opt/Sync/Arch\ IP)"
 # Abrir aplicaciones usadas frequentemente
 super + {F2,F3,F4}

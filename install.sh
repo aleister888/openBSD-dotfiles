@@ -147,20 +147,6 @@ xclickroot_install() {
 	doas gmake install --directory "$HOME/.local/src/xclickroot" >/dev/null 2>&1
 }
 
-# Instalar devour
-devour_compile() {
-	# Clonar el repositorio devour
-	git clone https://github.com/salman-abedin/devour.git "$HOME/.local/src/devour" >/dev/null 2>&1
-	# Añadir X11LIB después de VERSION en el Makefile de devour
-	gsed -i '/VERSION =/a X11LIB = /usr/X11R6/lib' "$HOME/.local/src/devour/Makefile"
-	# Modificar CFLAGS en el Makefile de devour
-	sed -i "s/^CFLAGS.*/CFLAGS = -std=c11 -D_POSIX_C_SOURCE=200809L -Wall -Wextra -pedantic -O2 -I\/usr\/X11R6\/include/" "$HOME/.local/src/devour/Makefile"
-	# Modificar LDLIBS en el Makefile de devour
-	sed -i "s/^LDLIBS.*$/LDLIBS = -s -lX11 -L\${X11LIB}/" "$HOME/.local/src/devour/Makefile"
-	# Compilar e instalar devour
-	doas gmake install --directory "$HOME/.local/src/devour" >/dev/null
-}
-
 # Instalar nuestro reproductor de música
 tauon_music_box() {
 	# Clonar el repositorio TauonMusicBox
@@ -330,12 +316,6 @@ if xclickroot_install; then
 	echo "xclickroot se instaló correctamente"
 else
 	echo "Hubo un error al instalar xclickroot"
-fi
-
-if xclickroot_install; then
-	echo "devour se instaló correctamente"
-else
-	echo "Hubo un error al instalar devour"
 fi
 
 if tauon_music_box; then

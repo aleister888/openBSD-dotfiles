@@ -4,7 +4,6 @@ static const unsigned int gappx       = 16; // Gaps between windows
 static const int vertpad              = 16; // Vertical padding of bar
 static const int sidepad              = 16; // Horizontal padding of bar
 static const unsigned int snap        = 0;  // Snap pixel
-static const int swallowfloating      = 0;  // 1 means swallow floating windows by default */
 static const int showbar              = 1;  // 0 Means no bar
 static const int topbar               = 1;  // 0 Means bottom bar
 static const int startontag           = 0;  // 0 Means no tag active on start
@@ -63,50 +62,48 @@ static const int taglayouts[]	= {   0,   0,   0,   0,   0,   0,   0,   0,   0 };
 
 // There are two options when it comes to per-client rules:
 static const Rule rules[] = {
-	// class		instance	title  tag allowkill float terminal -swallow fakefullscreen monitor
-	/* Terminal */
-	{ "Alacritty",		NULL,		NULL,	0,	1,	0,	1,	0,	0,	-1},
+	// class		instance	title  tag allowkill float fakefullscreen monitor */
 	/* Tray */
-	{ "trayer",		NULL,		NULL,	0,	0,	0,	1,	1,	0,	-1},
-//	{ "supertuxkart",	NULL,		NULL,	0,	1,	0,	1,	0,	0,	-1},
+	{ "trayer",		NULL,		NULL,	0,		0,	1,		0,		-1},
+//	{ "supertuxkart",	NULL,		NULL,	0,		1,	0,		0,		-1},
 	/* Floating Windows */
-	{ "Yad",		NULL,		NULL,	0,	1,	0,	1,	1,	0,	-1},
-	{ "Gcolor2",		NULL,		NULL,	0,	1,	0,	1,	1,	0,	-1},
-	{ "Pavucontrol",	NULL,		NULL,	0,	1,	0,	1,	1,	0,	-1},
+	{ "Yad",		NULL,		NULL,	0,		1,	1,		0,		-1},
+	{ "Gcolor2",		NULL,		NULL,	0,		1,	1,		0,		-1},
+	{ "Pavucontrol",	NULL,		NULL,	0,		1,	1,		0,		-1},
 	/* Tag 1: Music */
-	{ "Tauon Music Box",	NULL,		NULL,	1 << 0,	1,	0,	1,	0,	0,	-1},
-	{ "Easytag",		NULL,		NULL,	1 << 0,	1,	0,	1,	0,	0,	-1},
+	{ "Tauon Music Box",	NULL,		NULL,	1 << 0,		1,	0,		0,		-1},
+	{ "Easytag",		NULL,		NULL,	1 << 0,		1,	0,		0,		-1},
 	/* Tag 2: Mail */
-	{ "thunderbird",	NULL,		NULL,	1 << 1,	1,	0,	1,	0,	0,	-1},
+	{ "thunderbird",	NULL,		NULL,	1 << 1,		1,	0,		0,		-1},
 	/* Tag 3: Internet */
-	{ "Firefox",		NULL,		NULL,	1 << 2,	1,	0,	1,	0,	1,	-1},
-	{ "firefox",		NULL,		NULL,	1 << 2,	1,	0,	1,	0,	1,	-1},
-	{ "chromium-browser",	NULL,		NULL,	1 << 2,	1,	0,	1,	0,	1,	-1},
-	{ "Chromium-browser",	NULL,		NULL,	1 << 2,	1,	0,	1,	0,	1,	-1},
-	{ "Abaddon",		NULL,		NULL,	1 << 2,	1,	0,	1,	0,	0,	-1},
-	{ "transmission-gtk",	NULL,		NULL,	1 << 2,	1,	0,	1,	0,	0,	-1},
-	{ "Transmission-gtk",	NULL,		NULL,	1 << 2,	1,	0,	1,	0,	0,	-1},
+	{ "Firefox",		NULL,		NULL,	1 << 2,		1,	0,		1,		-1},
+	{ "firefox",		NULL,		NULL,	1 << 2,		1,	0,		1,		-1},
+	{ "chromium-browser",	NULL,		NULL,	1 << 2,		1,	0,		1,		-1},
+	{ "Chromium-browser",	NULL,		NULL,	1 << 2,		1,	0,		1,		-1},
+	{ "Abaddon",		NULL,		NULL,	1 << 2,		1,	0,		0,		-1},
+	{ "transmission-gtk",	NULL,		NULL,	1 << 2,		1,	0,		0,		-1},
+	{ "Transmission-gtk",	NULL,		NULL,	1 << 2,		1,	0,		0,		-1},
 	/* Tag 4: Office */
-	{ "Soffice",		NULL,		NULL,	1 << 3,	1,	0,	1,	0,	0,	-1},
-	{ "Zim",		NULL,		NULL,	1 << 3,	1,	0,	1,	1,	0,	-1},
-	{ "gnome-calculator",	NULL,		NULL,	1 << 3,	1,	0,	1,	1,	0,	-1},
+	{ "Soffice",		NULL,		NULL,	1 << 3,		1,	0,		0,		-1},
+	{ "Zim",		NULL,		NULL,	1 << 3,		1,	1,		0,		-1},
+	{ "gnome-calculator",	NULL,		NULL,	1 << 3,		1,	1,		0,		-1},
 	/* Tag 6: Graphics */
-	{ "Fr.handbrake.ghb",	NULL,		NULL,	1 << 5,	1,	0,	1,	0,	0,	-1},
-	{ "Gimp",		NULL,		NULL,	1 << 5,	1,	0,	1,	0,	0,	-1},
-	{ "Minecraft* 1.16.5",	NULL,		NULL,	1 << 5,	1,	0,	1,	0,	0,	-1},
-	{ "Minecraft 1.12.2",	NULL,		NULL,	1 << 5,	1,	0,	1,	0,	0,	-1},
-	{ "Blockgame",		NULL,		NULL,	1 << 5,	1,	0,	1,	1,	0,	-1},
+	{ "Fr.handbrake.ghb",	NULL,		NULL,	1 << 5,		1,	0,		0,		-1},
+	{ "Gimp",		NULL,		NULL,	1 << 5,		1,	0,		0,		-1},
+	{ "Minecraft* 1.16.5",	NULL,		NULL,	1 << 5,		1,	0,		0,		-1},
+	{ "Minecraft 1.12.2",	NULL,		NULL,	1 << 5,		1,	0,		0,		-1},
+	{ "Blockgame",		NULL,		NULL,	1 << 5,		1,	1,		0,		-1},
 	/* Tag 7: Utilities */
-	{ "org.gnome.clocks",	NULL,		NULL,	1 << 6,	1,	0,	1,	1,	0,	-1},
-	{ "KeePassXC",		NULL,		NULL,	1 << 6,	1,	0,	1,	0,	0,	-1},
-	{ "Timeshift-gtk",	NULL,		NULL,	1 << 6,	1,	0,	1,	0,	0,	-1},
-	{ "BleachBit",		NULL,		NULL,	1 << 6,	1,	0,	1,	0,	0,	-1},
-	{ "Nitrogen",		NULL,		NULL,	1 << 6,	1,	0,	1,	1,	0,	-1},
-	{ "Arandr",		NULL,		NULL,	1 << 6,	1,	0,	1,	0,	0,	-1},
-	{ "Lxappearance",	NULL,		NULL,	1 << 6,	1,	0,	1,	0,	0,	-1},
-	{ "qt5ct",		NULL,		NULL,	1 << 6,	1,	0,	1,	0,	0,	-1},
-	/* class instance title		tags mask	allowkill	isfloating	terminal	-swallow	isfakefullscreen	monitor		scratch key */
-	{ NULL,	 NULL,	 "scratchpad",	0,		1,		1,		0,		1,		0,			-1,		's' },
+	{ "org.gnome.clocks",	NULL,		NULL,	1 << 6,		1,	1,		0,		-1},
+	{ "KeePassXC",		NULL,		NULL,	1 << 6,		1,	0,		0,		-1},
+	{ "Timeshift-gtk",	NULL,		NULL,	1 << 6,		1,	0,		0,		-1},
+	{ "BleachBit",		NULL,		NULL,	1 << 6,		1,	0,		0,		-1},
+	{ "Nitrogen",		NULL,		NULL,	1 << 6,		1,	1,		0,		-1},
+	{ "Arandr",		NULL,		NULL,	1 << 6,		1,	0,		0,		-1},
+	{ "Lxappearance",	NULL,		NULL,	1 << 6,		1,	0,		0,		-1},
+	{ "qt5ct",		NULL,		NULL,	1 << 6,		1,	0,		0,		-1},
+	/* class instance title		tags mask	allowkill	isfloating	isfakefullscreen	monitor		scratch key */
+	{ NULL,	 NULL,	 "scratchpad",	0,		1,		1,		0,			-1,		's' },
 };
 
 static const float mfact        = 0.5; // Factor of master area size [0.05..0.95]

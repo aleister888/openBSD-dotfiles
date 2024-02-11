@@ -233,17 +233,17 @@ cmd restore-trash ${{
 cmd open ${{
     case $(xdg-mime query filetype "$(readlink -f $f)") in
 	image/svg+xml) display -- $f ;;
-	application/vnd.oasis.opendocument.spreadsheet) devour libreoffice $f ;;
-	application/vnd.oasis.opendocument.text) devour libreoffice $f ;;
-	application/vnd.openxmlformats-officedocument.wordprocessingml.document) devour libreoffice $f;;
-	application/pdf) devour zathura $fx ;;
+	application/vnd.oasis.opendocument.spreadsheet) libreoffice $f ;;
+	application/vnd.oasis.opendocument.text) libreoffice $f ;;
+	application/vnd.openxmlformats-officedocument.wordprocessingml.document) libreoffice $f;;
+	application/pdf) zathura $fx ;;
 	application/x-keepass2) notify-send -i keepassxc "Just Open Keepass";;
 	text/*|application/json|inode/x-empty) $EDITOR $fx;;
 	application/x-shellscript) $EDITOR $fx;;
-	image/*) devour nsxiv $f ;;
+	image/*) nsxiv $f ;;
 	audio/*) mpv --audio-display=no $f ;;
-	video/*) devour mpv $f ;;
-	application/pdf|application/vnd*|application/epub*) devour zathura $fx ;;
+	video/*) mpv $f ;;
+	application/pdf|application/vnd*|application/epub*) zathura $fx ;;
 	application/pgp-encrypted) $EDITOR $fx ;;
         *) for f in $fx; do $OPENER $f >/dev/null 2>&1; done;;
     esac

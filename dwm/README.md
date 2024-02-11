@@ -61,5 +61,6 @@ dwm build for openBSD
 - [Status all Monitors](https://dwm.suckless.org/patches/statusallmons/dwm-statusallmons-6.2.diff)
 - [Steam](https://raw.githubusercontent.com/bakkeby/patches/master/dwm/dwm-steam-6.2.diff)
 - [Sticky](https://dwm.suckless.org/patches/sticky/dwm-sticky-6.4.diff)
+- [Swallow](https://dwm.suckless.org/patches/swallow/dwm-swallow-6.3.diff)
 - [Tag layouts](https://dwm.suckless.org/patches/taglayouts/dwm-taglayouts-6.4.diff)
 - Changed maximum refreshrate to 120 in "movemouse" and "resizemouse"

@@ -26,3 +26,9 @@ update(){
 	npm install http-server --prefix ./.local/share/npm/bin/ && rm -rf ~/.npm
 	doas pkg_add -uvi
 }
+
+function wininfo {
+xprop | awk '
+	/^WM_CLASS/{sub(/.* =/, "instancia:"); sub(/,/, "\nclase:"); print}
+	/^WM_NAME/{sub(/.* =/, "título:"); print}'
+}
