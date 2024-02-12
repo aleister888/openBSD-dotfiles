@@ -1,5 +1,5 @@
-/* See LICENSE file for copyright and license details. */
-static const unsigned int borderpx    = 4; // Border pixel of windows
+// See LICENSE file for copyright and license details.
+static const unsigned int borderpx    = 4;  // Border pixel of windows
 static const unsigned int gappx       = 16; // Gaps between windows
 static const int vertpad              = 16; // Vertical padding of bar
 static const int sidepad              = 16; // Horizontal padding of bar
@@ -38,14 +38,14 @@ static const char selmid_background[] = "#282828";
 static const char status_foreground[] = "#EBDBB2";
 static const char status_background[] = "#1D2021";
 static const char *colors[][3]      = {
-	//               	    fg         		bg			border
-	[SchemeNorm]		= { tag_foreground,	tag_background,		col_gray1  }, // Normal Windows
-	[SchemeSel]		= { seltag_foreground,	seltag_background,	col_orange }, // Selected Windows
-	[SchemeTagsNorm]	= { tag_foreground,	tag_background,		"#ffffff"  }, // Tag Left (Normal)
-	[SchemeTagsSel]		= { seltag_foreground,	seltag_background,	"#ffffff"  }, // Tag Left (Selected)
-	[SchemeInfoNorm]	= { mid_foreground,	mid_background,		"#ffffff"  }, // Info (Normal)
-	[SchemeInfoSel]		= { selmid_foreground,	selmid_background,	"#ffffff"  }, // Info (Selected)
-	[SchemeStatus]		= { status_foreground,	status_background,	"#ffffff"  }, // Statusbar
+	//               	    fg                 bg                 border
+	[SchemeNorm]		= { tag_foreground,    tag_background,    col_gray1  }, // Normal Windows
+	[SchemeSel]		= { seltag_foreground, seltag_background, col_orange }, // Selected Windows
+	[SchemeTagsNorm]	= { tag_foreground,    tag_background,    "#ffffff"  }, // Tag Left (Normal)
+	[SchemeTagsSel]		= { seltag_foreground, seltag_background, "#ffffff"  }, // Tag Left (Selected)
+	[SchemeInfoNorm]	= { mid_foreground,    mid_background,    "#ffffff"  }, // Info (Normal)
+	[SchemeInfoSel]		= { selmid_foreground, selmid_background, "#ffffff"  }, // Info (Selected)
+	[SchemeStatus]		= { status_foreground, status_background, "#ffffff"  }, // Statusbar
 	[SchemeScratchSel]	= { "#ffffff",		"#ffffff",		col_cyan   }, // Scratchpad (Normal)
 	[SchemeScratchNorm] 	= { "#ffffff",		"#ffffff",		col_gray1  }, // Scratchpad (Selected)
 	[SchemeUrg]		= { "#ffffff",		"#ffffff",		col_magenta}, // Urgent Window
@@ -63,50 +63,42 @@ static const int taglayouts[]	= {   0,   0,   0,   0,   0,   0,   0,   0,   0 };
 
 // There are two options when it comes to per-client rules:
 static const Rule rules[] = {
-	// class		instance	title  tag allowkill float terminal -swallow fakefullscreen monitor
-	/* Terminal */
-	{ "Alacritty",		NULL,		NULL,	0,	1,	0,	1,	0,	0,	-1},
-	/* Tray */
-	{ "trayer",		NULL,		NULL,	0,	0,	0,	1,	1,	0,	-1},
-//	{ "supertuxkart",	NULL,		NULL,	0,	1,	0,	1,	0,	0,	-1},
-	/* Floating Windows */
-	{ "Yad",		NULL,		NULL,	0,	1,	0,	1,	1,	0,	-1},
-	{ "Gcolor2",		NULL,		NULL,	0,	1,	0,	1,	1,	0,	-1},
-	{ "Pavucontrol",	NULL,		NULL,	0,	1,	0,	1,	1,	0,	-1},
-	/* Tag 1: Music */
-	{ "Tauon Music Box",	NULL,		NULL,	1 << 0,	1,	0,	1,	0,	0,	-1},
-	{ "Easytag",		NULL,		NULL,	1 << 0,	1,	0,	1,	0,	0,	-1},
-	/* Tag 2: Mail */
-	{ "thunderbird",	NULL,		NULL,	1 << 1,	1,	0,	1,	0,	0,	-1},
-	/* Tag 3: Internet */
-	{ "Firefox",		NULL,		NULL,	1 << 2,	1,	0,	1,	0,	1,	-1},
-	{ "firefox",		NULL,		NULL,	1 << 2,	1,	0,	1,	0,	1,	-1},
-	{ "chromium-browser",	NULL,		NULL,	1 << 2,	1,	0,	1,	0,	1,	-1},
-	{ "Chromium-browser",	NULL,		NULL,	1 << 2,	1,	0,	1,	0,	1,	-1},
-	{ "Abaddon",		NULL,		NULL,	1 << 2,	1,	0,	1,	0,	0,	-1},
-	{ "transmission-gtk",	NULL,		NULL,	1 << 2,	1,	0,	1,	0,	0,	-1},
-	{ "Transmission-gtk",	NULL,		NULL,	1 << 2,	1,	0,	1,	0,	0,	-1},
-	/* Tag 4: Office */
-	{ "Soffice",		NULL,		NULL,	1 << 3,	1,	0,	1,	0,	0,	-1},
-	{ "Zim",		NULL,		NULL,	1 << 3,	1,	0,	1,	1,	0,	-1},
-	{ "gnome-calculator",	NULL,		NULL,	1 << 3,	1,	0,	1,	1,	0,	-1},
-	/* Tag 6: Graphics */
-	{ "Fr.handbrake.ghb",	NULL,		NULL,	1 << 5,	1,	0,	1,	0,	0,	-1},
-	{ "Gimp",		NULL,		NULL,	1 << 5,	1,	0,	1,	0,	0,	-1},
-	{ "Minecraft* 1.16.5",	NULL,		NULL,	1 << 5,	1,	0,	1,	0,	0,	-1},
-	{ "Minecraft 1.12.2",	NULL,		NULL,	1 << 5,	1,	0,	1,	0,	0,	-1},
-	{ "Blockgame",		NULL,		NULL,	1 << 5,	1,	0,	1,	1,	0,	-1},
-	/* Tag 7: Utilities */
-	{ "org.gnome.clocks",	NULL,		NULL,	1 << 6,	1,	0,	1,	1,	0,	-1},
-	{ "KeePassXC",		NULL,		NULL,	1 << 6,	1,	0,	1,	0,	0,	-1},
-	{ "Timeshift-gtk",	NULL,		NULL,	1 << 6,	1,	0,	1,	0,	0,	-1},
-	{ "BleachBit",		NULL,		NULL,	1 << 6,	1,	0,	1,	0,	0,	-1},
-	{ "Nitrogen",		NULL,		NULL,	1 << 6,	1,	0,	1,	1,	0,	-1},
-	{ "Arandr",		NULL,		NULL,	1 << 6,	1,	0,	1,	0,	0,	-1},
-	{ "Lxappearance",	NULL,		NULL,	1 << 6,	1,	0,	1,	0,	0,	-1},
-	{ "qt5ct",		NULL,		NULL,	1 << 6,	1,	0,	1,	0,	0,	-1},
-	/* class instance title		tags mask	allowkill	isfloating	terminal	-swallow	isfakefullscreen	monitor		scratch key */
-	{ NULL,	 NULL,	 "scratchpad",	0,		1,		1,		0,		1,		0,			-1,		's' },
+	// class		instance title tag     allowkill float terminal -swallow fakefullscreen monitor
+	// Terminal
+	{ "Alacritty",		NULL,    NULL, 0,      1,        0,    1,       0,       0,             -1},
+	// Tray
+	{ "trayer",		NULL,    NULL, 0,      0,        0,    0,       0,       0,             -1},
+	// Floating Windows
+	{ "Yad",		NULL,    NULL, 0,      1,        1,    0,       0,       0,             -1},
+	{ "Gcolor2",		NULL,    NULL, 0,      1,        1,    0,       0,       0,             -1},
+	// Tag 1: Music
+	{ "Tauon Music Box",	NULL,    NULL, 1 << 0, 1,        0,    0,       0,       0,             -1},
+	{ "Easytag",		NULL,    NULL, 1 << 0, 1,        0,    0,       0,       0,             -1},
+	// Tag 2: Mail
+	{ "thunderbird",	NULL,    NULL, 1 << 1, 1,        0,    0,       0,       0,             -1},
+	// Tag 3: Internet
+	{ "Chromium-browser",	NULL,    NULL, 1 << 2, 1,        0,    0,       0,       1,             -1},
+	{ "Abaddon",		NULL,    NULL, 1 << 2, 1,        0,    0,       0,       0,             -1},
+	{ "transmission-gtk",	NULL,    NULL, 1 << 2, 1,        0,    0,       0,       0,             -1},
+	{ "Transmission-gtk",	NULL,    NULL, 1 << 2, 1,        0,    0,       0,       0,             -1},
+	// Tag 4: Office
+	{ "Soffice",		NULL,    NULL, 1 << 3, 1,        0,    0,       0,       0,             -1},
+	{ "Zim",		NULL,    NULL, 1 << 3, 1,        0,    0,       0,       0,             -1},
+	{ "gnome-calculator",	NULL,    NULL, 1 << 3, 1,        1,    0,       0,       0,             -1},
+	// Tag 6: Graphics
+	{ "Fr.handbrake.ghb",	NULL,    NULL, 1 << 5, 1,        0,    0,       0,       0,             -1},
+	{ "Gimp",		NULL,    NULL, 1 << 5, 1,        0,    0,       0,       0,             -1},
+	// Tag 7: Utilities
+	{ "org.gnome.clocks",	NULL,    NULL, 1 << 6, 1,        1,    0,       0,       0,             -1},
+	{ "KeePassXC",		NULL,    NULL, 1 << 6, 1,        0,    0,       0,       0,             -1},
+	{ "Timeshift-gtk",	NULL,    NULL, 1 << 6, 1,        0,    0,       0,       0,             -1},
+	{ "BleachBit",		NULL,    NULL, 1 << 6, 1,        0,    0,       0,       0,             -1},
+	{ "Nitrogen",		NULL,    NULL, 1 << 6, 1,        1,    0,       0,       0,             -1},
+	{ "Arandr",		NULL,    NULL, 1 << 6, 1,        0,    0,       0,       0,             -1},
+	{ "Lxappearance",	NULL,    NULL, 1 << 6, 1,        0,    0,       0,       0,             -1},
+	{ "qt5ct",		NULL,    NULL, 1 << 6, 1,        0,    0,       0,       0,             -1},
+	// class instance title         tags mask allowkill isfloating terminal -swallow isfakefullscreen monitor scratch key
+	{ NULL,  NULL,    "scratchpad", 0,        1,        1,         0,       1,       0,               -1,     's' },
 };
 
 static const float mfact        = 0.5; // Factor of master area size [0.05..0.95]
@@ -142,7 +134,7 @@ static const char *scratchpadcmd[] = { "s", NULL };
 static const char *spawnscratchpadcmd[] = { "alacritty", "-t", "scratchpad", NULL };
 
 static const Key keys[] = {
-	/* modifier                     key        function          argument */
+	// modifier                     key        function          argument
 	// open dmenu
 	{ MODKEY,                       XK_d,      spawn,            {.v = dmenucmd } },
 	{ MODKEY,                       XK_Return, spawn,            {.v = termcmd } },
@@ -200,10 +192,10 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_9,                        8)
 };
 
-/* button definitions */
-/* click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin */
+// Button definitions
+// Click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin
 static const Button buttons[] = {
-	/* click                event mask      button          function        argument */
+	// click                event mask      button          function        argument
 	{ ClkLtSymbol,          0,              Button1,        setlayout,      {.v = &layouts[0]} },
 	{ ClkLtSymbol,          0,              Button3,        layoutmenu,     {0} },
 	{ ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd } },
