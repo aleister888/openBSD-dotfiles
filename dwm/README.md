@@ -70,4 +70,3 @@ dwm build for openBSD
 - [Sticky](https://dwm.suckless.org/patches/sticky/dwm-sticky-6.4.diff)
 - [Swallow](https://dwm.suckless.org/patches/swallow/dwm-swallow-6.3.diff)
 - [Tag layouts](https://dwm.suckless.org/patches/taglayouts/dwm-taglayouts-6.4.diff)
-- Changed maximum refreshrate to 120 in "movemouse" and "resizemouse"
