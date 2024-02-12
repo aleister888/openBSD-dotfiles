@@ -14,11 +14,6 @@ static const Block blocks[] = {
 	{" ^d^^c#458588^"		, "~/.local/scripts/sb/sb-vol-icon",    			1,	1},
 	// Volume level
 	{" ^c#83A598^"			, "~/.local/scripts/sb/sb-vol",    				0,	1},
-	// Weather
-	//{" ^d^^c#D79921^"		, "~/.local/scripts/sb/sb-weather-icon",			0,	0},
-	//{" ^c#FABD2F^"			, "~/.local/scripts/sb/sb-weather",				0,	0},
-	// CPU Temp
-	//{" ^d^^c#D79921^ ^c#FABD2F^"	, "~/.local/scripts/sb/sb-temp",    				1,	0},
 	// Memory used
 	{"% ^d^^c#B16286^ ^c#D3869B^"	, "vmstat | awk 'END {printf $3}'",    				5,	0},
 	// Date

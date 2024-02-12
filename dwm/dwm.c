@@ -2775,7 +2775,7 @@ updatebarpos(Monitor *m)
 }
 
 void
-updateclientlist()
+updateclientlist(void)
 {
 	Client *c;
 	Monitor *m;
@@ -3310,7 +3310,11 @@ bstack(Monitor *m) {
 			mx += WIDTH(c) + gappx;
 		} else {
 			h = m->wh - mh;
+			if ( m->nmaster == 0 ) {
+			resize(c, tx + gappx, ty + gappx , tw - (2 * c->bw) - gappx - gappx / (n - nmaster), h - (2 * c->bw) - 2 * gappx, 0);
+			} else {
 			resize(c, tx + gappx, ty, tw - (2 * c->bw) - gappx - gappx / (n - nmaster), h - (2 * c->bw) - gappx, 0);
+			}
 			if (tw != m->ww)
 				tx += WIDTH(c) + gappx ;
 		}
