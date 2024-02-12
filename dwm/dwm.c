@@ -2413,6 +2413,11 @@ centeredmaster(Monitor *m)
 		}
 	}
 
+	if (n < m->nmaster ) { // In case master clients goes out of range
+		mw = m->ww - 2 * gappx;
+		mx = gappx;
+	}
+
 	oty = 0;
 	ety = 0;
 	for (i = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
