@@ -191,6 +191,7 @@ static void checkotherwm(void);
 static void cleanup(void);
 static void cleanupmon(Monitor *mon);
 static void clientmessage(XEvent *e);
+static void col(Monitor *);
 static void configure(Client *c);
 static void configurenotify(XEvent *e);
 static void configurerequest(XEvent *e);
@@ -289,6 +290,7 @@ static int xerror(Display *dpy, XErrorEvent *ee);
 static int xerrordummy(Display *dpy, XErrorEvent *ee);
 static int xerrorstart(Display *dpy, XErrorEvent *ee);
 static void zoom(const Arg *arg);
+static void bstack(Monitor *m);
 
 static pid_t getparentprocess(pid_t p);
 static int isdescprocess(pid_t p, pid_t c);
@@ -2318,6 +2320,35 @@ tagmon(const Arg *arg)
 }
 
 void
+col(Monitor *m) {
+  unsigned int i, n, h, w, x, y, mw;
+  Client *c;
+
+  for(n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
+  if(n == 0)
+    return;
+
+  if(n > m->nmaster)
+    mw = m->nmaster ? m->ww * m->mfact : 0;
+  else
+    mw = m->ww - m->gappx;
+
+  for(i = 0, x = y = m->gappx, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++) {
+    if(i < m->nmaster) {
+      w = (mw - x) / (MIN(n, m->nmaster) - i);
+      resize(c, x + m->wx, m->wy + m->gappx, w - (2*c->bw), m->wh - (2*c->bw) - 2*m->gappx, False);
+      if (x + WIDTH(c) + m->gappx < m->ww)
+        x += WIDTH(c) + m->gappx;
+    } else {
+      h = (m->wh - y) / (n - i) - m->gappx;
+      resize(c, x + m->wx, m->wy + y, m->ww - x - (2*c->bw) - m->gappx, h - (2*c->bw), False);
+      if (y + HEIGHT(c) + m->gappx < m->wh)
+        y += HEIGHT(c) + m->gappx;
+    }
+  }
+}
+
+void
 tile(Monitor *m)
 {
 	unsigned int i, n, h, mw, my, ty;
@@ -2387,94 +2418,37 @@ centeredmaster(Monitor *m)
 	for (i = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
 	if (i < m->nmaster) {
 		// change i for client numbers
-		// for when theres 1 client only
+		// 1 client only
+		h = (m->wh - my) / (MIN(n, m->nmaster) - i);
 		if ( n - m->nmaster == 1 ){
-		h = (m->wh - my) / (MIN(n, m->nmaster) - i);
-		resize(c,
-			m->wx + mx + gappx, // X pos
-			m->wy + my + gappx , // Y pos
-			mw - (2*c->bw) - gappx, // Width
-			h - (2*c->bw) - gappx * 2, // Height
-			0);
-		my += HEIGHT(c) + gappx;
+			resize(c, m->wx + mx + gappx, m->wy + my + gappx , mw - (2*c->bw) - gappx, h - (2*c->bw) - gappx * 2, 0);
 		} else if ( n - m->nmaster > 1 ){
-		/* nmaster clients are stacked vertically, in the center
-		 * of the screen */
-		h = (m->wh - my) / (MIN(n, m->nmaster) - i);
-		resize(c,
-			m->wx + mx, // X pos
-			m->wy + my + gappx , // Y pos
-			mw - (2*c->bw), // Width
-			h - (2*c->bw) - gappx * 2, // Height
-			0);
-		my += HEIGHT(c) + gappx;
+			resize(c, m->wx + mx, m->wy + my + gappx , mw - (2*c->bw), h - (2*c->bw) - gappx * 2, 0);
 		} else {
-		/* nmaster clients are stacked vertically, in the center
-		 * of the screen */
-		h = (m->wh - my) / (MIN(n, m->nmaster) - i);
-		resize(c,
-			m->wx + mx + gappx, // X pos
-			m->wy + my + gappx , // Y pos
-			mw - (2*c->bw) - gappx * 2, // Width
-			h - (2*c->bw) - gappx * 2, // Height
-			0);
-		my += HEIGHT(c) + gappx;
+			resize(c, m->wx + mx + gappx, m->wy + my + gappx , mw - (2*c->bw) - gappx * 2, h - (2*c->bw) - gappx * 2, 0);
 		}
+		my += HEIGHT(c) + gappx;
 	} else {
 		/* stack clients are stacked vertically */
-		if ((i - m->nmaster) % 2 ) {
-			// for when theres no master
-			if ( n - m->nmaster == n ){
+		if ((i - m->nmaster) % 2 ) { // Even clients
+			// No master
 			h = (m->wh - ety) / ( (1 + n - i) / 2);
-			resize(c,
-			m->wx + gappx,
-			m->wy + ety + gappx,
-			tw - (2*c->bw) - gappx,
-			h - (2*c->bw) - gappx * 2,
-			0);
-			ety += HEIGHT(c) + gappx;
-			} else {
-			h = (m->wh - ety) / ( (1 + n - i) / 2);
-			resize(c,
-			m->wx + gappx,
-			m->wy + ety + gappx,
-			tw - (2*c->bw) - gappx * 2,
-			h - (2*c->bw) - gappx * 2,
-			0);
-			ety += HEIGHT(c) + gappx;
-			}
-		} else {
-			// for when theres no master
 			if ( n - m->nmaster == n ){
-			h = (m->wh - oty) / ((1 + n - i) / 2);
-			resize(c,
-			m->wx + mx + mw + gappx,
-			m->wy + oty + gappx,
-			tw - (2*c->bw) - gappx * 2,
-			h - (2*c->bw) - gappx * 2,
-			0);
-			oty += HEIGHT(c) + gappx;
-			// for when theres 1 client only
-			} else if ( n - m->nmaster == 1 ){
-			h = (m->wh - oty) / ((1 + n - i) / 2);
-			resize(c,
-			m->wx + mx + mw + gappx,
-			m->wy + oty + gappx,
-			tw - (2*c->bw) - gappx,
-			h - (2*c->bw) - gappx * 2,
-			0);
-			oty += HEIGHT(c) + gappx;
+				resize(c, m->wx + gappx, m->wy + ety + gappx, tw - (2*c->bw) - gappx, h - (2*c->bw) - gappx * 2, 0);
 			} else {
-			h = (m->wh - oty) / ((1 + n - i) / 2);
-			resize(c,
-			m->wx + mx + mw + gappx,
-			m->wy + oty + gappx,
-			tw - (2*c->bw) - gappx * 2,
-			h - (2*c->bw) - gappx * 2,
-			0);
-			oty += HEIGHT(c) + gappx;
+				resize(c, m->wx + gappx, m->wy + ety + gappx, tw - (2*c->bw) - gappx * 2, h - (2*c->bw) - gappx * 2, 0);
 			}
-
+			ety += HEIGHT(c) + gappx;
+		} else { // Odd clients
+			h = (m->wh - oty) / ((1 + n - i) / 2);
+			// 1 client only
+			if ( n - m->nmaster == 1 ){
+				resize(c, m->wx + mx + mw + gappx, m->wy + oty + gappx, tw - (2*c->bw) - gappx, h - (2*c->bw) - gappx * 2, 0);
+			// No master
+			} else {
+				resize(c, m->wx + mx + mw + gappx, m->wy + oty + gappx, tw - (2*c->bw) - gappx * 2, h - (2*c->bw) - gappx * 2, 0);
+			}
+			oty += HEIGHT(c) + gappx;
 		}
 	}
 }
@@ -3306,3 +3280,34 @@ main(int argc, char *argv[])
 	return EXIT_SUCCESS;
 }
 
+static void
+bstack(Monitor *m) {
+	int w, h, mh, mx, tx, ty, tw;
+	unsigned int i, n;
+	Client *c;
+
+	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
+	if (n == 0)
+		return;
+	if (n > m->nmaster) {
+		mh = m->nmaster ? m->mfact * m->wh : 0;
+		tw = m->ww / (n - m->nmaster);
+		ty = m->wy + mh;
+	} else {
+		mh = m->wh;
+		tw = m->ww;
+		ty = m->wy;
+	}
+	for (i = mx = 0, tx = m->wx, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++) {
+		if (i < m->nmaster) {
+			w = (m->ww - mx) / (MIN(n, m->nmaster) - i);
+			resize(c, m->wx + mx + gappx , m->wy + gappx, w - (2 * c->bw) - 2 * gappx, mh - (2 * c->bw) - 2 * gappx, 0);
+			mx += WIDTH(c) + gappx;
+		} else {
+			h = m->wh - mh;
+			resize(c, tx + gappx, ty, tw - (2 * c->bw) - gappx - gappx / (n - nmaster), h - (2 * c->bw) - gappx, 0);
+			if (tw != m->ww)
+				tx += WIDTH(c) + gappx ;
+		}
+	}
+}

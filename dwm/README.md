@@ -28,7 +28,10 @@ dwm build for openBSD
 - `Super + r` Floating layout
 - `Super + Shift + e` Monocle layout
 - `Super + Shift + r` Centered master layout
-- `Super + 1/0` Move to tag 1/10
+- `Super + y` Columns layout
+- `Super + Shift + y` Bottom stack layout
+- `Super + 1/9` Move to tag 1/9
+- `Super + Shift + 1/9` Move window to tag 1/9
 
 ## Patches
 
@@ -40,7 +43,11 @@ dwm build for openBSD
 - [Autostart](https://dwm.suckless.org/patches/autostart/dwm-autostart-20210120-cb3f58a.diff)
 - [Bar Height](https://dwm.suckless.org/patches/bar_height/dwm-bar-height-spacing-6.3.diff)
 - [Bar Padding](https://dwm.suckless.org/patches/barpadding/dwm-barpadding-6.2.diff)
+- [Bottom Stack](https://dwm.suckless.org/patches/bottomstack/dwm-bottomstack-6.1.diff)
+    - Added gaps
 - [Cfacts](https://dwm.suckless.org/patches/cfacts/dwm-cfacts-20200913-61bb8b2.diff)
+- [Columns](https://dwm.suckless.org/patches/columns/dwm-columns-6.2.diff)
+    - Added gaps
 - [Colorbar](https://dwm.suckless.org/patches/colorbar/dwm-colorbar-6.2.diff)
 - [Decoration Hints](https://dwm.suckless.org/patches/decoration_hints/dwm-decorhints-6.2.diff)
 - [Desktop Icons](https://raw.githubusercontent.com/bakkeby/patches/master/dwm/dwm-desktop_icons-6.2.diff)

@@ -5,7 +5,7 @@ RADIOFLAG="-t scratchpad -e mpv"
 
 cat <<EOF | xmenu -r | dash &
 IMG:$ICONPATH/internet-web-browser.svg				Internet
-	IMG:$ICONPATH/chromium.svg				Chromium		ungoogled-chromium
+	IMG:$ICONPATH/google-chrome.svg				Chromium		chrome
 	IMG:$ICONPATH/discord.svg				Abaddon			cd "$HOME/.local/src/abaddon/" && ./build/abaddon || notify-send "Abaddon not installed"
 	IMG:$ICONPATH/thunderbird.svg				Thunderbird		thunderbird
 	IMG:$ICONPATH/discord.svg				Discord			cd ~/.local/src/abaddon/build && ./abaddon

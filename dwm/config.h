@@ -71,6 +71,7 @@ static const Rule rules[] = {
 	// Floating Windows
 	{ "Yad",		NULL,    NULL, 0,      1,        1,    0,       0,       0,             -1},
 	{ "Gcolor2",		NULL,    NULL, 0,      1,        1,    0,       0,       0,             -1},
+	{ "gnome-calculator",	NULL,    NULL, 0,      1,        1,    0,       0,       0,             -1},
 	// Tag 1: Music
 	{ "Tauon Music Box",	NULL,    NULL, 1 << 0, 1,        0,    0,       0,       0,             -1},
 	{ "Easytag",		NULL,    NULL, 1 << 0, 1,        0,    0,       0,       0,             -1},
@@ -82,9 +83,7 @@ static const Rule rules[] = {
 	{ "transmission-gtk",	NULL,    NULL, 1 << 2, 1,        0,    0,       0,       0,             -1},
 	{ "Transmission-gtk",	NULL,    NULL, 1 << 2, 1,        0,    0,       0,       0,             -1},
 	// Tag 4: Office
-	{ "Soffice",		NULL,    NULL, 1 << 3, 1,        0,    0,       0,       0,             -1},
 	{ "Zim",		NULL,    NULL, 1 << 3, 1,        0,    0,       0,       0,             -1},
-	{ "gnome-calculator",	NULL,    NULL, 1 << 3, 1,        1,    0,       0,       0,             -1},
 	// Tag 6: Graphics
 	{ "Fr.handbrake.ghb",	NULL,    NULL, 1 << 5, 1,        0,    0,       0,       0,             -1},
 	{ "Gimp",		NULL,    NULL, 1 << 5, 1,        0,    0,       0,       0,             -1},
@@ -111,7 +110,9 @@ static const Layout layouts[] = {
 	{ "[]=",      tile },           // First entry is default
 	{ "><>",      NULL },           // No layout function means floating behavior
 	{ "[M]",      monocle },        // Windows occupies whole space
-	{ "|M|",      centeredmaster }, // 3 Columns Layout
+	{ "|M|",      centeredmaster }, // 3 Columns layout (Centered master)
+	{ "|||",      col },            // Columns layout (Left master)
+	{ "TTT",      bstack },         // Bottom stack
 };
 
 // Key Definitions
@@ -181,6 +182,8 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_r,      setlayout,        {.v = &layouts[1]} },
 	{ MODKEY|ShiftMask,             XK_e,      setlayout,        {.v = &layouts[2]} },
 	{ MODKEY|ShiftMask,             XK_r,      setlayout,        {.v = &layouts[3]} },
+	{ MODKEY,                       XK_y,      setlayout,        {.v = &layouts[4]} },
+	{ MODKEY|ShiftMask,             XK_y,      setlayout,        {.v = &layouts[5]} },
 	TAGKEYS(                        XK_1,                        0)
 	TAGKEYS(                        XK_2,                        1)
 	TAGKEYS(                        XK_3,                        2)

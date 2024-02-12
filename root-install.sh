@@ -78,14 +78,11 @@ echo 'ZDOTDIR="$HOME"/.config/zsh' > /etc/zsh/zshenv
 
 # Configurar unveil.main para ungoogled-chromium si no está configurado
 chrome_unveil(){
-if ! grep -q proxy /etc/ungoogled-chromium/unveil.main; then
+if ! grep -q proxy /etc/chromium/unveil.main; then
     echo "
-# Let's save us some trouble and provide access to everything
-~/ rwc
-
 # Needed for keepassxc-browser integration
 /usr/local/bin r
-/usr/local/bin/keepassxc-proxy rx" >> /etc/ungoogled-chromium/unveil.main
+/usr/local/bin/keepassxc-proxy rx" >> /etc/chromium/unveil.main
 fi
 }
 
