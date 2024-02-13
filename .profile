@@ -7,6 +7,12 @@ export PATH="$HOME/.local/src/build-rust/install_dir/nightly/bin:$HOME/.local/bi
 # Empezar siempre en el directorio $HOME
 if [ "$PWD" != "$HOME" ] && [ "$PWD" -ef "$HOME" ] ; then cd ; fi
 
+# Tema del cursor
+export XCURSOR_PATH=/usr/local/lib/X11/icons/:${XDG_DATA_HOME}/icons
+export XCURSOR_THEME=whiteglass
+export XCURSOR_SIZE=32
+
+# Codificación
 export CHARSET=UTF-8
 export LANG="es_ES.UTF-8"
 
@@ -17,7 +23,7 @@ export READER="zathura"
 export TERMINAL="alacritty"
 export TERM="alacritty"
 #export BROWSER="firefox"
-export BROWSER="ungoogled-chromium"
+export BROWSER="chrome"
 export VIDEO="mpv"
 export OPENER="xdg-open"
 export PAGER="less"

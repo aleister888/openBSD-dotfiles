@@ -26,7 +26,7 @@ packageinstall() {
 	sdl2-mixer sdl2-net sdl2-pango sdl2-ttf stow sxhkd texlive_texmf-full thunderbird transmission-gtk trayer unrar \
 	unzip-- wavpack wget wpa_supplicant xarchiver xclip xcursor-themes xdg-user-dirs xdotool yarn youtube-dl zathura \
 	zathura-pdf-mupdf zim zsh neofetch gsed gawk ggrep gnuwatch symbola-ttf meson ninja cmake xcb libconfig libev uthash \
-	chromium octave zathura-cb icecast ices--%ices2 curl syncthing
+	chromium octave zathura-cb icecast ices--%ices2 curl syncthing xcursor-themes
 }
 
 # Instalar las fuentes necesarias
@@ -376,6 +376,8 @@ mkdir -p "$HOME/.local/share/npm"
 mkdir -p "$HOME/.local/share/npm/lib"
 
 ln -s "$HOME/.config/Xauthority" "$HOME/.Xauthority" 2>/dev/null
+mkdir -p "$HOME/.local/share/icons" >/dev/null
+ln -s /usr/local/lib/X11/icons/whiteglass "$HOME/.local/share/icons/whiteglass" >/dev/null
 
 # Cambia los permisos de la webcam si se decidio
 # permitir el uso de webcam en root-install.sh

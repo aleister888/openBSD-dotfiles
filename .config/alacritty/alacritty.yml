@@ -11,9 +11,9 @@ cursor:
 
 font:
   normal:
-    family: agave Nerd Font
+    family: Iosevka Nerd Font
     style: regular
-  size: 8
+  size: 16
 
 colors:
   # Default colors
