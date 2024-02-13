@@ -4,14 +4,14 @@ call plug#begin('~/.local/share/nvim/plugged')
 " Árbol de ficheros
 Plug 'preservim/nerdtree'
 
-" Coloreado en función de la sintáxis
-Plug 'vim-pandoc/vim-pandoc-syntax' " Pandoc syntax highlighting
-Plug 'ntpeters/vim-better-whitespace' " Highlight trailing whitespaces
+" Auto-cerrar llaves, paréntesis, ...
+Plug 'LunarWatcher/auto-pairs'
 
-" Tema de color
-Plug 'NLKNguyen/papercolor-theme' " Theme
+" Tema de colores
+Plug 'ellisonleao/gruvbox.nvim'
+Plug 'tribela/vim-transparent'
 
-" Sugestiones de entrada
+" Sugerencias de entrada
 Plug 'lervag/vimtex'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'neoclide/coc-vimtex'
@@ -27,16 +27,13 @@ set number relativenumber
 set smarttab
 set breakindent
 set splitbelow splitright
-set spelllang=es
 set hidden
 set ttimeoutlen=0
 set ic
 set ignorecase
 set smartcase
-set pastetoggle=<F3>
 set mouse=a
 set noshowmode
-set termguicolors
 set t_Co=256
 set encoding=utf-8
 set wildmode=longest,list,full
@@ -47,26 +44,30 @@ set scrolloff=10
 set list
 
 " Tema de colores
-set t_Co=256
+let g:transparent_groups = ['Normal', 'Comment', 'Constant', 'Special', 'Identifier',
+                            \ 'Statement', 'PreProc', 'Type', 'Underlined', 'Todo', 'String',
+                            \ 'Function', 'Conditional', 'Repeat', 'Operator', 'Structure',
+                            \ 'LineNr', 'NonText', 'SignColumn', 'CursorLineNr', 'EndOfBuffer']
+let g:transparent_groups += ['NormalFloat', 'CocFloating']
 set background=dark
-let g:PaperColor_Theme_Options = {
-  \   'theme': {
-  \     'default.dark': {
-  \       'transparent_background': 1
-  \     }
-  \   }
-  \ }
-colorscheme PaperColor
+set termguicolors
+colorscheme gruvbox
 
+if !has('gui_running')
+  set t_Co=256
+endif
+
+" Activar/Desactivar sugerencias de entrada
+nnoremap <F1> :call CocToggle()<CR>
+" Abrir/Cerrar árbol de ficheros
+map <F2> :NERDTreeToggle<CR>
 " Comprobar ortografía
-map <M-z> :setlocal spell! spelllang=es_es<CR>
-map <C-z> :e ~/.config/nvim/spell/es.utf-8.add
-map <M-x> :setlocal spell! spelllang=en_us<CR>
-map <C-x> :e ~/.config/nvim/spell/en.utf-8.add
+map <F3> :setlocal spell! spelllang=es_es<CR>
+map <F4> :setlocal spell! spelllang=en_us<CR>
+" Activar/Desactivar auto-cerrado de llaves, paréntesis, ...
+nnoremap <F5> :AutoPairsToggle<CR>
 
-" Activar/Desacrivar sugestiones de texto
-nnoremap <M-1> :call CocToggle()<cr>
-
+" Sugerencias de entrada (Configuración)
 let g:coc = 0
 
 function! CocToggle()
@@ -79,8 +80,7 @@ function! CocToggle()
     endif
 endfunction
 
-" Árbol de ficheros
-map <M-2> :NERDTreeToggle<CR>
+" Árbol de ficheros (Configuración)
 nnoremap <C-M-ñ> :call NERDTreeToggleInCurDir()<cr>
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 if has('nvim')
@@ -115,12 +115,6 @@ autocmd Filetype tex map <M-q> :! arara % <CR>
 " Abrir PDF resultante en un visór de documentos
 autocmd Filetype tex map <M-w> :! zathura $(echo % \| sed 's/tex$/pdf/') & 2>/dev/null <CR><CR>
 
-" Markdown
-" Compilar Markdown en un PDF
-autocmd Filetype markdown map <M-q> :! pandoc % -o $(echo % \| sed 's/md$/pdf/') --lua-filter ~/.config/nvim/columns/columns.lua --pdf-engine=xelatex --variable mainfont="Linux Biolinum" -V geometry:margin=0.75in -V fontsize=14pt <CR>
-" Abrir PDF resultante en un visór de documentos
-autocmd Filetype markdown map <M-w> :! zathura $(echo % \| sed 's/md$/pdf/') & 2>/dev/null <CR><CR>
-
 " Groff
 " Compilar documento Groff en un PDF
 autocmd Filetype groff map <M-q> :! groff -ms % -T pdf > $(echo % \| sed 's/ms$/pdf/') <CR><CR>
@@ -142,24 +136,26 @@ autocmd Filetype c map <M-e> :terminal gdb $PWD/$(echo % \| sed 's/.c$//')<CR>
 au BufNewFile * silent! 0r /home/aleister/.config/nvim/templates/%:e.tpl
 filetype plugin indent on
 
+" Borrar automaticamente espacios inecesarios al guardar el archivo
+autocmd BufWritePre * let currPos = getpos(".")
+autocmd BufWritePre * %s/\s\+$//e
+autocmd BufWritePre * %s/\n\+\%$//e
+
 " Definir tipos de archivos
 autocmd BufRead,BufNewFile /tmp/calcurse*,~/.calcurse/notes/* set filetype=markdown
 autocmd BufRead,BufNewFile *.ms,*.me,*.mom,*.man set filetype=groff
 autocmd BufRead,BufNewFile *.tex set filetype=tex
-augroup pandoc_syntax
-	au! BufNewFile,BufFilePre,BufRead *.md set filetype=markdown.pandoc_syntax
-augroup END
 autocmd BufRead,BufNewFile *.ms,*.me,*.mom set filetype=groff
 autocmd BufRead,BufNewFile *.md set filetype=markdown
 
 " Ayuda
-map <M-h> :echo "\n Meta + 1   Activar/Desactivar Sugestiones\n"
-	\ . " Meta + 2   Activar/Desactivar Vista de Carpetas\n\n"
-	\ . " Meta + Z   Activar Correciones    (Español)\n"
-	\ . " Meta + X   Activar Correciones    (Inglés)\n"
-	\ . " Ctrl + Z   Añadir al diccionario  (Español)\n"
-	\ . " Ctrl + X   Añadir al diccionario  (Inglés)\n\n"
-	\ . " Latex/Markdown:\n"
+map <M-h> :echo "\n F1         Activar/Desactivar Sugestiones\n"
+	\ . " F2         Activar/Desactivar Vista de Carpetas\n"
+	\ . " F3         Activar Correciones (Español)\n"
+	\ . " F4         Activar Correciones (Inglés)\n"
+	\ . " F5         Desactivar/Activar Auto-Cerrado (LLaves, paréntesis, ...)\n"
+	\ . " 'z'+'='    Corregir Palabra\n\n"
+	\ . " laTeX:\n"
 	\ . " Meta + Q   Compliar Documento\n"
 	\ . " Meta + W   Abrir Documento\n\n"
 	\ . " Groff:\n"
@@ -224,29 +220,3 @@ autocmd FIletype groff inoremap ⅜  \[38] | autocmd FIletype groff inoremap ⅝
 autocmd FIletype groff inoremap ⅞  \[78] | autocmd Filetype groff inoremap ¹  \[S1]
 autocmd Filetype groff inoremap ²  \[S2] | autocmd Filetype groff inoremap ³  \[S3]
 autocmd Filetype groff inoremap «  \[Fo] | autocmd Filetype groff inoremap »  \[Fc]
-" Misc
-autocmd Filetype groff inoremap ¡  \[r!]
-autocmd Filetype groff inoremap ¢  \[ct]
-autocmd Filetype groff inoremap £  \[Po]
-autocmd Filetype groff inoremap ¤  \[Cs]
-autocmd Filetype groff inoremap ¥  \[Ye]
-autocmd Filetype groff inoremap ¦  \[bb]
-autocmd Filetype groff inoremap §  \[sc]
-autocmd Filetype groff inoremap ¨  \[ad]
-autocmd Filetype groff inoremap ©  \[co]
-autocmd Filetype groff inoremap ª  \[Of]
-autocmd Filetype groff inoremap ¬  \[no]
-autocmd Filetype groff inoremap ®  \[rg]
-autocmd Filetype groff inoremap ¯  \[a-]
-autocmd Filetype groff inoremap Þ  \[TP]
-autocmd Filetype groff inoremap °  \[de]
-autocmd Filetype groff inoremap ß  \[ss]
-autocmd Filetype groff inoremap ´  \[aa]
-autocmd Filetype groff inoremap µ  \[mc]
-autocmd Filetype groff inoremap ¶  \[ps]
-autocmd Filetype groff inoremap ¸  \[ac]
-autocmd Filetype groff inoremap ¹  \[S1]
-autocmd Filetype groff inoremap º  \[Om]
-autocmd Filetype groff inoremap ¿  \[r?]
-autocmd Filetype groff inoremap þ  \[Tp]
-autocmd Filetype groff inoremap Ð  \[-D]

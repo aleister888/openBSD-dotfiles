@@ -1,9 +1,5 @@
 window:
-  padding:
-    x: 5
-    y: 5
-  dynamic_padding: false
-  opacity: 0.9
+  opacity: 0.875
 
 key_bindings:
   - { key: V,     mods: Alt,      action: Paste }
@@ -15,8 +11,8 @@ cursor:
 
 font:
   normal:
-    family: agave Nerd Font Mono
-    style: Bold
+    family: agave Nerd Font
+    style: regular
   size: 8
 
 colors:
@@ -24,11 +20,11 @@ colors:
   primary:
     background: '0x101010'
     foreground: '0xd4be98'
-    bright_foreground: '#ffffff'
+    bright_foreground: '#d4be98'
 
   # Colors the cursor will use if `custom_cursor_colors` is true
   cursor:
-    text: '0x1d2021'
+    text: '0x101010'
     cursor: '0xd5c4a1'
 
   # Normal colors
