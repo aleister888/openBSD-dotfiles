@@ -58,5 +58,6 @@ I provide scripts to compile bleachbit and abaddon automatically
 ## TODO
 
 - Configure Tauon automatically (set gruvbox theme and agave font)
-- Asking the user if they want to autoinstall abaddon and/or bleachbit
+- Switch back to ST or other terminal emulator, alacritty is 2 slow on older hardware.
+- Asking the user if they want to auto install abaddon and/or bleachbit
 - Translate the README to Spanish
