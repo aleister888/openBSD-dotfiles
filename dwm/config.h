@@ -65,7 +65,7 @@ static const int taglayouts[]	= {   0,   0,   0,   0,   0,   0,   0,   0,   0 };
 static const Rule rules[] = {
 	// class		instance title tag     allowkill float terminal -swallow fakefullscreen monitor
 	// Terminal
-	{ "Alacritty",		NULL,    NULL, 0,      1,        0,    1,       0,       0,             -1},
+	{ "st-256color",	NULL,    NULL, 0,      1,        0,    1,       0,       0,             -1},
 	// Tray
 	{ "trayer",		NULL,    NULL, 0,      0,        0,    0,       0,       0,             -1},
 	// Floating Windows
@@ -125,6 +125,8 @@ static const Layout layouts[] = {
 #define STACKKEYS(MOD,ACTION) \
 /* Focus/Move to previous position */	{ MOD, XK_comma,  ACTION##stack, {.i = INC(-1) } }, \
 /* Focus/Move to next position */	{ MOD, XK_period, ACTION##stack, {.i = INC(+1) } }, \
+/* Focus/Move to previous position */	{ MOD, XK_Left,   ACTION##stack, {.i = INC(-1) } }, \
+/* Focus/Move to next position */	{ MOD, XK_Right,  ACTION##stack, {.i = INC(+1) } }, \
 /* Focus/Move to master window */	{ MOD, XK_minus,  ACTION##stack, {.i = 0 } },
 
 // Command spawner
@@ -133,10 +135,10 @@ static const Layout layouts[] = {
 // Commands
 static char dmenumon[2] = "0"; // Component of dmenucmd, manipulated in spawn()
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nf", tag_foreground, "-nb", tag_background, "-sf", seltag_foreground, "-sb", seltag_background, "-c", "-l", "16", NULL };
-static const char *termcmd[]  = { "alacritty", NULL };
+static const char *termcmd[]  = { "st", NULL };
 static const char *layoutmenu_cmd = "layoutmenu.sh";
 static const char *scratchpadcmd[] = { "s", NULL };
-static const char *spawnscratchpadcmd[] = { "alacritty", "-t", "scratchpad", NULL };
+static const char *spawnscratchpadcmd[] = { "st", "-t", "scratchpad", NULL };
 
 static const Key keys[] = {
 	// modifier                     key        function          argument

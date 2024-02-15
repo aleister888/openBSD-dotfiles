@@ -28,6 +28,13 @@ nnoremap <leader>{ :s/\%#\([^[:space:]]\+\)/{\1}/g<CR>:noh<CR>
 " Tema de colores
 Plug 'ellisonleao/gruvbox.nvim'
 
+" Pre-visualización de colores
+Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }
+let g:Hexokinase_highlighters = [
+\   'sign_column',
+\   'backgroundfull',
+\ ]
+
 " Ejecutar comandos de forma asíncrona
 Plug 'skywind3000/asyncrun.vim'
 

@@ -17,7 +17,7 @@ fi
 
 # Instalar nuestros paquetes
 packageinstall() {
-	doas pkg_add -Ix ghostscript-- alacritty arandr automake-1.16.5 avahi bash bat cdrtools chafa coreutils cups czkawka-gui dash-- dbus \
+	doas pkg_add -Ix ghostscript-- arandr automake-1.16.5 avahi bash bat cdrtools chafa coreutils cups czkawka-gui dash-- dbus \
 	dragon-drop dunst easytag eza feh ffmpeg ffmpegthumbnailer flac fzf gcc%8 gcolor2 gimp%snapshot git gmake \
 	gnome-calculator gnome-keyring go gnupg handbrake hplip htop i3lock imagemagick imlib2 jdk%8 jdk%11 jq keepassxc--browser latexmk \
 	lf libnotify libopenmpt libreoffice libsamplerate libvorbis lxappearance mediainfo mpg123 mpv neovim nitrogen node \
@@ -139,6 +139,8 @@ suckless_install() {
     doas gmake install --directory "$HOME/.dotfiles/dmenu" >/dev/null 2>&1
     # Instalar dwmblocks
     doas gmake install --directory "$HOME/.dotfiles/dwmblocks" >/dev/null 2>&1
+    # Instalar st
+    doas gmake clean install --directory "$HOME/.dotfiles/st" >/dev/null 2>&1
 }
 
 # Instalar xclickroot
