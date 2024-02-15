@@ -13,7 +13,7 @@ font:
   normal:
     family: Iosevka Nerd Font
     style: regular
-  size: 16
+  size: 14
 
 colors:
   # Default colors

@@ -58,7 +58,7 @@ typedef struct {
 } Sp;
 
 static const char *tags[]	= { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
-static const char *alttags[]	= { "", "", "󰈹", "", "", "", "󱁤", "󰋅", "" };
+static const char *alttags[]	= { "", "", "󰊯", "", "", "", "󱁤", "", "" };
 static const int taglayouts[]	= {   0,   0,   0,   0,   0,   0,   0,   0,   0 };
 
 // There are two options when it comes to per-client rules:
@@ -122,6 +122,10 @@ static const Layout layouts[] = {
 	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
 	{ MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
+#define STACKKEYS(MOD,ACTION) \
+/* Focus/Move to previous position */	{ MOD, XK_comma,  ACTION##stack, {.i = INC(-1) } }, \
+/* Focus/Move to next position */	{ MOD, XK_period, ACTION##stack, {.i = INC(+1) } }, \
+/* Focus/Move to master window */	{ MOD, XK_minus,  ACTION##stack, {.i = 0 } },
 
 // Command spawner
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
@@ -147,31 +151,26 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_q,      shiftviewclients, { .i = -1 } },
 	{ MODKEY,                       XK_w,      shiftviewclients, { .i = +1 } },
 	// change focus
-	{ MODKEY,                       XK_Right,  focusstack,       {.i = +1 } },
-	{ MODKEY,                       XK_Left,   focusstack,       {.i = -1 } },
+	STACKKEYS(MODKEY,                                            focus)
+	STACKKEYS(MODKEY|ShiftMask,                                  push)
 
-	// move windows
-	{ MODKEY|ShiftMask,             XK_Right,  rotatestack,      {.i = +1 } },
-	{ MODKEY|ShiftMask,             XK_Left,   rotatestack,      {.i = -1 } },
 	// increase/decrease stack
 	{ MODKEY,                       XK_j,      incnmaster,       {.i = +1 } },
 	{ MODKEY,                       XK_k,      incnmaster,       {.i = -1 } },
 	// increase/decrease stack size
 	{ MODKEY,                       XK_u,      setmfact,         {.f = -0.025} },
 	{ MODKEY,                       XK_i,      setmfact,         {.f = +0.025} },
-	{ MODKEY,                       XK_h,      setcfact,         {.f = +0.25} },
-	{ MODKEY,                       XK_l,      setcfact,         {.f = -0.25} },
-	// swap master/stack window
-        { MODKEY|ControlMask,           XK_Left,   zoom,             {0} },
-        { MODKEY|ControlMask,           XK_Right,  zoom,             {0} },
+	{ MODKEY,                       XK_h,      setcfact,         {.f = -0.25} },
+	{ MODKEY,                       XK_l,      setcfact,         {.f = +0.25} },
+
 	{ MODKEY|ShiftMask,             XK_q,      killclient,       {0} },
 	{ MODKEY|ShiftMask,             XK_F11,    quit,             {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating,   {0} },
-	// monitor control
-	{ MODKEY,                       XK_comma,  focusmon,         {.i = -1 } },
-	{ MODKEY,                       XK_period, focusmon,         {.i = +1 } },
-	{ MODKEY|ShiftMask,             XK_comma,  tagmon,           {.i = -1 } },
-	{ MODKEY|ShiftMask,             XK_period, tagmon,           {.i = +1 } },
+	// monitor control (for spanish layout)
+	{ MODKEY,                       XK_dead_acute, focusmon,     {.i = -1 } },
+	{ MODKEY,                       XK_ccedilla,   focusmon,     {.i = +1 } },
+	{ MODKEY|ShiftMask,             XK_dead_acute, tagmon,       {.i = -1 } },
+	{ MODKEY|ShiftMask,             XK_ccedilla,   tagmon,       {.i = +1 } },
 	// scratchpads
         { MODKEY,                       XK_s,      togglescratch,    {.v = scratchpadcmd } },
         { MODKEY|ControlMask,           XK_s,      removescratch,    {.v = scratchpadcmd } },

@@ -6,9 +6,8 @@ RADIOFLAG="-t scratchpad -e mpv"
 cat <<EOF | xmenu -r | dash &
 IMG:$ICONPATH/internet-web-browser.svg				Internet
 	IMG:$ICONPATH/google-chrome.svg				Chromium		chrome
-	IMG:$ICONPATH/discord.svg				Abaddon			cd "$HOME/.local/src/abaddon/" && ./build/abaddon || notify-send "Abaddon not installed"
+	IMG:$ICONPATH/discord.svg				Discord			cd "$HOME/.local/src/abaddon/" && ./build/abaddon || notify-send "Abaddon not installed"
 	IMG:$ICONPATH/thunderbird.svg				Thunderbird		thunderbird
-	IMG:$ICONPATH/discord.svg				Discord			cd ~/.local/src/abaddon/build && ./abaddon
 	IMG:$ICONPATH/syncthing-gtk.svg				Syncthing		xdg-open http://127.0.0.1:8384
 	IMG:$ICONPATH/transmission.svg				Transmission		transmission-gtk
 	IMG:$ICONPATH/barrier.svg				Barrier			LANG=es_ES.UTF-8 barrier-gui
@@ -62,7 +61,7 @@ IMG:$ICONPATH/applications-utilities.svg			Utilities
 	IMG:$ICONPATH/preferences-desktop-theme.svg		GTK Settings		lxappearance
 	IMG:$ICONPATH/qt5ct.svg					QT Settings		qt5ct
 
-IMG:$ICONPATH/chromium.svg					Chromium		ungoogled-chromium
+IMG:$ICONPATH/google-chrome.svg					Chromium		chrome
 IMG:$ICONPATH/thunderbird.svg					Thunderbird		thunderbird
 IMG:$ICONPATH/system-file-manager.svg				File-Manager		$TERMINAL -e lf
 IMG:$ICONPATH/Alacritty.svg					Terminal		$TERMINAL

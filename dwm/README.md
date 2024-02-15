@@ -8,22 +8,24 @@ dwm build for openBSD
 
 - `Super + b` Toggle bar
 - `Super + q/w` Previous/Next tag
-- `Super + Left/Right` Focus Previous/Next window
-- `Super + Ctrl + Left/Right` Shift focused window with master window
-- `Super + Shift + Left/Right` Move focused window
+- Stack Keys
+    - `Super + Minus` Focus first master Window
+    - `Super + Comma/Period` Focus Previous/Next window
+    - `Super + Stack Key` Focus window
+    - `Super + Shift + Stack Key` Move window
 - `Super + j/k` Add/Remove window to master
-- `Super + u/i` Change horizontal ratio
-- `Super + h/l` Change vertical ratio
+- `Super + u/i` Change window ratio
+- `Super + h/l` Change window weight
 - `Super + Shift + q` Close window
-- `Super + Shift + F11` Kill dwm
+- `Super + Shift + F11` Restart dwm
 - `Super + Shift + Space` Toggle Floating
 - `Super + s` Toggle scratchpads
 - `Super + Shift + s` Make window scratchpad
 - `Super + Ctrl + s` Unmake window scratchpad
-- `Super + Alt + s` Toggle windows stickyness
-- `Super + f` Spawn Alacritty as scratchpad
-- `Super + ,/.` Focus Previous/Next monitor
-- `Super + Shift + ,/.` Send window to Previous/Next monitor
+- `Super + Alt + s` Toggle windows stickiness
+- `Super + f` Spawnscratchpad
+- `Super + ´/ç` Focus Previous/Next monitor (Intended for Spanish keyboards)
+- `Super + Shift + ´/ç` Send window to Previous/Next monitor (Intended for Spanish keyboards)
 - `Super + e` Default layout
 - `Super + r` Floating layout
 - `Super + Shift + e` Monocle layout
@@ -46,6 +48,7 @@ dwm build for openBSD
 - [Bottom Stack](https://dwm.suckless.org/patches/bottomstack/dwm-bottomstack-6.1.diff)
     - Added gaps
 - [Cfacts](https://dwm.suckless.org/patches/cfacts/dwm-cfacts-20200913-61bb8b2.diff)
+    - Added cfacts support for all layouts
 - [Columns](https://dwm.suckless.org/patches/columns/dwm-columns-6.2.diff)
     - Added gaps
 - [Colorbar](https://dwm.suckless.org/patches/colorbar/dwm-colorbar-6.2.diff)
@@ -60,10 +63,10 @@ dwm build for openBSD
 - [Preserve on Restart](https://dwm.suckless.org/patches/preserveonrestart/dwm-preserveonrestart-6.3.diff)
 - [Renamed scratchpads](https://raw.githubusercontent.com/bakkeby/patches/master/dwm/dwm-renamedscratchpads-6.3.diff)
 - [Resize corners](https://raw.githubusercontent.com/bakkeby/patches/master/dwm/dwm-resizecorners-6.3.diff)
-- [Rotatestack](https://dwm.suckless.org/patches/rotatestack/dwm-rotatestack-20161021-ab9571b.diff)
 - [Savefloats](https://dwm.suckless.org/patches/save_floats/dwm-savefloats-20181212-b69c870.diff)
 - [Selective fake fullscreen](https://dwm.suckless.org/patches/selectivefakefullscreen/dwm-selectivefakefullscreen-20201130-97099e7.diff)
 - [Shift view clients](https://raw.githubusercontent.com/bakkeby/patches/master/dwm/dwm-shiftviewclients-6.2.diff)
+- [Stacker](https://dwm.suckless.org/patches/stacker/dwm-stacker-6.2.diff)
 - [Status2d](https://dwm.suckless.org/patches/status2d/dwm-status2d-6.3.diff)
 - [Status all Monitors](https://dwm.suckless.org/patches/statusallmons/dwm-statusallmons-6.2.diff)
 - [Steam](https://raw.githubusercontent.com/bakkeby/patches/master/dwm/dwm-steam-6.2.diff)
