@@ -63,7 +63,7 @@ IMG:$ICONPATH/applications-utilities.svg			Utilities
 IMG:$ICONPATH/google-chrome.svg					Chromium		chrome
 IMG:$ICONPATH/thunderbird.svg					Thunderbird		thunderbird
 IMG:$ICONPATH/system-file-manager.svg				File-Manager		$TERMINAL -e lf
-IMG:$ICONPATH/Alacritty.svg					Terminal		$TERMINAL
+IMG:$ICONPATH/st.svg						Terminal		$TERMINAL
 IMG:$ICONPATH/system-shutdown.svg				Power
 	IMG:$ICONPATH/system-lock-screen.svg			Lock			~/.local/scripts/i3lock-fancy
 	IMG:$ICONPATH/system-suspend-hibernate.svg		Lock & Suspend		~/.local/scripts/i3lock-fancy && zzz
