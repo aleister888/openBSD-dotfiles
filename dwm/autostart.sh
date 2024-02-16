@@ -35,8 +35,7 @@ xrdb ~/.config/Xresources &
 
 # Lanzar nuestras aplicaciones is no lo estan ya
 pgrep dbus || sh -c 'dbus-update-activation-environment --all & dbus-launch' &
-pgrep sxhkd		|| sxhkd &
-pgrep picom		|| sh -c 'picom --animation-clamping || picom' &
+pgrep picom		|| picom &
 pgrep dunst		|| dunst &
 pgrep dwmblocks		|| dwmblocks &
 pgrep xclickroot	|| xclickroot -r $HOME/.local/scripts/xmenu.sh &
