@@ -19,7 +19,8 @@ static const char col_gray1[]         = "#1D2021";
 static const char col_gray2[]         = "#282828";
 static const char col_gray3[]         = "#3C3836";
 static const char col_gray4[]         = "#504945";
-static const char col_cyan[]          = "#83A598";
+static const char col_cyan1[]          = "#83A598";
+static const char col_cyan2[]         = "#458588";
 static const char col_red[]           = "#FB4934";
 static const char col_magenta[]       = "#B16286";
 static const char col_orange[]        = "#FE8019";
@@ -45,8 +46,8 @@ static const char *colors[][3]      = {
 	[SchemeInfoNorm]	= { mid_foreground,    mid_background,    "#ffffff"  }, // Información (Normal)
 	[SchemeInfoSel]		= { selmid_foreground, selmid_background, "#ffffff"  }, // Información (Seleccionada)
 	[SchemeStatus]		= { status_foreground, status_background, "#ffffff"  }, // Estado/información
-	[SchemeScratchSel]	= { "#ffffff",		"#ffffff",		col_cyan   }, // Scratchpad (Normal)
-	[SchemeScratchNorm] 	= { "#ffffff",		"#ffffff",		col_gray1  }, // Scratchpad (Selecteccionado)
+	[SchemeScratchNorm] 	= { "#ffffff",		"#ffffff",		col_cyan1  }, // Scratchpad (Selecteccionado)
+	[SchemeScratchSel]	= { "#ffffff",		"#ffffff",		col_cyan2  }, // Scratchpad (Normal)
 	[SchemeUrg]		= { "#ffffff",		"#ffffff",		col_magenta}, // Ventanas urgentes
 	// Los valores con "#ffffff" no son usados pero no pueden estar vacios
 };
