@@ -72,8 +72,9 @@ done
 # Instalar pfetch
 pfetch_install() {
 	# Clonar el repositorio pfetch y copiar el ejecutable a /usr/local/bin/
-	git clone https://github.com/dylanaraps/pfetch.git "$HOME/.dotfiles/scripts/pfetch" >/dev/null 2>&1
-	doas cp "$HOME/.dotfiles/scripts/pfetch/pfetch" /usr/local/bin/
+	git clone https://github.com/dylanaraps/pfetch.git "$HOME/.dotfiles/bin/pfetch" >/dev/null 2>&1
+	doas cp "$HOME/.dotfiles/bin/pfetch/pfetch" /usr/local/bin/ && \
+	rm -rf "$HOME/.dotfiles/bin/pfetch"
 }
 
 # Instalar los archivos de configuración
@@ -95,11 +96,11 @@ dotfiles_install() {
 	    ln -s "$HOME/.dotfiles/.profile" "$HOME/.profile"
 	}
 	# Directorio con los scripts
-	ensure_directory "$HOME/.local/scripts"
-	stow --target="${HOME}/.local/scripts/" "$HOME/.dotfiles/scripts/" >/dev/null 2>&1
+	ensure_directory "$HOME/.local/bin"
+	sh -c "cd $HOME/.dotfiles && stow --target="${HOME}/.local/bin/" bin/" >/dev/null
 	# Directorio de configuración
 	ensure_directory "$HOME/.config"
-	stow --target="${HOME}/.config/" "$HOME/.dotfiles/.config/" >/dev/null 2>&1
+	sh -c "cd $HOME/.dotfiles && stow --target="${HOME}/.config/" .config/" >/dev/null
 	# Directorio dwm
 	ensure_directory "$HOME/.local/share/dwm"
 	create_symlink "$HOME/.dotfiles/dwm/autostart.sh" "$HOME/.local/share/dwm/autostart.sh"
@@ -128,7 +129,7 @@ gtk_config() {
 	gtk-theme-name=Gruvbox-Dark-B
 	gtk-icon-theme-name=gruvbox-dark-icons-gtk" > "$HOME/.dotfiles/.config/gtk-4.0/settings.ini"
 	# Aplicar configuraciones utilizando stow
-	stow --target="${HOME}/.config/" .config/ >/dev/null 2>&1
+	sh -c "cd $HOME/.dotfiles && stow --target="${HOME}/.config/" .config/" >/dev/null
 }
 
 # Instalar nuestro software suckless
@@ -202,7 +203,7 @@ echo "SHELL=/bin/sh
 MAILTO=$(whoami)
 
 # Auto suspend laptop
-* * * * *	$(whoami)	$HOME/.local/scripts/bat
+* * * * *	$(whoami)	$HOME/.local/bin/bat
 * * * * *	root		rm /var/log/Xorg.*
 * * * * *	root		rm /var/log/daemon.*
 * * * * *	root		rm /var/log/maillog.*" > /tmp/crontab
@@ -297,7 +298,7 @@ else
 fi
 
 # Instalamos xdg-ninja
-NINJA_DIR="$HOME/.dotfiles/scripts/xdg-ninja"
+NINJA_DIR="$HOME/.dotfiles/bin/xdg-ninja"
 git clone https://github.com/b3nj5m1n/xdg-ninja.git "$NINJA_DIR" >/dev/null 2>&1
 if [ -d "$NINJA_DIR" ]; then
     echo "xdg-ninja se instaló correctamente en $NINJA_DIR"

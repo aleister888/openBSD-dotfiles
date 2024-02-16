@@ -1,6 +1,6 @@
 #!/bin/zsh
 
-export PATH="$HOME/.local/bin:/bin:/sbin:/usr/bin:/usr/sbin:/usr/X11R6/bin:/usr/local/bin:/usr/local/sbin:/usr/local/jdk-17/bin"
+export PATH="$HOME/.local/bin:$HOME/.local/bin/sb:/bin:/sbin:/usr/bin:/usr/sbin:/usr/X11R6/bin:/usr/local/bin:/usr/local/sbin:/usr/local/jdk-17/bin"
 
 # Empezar siempre en el directorio $HOME
 if [ "$PWD" != "$HOME" ] && [ "$PWD" -ef "$HOME" ] ; then cd ; fi

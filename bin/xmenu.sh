@@ -65,12 +65,12 @@ IMG:$ICONPATH/thunderbird.svg					Thunderbird		thunderbird
 IMG:$ICONPATH/system-file-manager.svg				File-Manager		$TERMINAL -e lf
 IMG:$ICONPATH/st.svg						Terminal		$TERMINAL
 IMG:$ICONPATH/system-shutdown.svg				Power
-	IMG:$ICONPATH/system-lock-screen.svg			Lock			~/.local/scripts/i3lock-fancy
-	IMG:$ICONPATH/system-suspend-hibernate.svg		Lock & Suspend		~/.local/scripts/i3lock-fancy && zzz
+	IMG:$ICONPATH/system-lock-screen.svg			Lock			i3lock-fancy
+	IMG:$ICONPATH/system-suspend-hibernate.svg		Lock & Suspend		i3lock-fancy && zzz
 	IMG:$ICONPATH/sleep.svg					Suspend			zzz
 	IMG:$ICONPATH/system-log-out.svg			Logout			pkill dwm
 	IMG:$ICONPATH/system-shutdown.svg			Shutdown		xterm -title scratchpad -e "doas halt -p"
 	IMG:$ICONPATH/system-reboot.svg				Reboot			xterm -title scratchpad -e "doas reboot"
 EOF
 
-#IMG:$ICONPATH/multimc.svg					MultiMC			~/.local/scripts/minecraft
+#IMG:$ICONPATH/multimc.svg					MultiMC			minecraft

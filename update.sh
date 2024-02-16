@@ -1,10 +1,10 @@
-#!/bin/sh
+#!/usr/local/bin/bash
 
-rm ~/.config/mimeapps.list
+rm ~/.config/mimeapps.list 2>/dev/null
 
 # Stow dotfiles
-stow --target=${HOME}/.local/scripts/ scripts/
-stow --target=${HOME}/.config/ .config/
+sh -c "cd $HOME/.dotfiles && stow --target="${HOME}/.local/bin/" bin/" >/dev/null
+sh -c "cd $HOME/.dotfiles && stow --target="${HOME}/.config/" .config/" >/dev/null
 
 # Symlink DWM autostart script
 ln -s ~/.dotfiles/dwm/autostart.sh ~/.local/share/dwm 2>/dev/null
@@ -27,7 +27,7 @@ done
 
 # Make some configuration user-agnostic
 
-echo "file:///home/`whoami`/Downloads" > ~/.dotfiles/.config/gtk-3.0/bookmarks
+echo "file:///home/$(whoami)/Downloads" > ~/.dotfiles/.config/gtk-3.0/bookmarks
 sed -i "s|$(cat ~/.config/qt5ct/qt5ct.conf | grep color_scheme)|color_scheme_path=/home/`whoami`/.config/qt5ct/colors/Gruvbox.conf|g" ~/.config/qt5ct/qt5ct.conf
 
 # Función para realizar la copia de /etc/login.conf
@@ -58,4 +58,5 @@ mode=4
 bgcolor=#000000" > ~/.config/nitrogen/bg-saved.cfg
 
 # Borrar links symbolicos rotos
-find ~/.local/scripts -type l ! -exec test -e {} \; -delete
+find ~/.local/bin -type l ! -exec test -e {} \; -delete
+find ~/.config -type l ! -exec test -e {} \; -delete

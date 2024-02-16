@@ -146,17 +146,17 @@ static const Key keys[] = {
 	// Abrir terminal
 	{ MODKEY,                       XK_Return, spawn,            {.v = termcmd } },
 	// Menu de apagado
-	{ MODKEY,                       XK_F11,    spawn,            SHCMD("~/.local/scripts/sxhkd/powermenu") },
+	{ MODKEY,                       XK_F11,    spawn,            SHCMD("powermenu") },
 	// Abrir aplicaciones más usadas
 	{ MODKEY,                       XK_F2,     spawn,            SHCMD("chrome") },
 	{ MODKEY,                       XK_F3,     spawn,            SHCMD("st lf") },
 	{ MODKEY,                       XK_F4,     spawn,            SHCMD("tauon") },
 	// Desactivar/Activar modo escritura
-	{ MODKEY|ShiftMask,             XK_t,      spawn,            SHCMD("~/.local/scripts/typemode") },
+	{ MODKEY|ShiftMask,             XK_t,      spawn,            SHCMD("typemode") },
 	// Desmontar discos (Ya se montan automaticamente con hotplugd)
-	{ MODKEY|ShiftMask,             XK_F5,     spawn,            SHCMD("~/.local/scripts/sxhkd/dmenuumount") },
+	{ MODKEY|ShiftMask,             XK_F5,     spawn,            SHCMD("dmenuumount") },
 	// Configurar pantallas
-	{ MODKEY,                       XK_F1,     spawn,            SHCMD("~/.local/scripts/sxhkd/monitor-layout") },
+	{ MODKEY,                       XK_F1,     spawn,            SHCMD("monitor-layout") },
 	{ MODKEY|ShiftMask,             XK_F1,     spawn,            SHCMD("arandr") },
 	// Cambiar música
 	{ MODKEY,                       XK_z,      spawn,            SHCMD("playerctl previous; pkill -USR2 dwmblocks") },
@@ -171,7 +171,7 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_n,      spawn,            SHCMD("doas /usr/bin/mixerctl outputs.master=255 && sndioctl output.level=1; pkill -USR1 dwmblocks") },
 	{ MODKEY|ShiftMask,             XK_m,      spawn,            SHCMD("doas /usr/bin/mixerctl outputs.master=255 && sndioctl output.level=0.7; pkill -USR1 dwmblocks") },
 	// Silenciar/Activar Micrófono
-	{ MODKEY|ShiftMask,             XK_F4,     spawn,            SHCMD("~/.local/scripts/mic-mute-toggle") },
+	{ MODKEY|ShiftMask,             XK_F4,     spawn,            SHCMD("mic-mute-toggle") },
 	// Bajar Brillo
 	{ MODKEY,                       XK_v,      spawn,            SHCMD("xbacklight -steps 1 -dec 25") },
 	// Cambiar brillo (100%/40%)

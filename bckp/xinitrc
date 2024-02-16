@@ -2,8 +2,6 @@
 
 [ -f xrdb $HOME/.config/Xresources ] && xrdb $HOME/.config/Xresources &
 
-xclickroot -r $HOME/.local/scripts/xmenu.sh &
-
 while true; do
 	ck-launch-session /usr/local/bin/dwm
 done

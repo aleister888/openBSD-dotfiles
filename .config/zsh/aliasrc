@@ -16,7 +16,7 @@ alias \
 	xdotool_table='xmodmap -pk' \
 	cleanup="doas pkg_delete -a" \
 	pkg_list="/bin/ls -1 /var/db/pkg" \
-	"xdg-ninja"="~/.local/scripts/xdg-ninja/xdg-ninja.sh" \
+	"xdg-ninja"="~/.local/bin/xdg-ninja/xdg-ninja.sh" \
 	printfile='lp -d HP_Officejet_5740_series' \
 	push='git add . && git commit && git push' \
 	pull='git pull' \
