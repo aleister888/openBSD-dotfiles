@@ -1,0 +1,43 @@
+#!/usr/local/bin/bash
+
+# Función para mostrar un diálogo con Yad
+mostrar_dialogo() {
+	yad --center --title "Temporizador Pomodoro" --text "$1" --button="Aceptar:0" --button="Cancelar:1" --width=300
+	return $?
+}
+
+# Función para iniciar el temporizador
+iniciar_temporizador() {
+	tiempo=$1
+	while [ $tiempo -gt 0 ]; do
+		notify-send -i pomodoro-indicator "Quedan $tiempo minutos"
+		sleep 300 # 5 minutos
+		tiempo=$((tiempo - 5))
+	done
+}
+
+# Preguntar si se desea iniciar el temporizador Pomodoro
+if [ "$1" != "skip_question" ]; then
+	if mostrar_dialogo "¿Desea iniciar el temporizador Pomodoro?"; then
+		iniciar_temporizador 15
+		if mostrar_dialogo "¿Desea iniciar el tiempo de descanso de 5 minutos?"; then
+			iniciar_temporizador 5
+		else
+			exit
+		fi
+	else
+		exit
+	fi
+else
+		iniciar_temporizador 15
+		if mostrar_dialogo "¿Desea iniciar el tiempo de descanso de 5 minutos?"; then
+			iniciar_temporizador 5
+		fi
+fi
+
+# Preguntar si desea iniciar otro temporizador Pomodoro
+if mostrar_dialogo "¿Desea iniciar otro temporizador Pomodoro?"; then
+	"$0" skip_question &
+else
+	exit
+fi

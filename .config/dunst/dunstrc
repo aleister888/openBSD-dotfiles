@@ -27,6 +27,7 @@ markup = full
 frame_width = 0
 browser = /usr/bin/firefox
 dmenu = /usr/local/bin/dmenu -p dunst:
+icon_path = /usr/local/share/icons/Papirus-Dark/128x128/apps/
 
 title = Dunst
 class = Dunst

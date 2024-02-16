@@ -12,7 +12,7 @@ IMG:$ICONPATH/internet-web-browser.svg				Internet
 	IMG:$ICONPATH/transmission.svg				Transmission		transmission-gtk
 	IMG:$ICONPATH/barrier.svg				Barrier			LANG=es_ES.UTF-8 barrier-gui
 
-IMG:$ICONPATH/multimedia.svg					Sound & Video
+IMG:$ICONPATH/multimedia.svg					Vídeo y Sonido
 	IMG:$ICONPATH/tauonmb.svg				Tauon			tauon
 	IMG:$ICONPATH/jack_mixer.svg				Tauon Remote Control	tauon-yad 192.168.0.186
 	IMG:$ICONPATH/mpv.svg					mpv			mpv --player-operation-mode=pseudo-gui
@@ -34,43 +34,44 @@ IMG:$ICONPATH/radiotray.svg					Radio
 	MSNBC							$TERMINAL $RADIOFLAG "https://tunein.streamguys1.com/msnbc-tesla"
 	BBC							$TERMINAL $RADIOFLAG "http://stream.live.vc.bbcmedia.co.uk/bbc_world_service"
 
-IMG:$ICONPATH/preferences-desktop-color.svg			Graphics
+IMG:$ICONPATH/preferences-desktop-color.svg			Gráficos
 	IMG:$ICONPATH/gimp.svg					GIMP			gimp-2.99
 	IMG:$ICONPATH/fr.handbrake.ghb.svg			HandBrake		ghb
 	IMG:$ICONPATH/gcolor2.svg				Gcolor2			gcolor2
 
-IMG:$ICONPATH/applications-office.svg				Office
-	IMG:$ICONPATH/zim.svg					Zim			zim
+IMG:$ICONPATH/applications-office.svg				Oficina
+	IMG:$ICONPATH/zim.svg					Notas			zim
 	IMG:$ICONPATH/octave.svg				Octave			/usr/local/bin/octave --gui
 	IMG:$ICONPATH/libreoffice-writer.svg			Libre Office Writer	libreoffice --writer
 	IMG:$ICONPATH/libreoffice-calc.svg			Libre Office Calc	libreoffice --calc
 	IMG:$ICONPATH/libreoffice-impress.svg			Libre Office Impress	libreoffice --impress
 	IMG:$ICONPATH/zathura.svg				Zathura			zathura
-	IMG:$ICONPATH/gnome-calculator.svg			Calculator		gnome-calculator
-	IMG:$ICONPATH/remmina.svg				Remmina			remmina
+	IMG:$ICONPATH/gnome-calculator.svg			Calculadora		gnome-calculator
+	IMG:$ICONPATH/remmina.svg				Visor VNC		remmina
 	IMG:$ICONPATH/accessories-notes.svg			Aula Virtual		xdg-open https://aulavirtual.ual.es/
 	IMG:$ICONPATH/system-users.svg				Campus Virtual		xdg-open https://campus.ual.es/
 
-IMG:$ICONPATH/applications-utilities.svg			Utilities
-	IMG:$ICONPATH/htop.svg					HTop			$TERMINAL -e htop
-	IMG:$ICONPATH/keepassxc.svg				KeePassXC		keepassxc
+IMG:$ICONPATH/applications-utilities.svg			Utilidades
+	IMG:$ICONPATH/htop.svg					Procesos		$TERMINAL -e htop
+	IMG:$ICONPATH/keepassxc.svg				Contraseñas		keepassxc
 	IMG:$ICONPATH/bleachbit.svg				Bleachbit		cd ~/.local/src/bleachbit && python3 ./bleachbit.py || notify-send "Bleachbit not installed"
 	IMG:$ICONPATH/fr.romainvigier.MetadataCleaner.svg	Czkawka			czkawka_gui
-	IMG:$ICONPATH/grandr.svg				Display Settings	arandr
-	IMG:$ICONPATH/preferences-desktop-theme.svg		GTK Settings		lxappearance
-	IMG:$ICONPATH/qt5ct.svg					QT Settings		qt5ct
+	IMG:$ICONPATH/grandr.svg				Ajustes Pantalla	arandr
+	IMG:$ICONPATH/preferences-desktop-theme.svg		Ajustes GTK		lxappearance
+	IMG:$ICONPATH/qt5ct.svg					Ajustes QT		qt5ct
 
 IMG:$ICONPATH/google-chrome.svg					Chromium		chrome
 IMG:$ICONPATH/thunderbird.svg					Thunderbird		thunderbird
-IMG:$ICONPATH/system-file-manager.svg				File-Manager		$TERMINAL -e lf
+IMG:$ICONPATH/system-file-manager.svg				Explorador		$TERMINAL -e lf
 IMG:$ICONPATH/st.svg						Terminal		$TERMINAL
-IMG:$ICONPATH/system-shutdown.svg				Power
-	IMG:$ICONPATH/system-lock-screen.svg			Lock			i3lock-fancy
-	IMG:$ICONPATH/system-suspend-hibernate.svg		Lock & Suspend		i3lock-fancy && zzz
-	IMG:$ICONPATH/sleep.svg					Suspend			zzz
-	IMG:$ICONPATH/system-log-out.svg			Logout			pkill dwm
-	IMG:$ICONPATH/system-shutdown.svg			Shutdown		xterm -title scratchpad -e "doas halt -p"
-	IMG:$ICONPATH/system-reboot.svg				Reboot			xterm -title scratchpad -e "doas reboot"
+IMG:$ICONPATH/pomodoro-indicator.svg				Temporizador		pomodoro
+IMG:$ICONPATH/system-shutdown.svg				Apagado
+	IMG:$ICONPATH/system-lock-screen.svg			Bloquear		i3lock-fancy
+	IMG:$ICONPATH/system-suspend-hibernate.svg		Bloquear y Suspender	i3lock-fancy && zzz
+	IMG:$ICONPATH/sleep.svg					Suspender		zzz
+	IMG:$ICONPATH/system-log-out.svg			Cerrar sesión		pkill dwm
+	IMG:$ICONPATH/system-shutdown.svg			Apagar			xterm -title scratchpad -e "doas halt -p"
+	IMG:$ICONPATH/system-reboot.svg				Reiniciar		xterm -title scratchpad -e "doas reboot"
 EOF
 
 #IMG:$ICONPATH/multimc.svg					MultiMC			minecraft
