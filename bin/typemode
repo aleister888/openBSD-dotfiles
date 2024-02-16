@@ -2,11 +2,11 @@
 if xmodmap -pk | grep \(Next\); then
 #	Disables PgUp and PgDown Keys
 	dunstctl close-all
-	notify-send "Typing mode enabled"
+	notify-send -i preferences-desktop-keyboard "Typing mode enabled"
 	xmodmap -e "keycode 105 = "; xmodmap -e "keycode 99 = "
 else
 #	Enables PgUp and PgDown Keys
 	dunstctl close-all
-	notify-send "Typing mode disabled"
+	notify-send -i preferences-desktop-keyboard "Typing mode disabled"
 	xmodmap -e "keycode 105 = Next"; xmodmap -e "keycode 99 = Prior"
 fi

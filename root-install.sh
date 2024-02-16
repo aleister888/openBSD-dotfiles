@@ -30,6 +30,19 @@ net.inet.udp.sendspace=262144
 net.inet.icmp.errppslimit=256' > /etc/sysctl.conf
 }
 
+lfdesktop(){
+echo "[Desktop Entry]
+Type=Application
+Name=lf
+Comment=Launches the lf file manager
+Icon=utilities-terminal
+Terminal=false
+Exec=st lf
+Categories=ConsoleOnly;System;FileTools;FileManager
+MimeType=inode/directory;" > /usr/local/share/applications/lf.desktop && \
+chmod 644 /usr/local/share/applications/lf.desktop
+}
+
 # Activar la webcam y el micrófono
 multimedia_enable(){
 if ! grep -q "record" /etc/sysctl.conf; then
@@ -132,6 +145,12 @@ if chrome_unveil; then
 	echo "Chrome se configuró correctamente"
 else
 	echo "Hubo un error al configurar Chrome"
+fi
+
+if lfdesktop; then
+	echo "Acceso directo de lf creado exitosamente"
+else
+	echo "No se pudo crear el acceso directo de lf"
 fi
 
 # Respuesta por defecto

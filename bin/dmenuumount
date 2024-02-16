@@ -1,5 +1,7 @@
 #!/bin/sh
 
+ICON="/usr/local/share/icons/Papirus-Dark/128x128/devices/drive-harddisk.svg"
+
 set -e
 
 drives="$(mount)"
@@ -14,4 +16,4 @@ chosen="${chosen%% *}"
 test -n "$chosen"
 
 xterm -title scratchpad -e "doas umount "/${chosen#*/}""
-notify-send "Device unmounted." "$chosen has been unmounted."
+notify-send -i "$ICON" "Device unmounted." "$chosen has been unmounted."

@@ -1,8 +1,6 @@
 // See LICENSE file for copyright and license details.
 static const unsigned int borderpx    = 4;  // Borde en pixeles de las ventanas
 static const unsigned int gappx       = 16; // Separación entre las ventanas
-static const int vertpad              = 16; // Separación vertical de la barra
-static const int sidepad              = 16; // Separación horizontal de la barra
 static const unsigned int snap        = 0;  // Pixeles de cercanía para pegarse al borde (0 = desactivado)
 static const int swallowfloating      = 0;  // 1 Significa tragarse nuevas ventanas por defecto
 static const int showbar              = 1;  // 0 Para desactivar la barra
@@ -182,10 +180,10 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_c,      spawn,            SHCMD("xkill") },
 	{ MODKEY|ShiftMask,             XK_k,      spawn,            SHCMD("xkill") },
 	// Tomar capturas de pantalla
-	{ MODKEY,                       XK_p,      spawn,            SHCMD("import -window root jpg:- | xclip -selection clipboard -t image/png; notify-send 'Captura copiada al Portapapeles'") },
-	{ MODKEY|ShiftMask,             XK_p,      spawn,            SHCMD("import png:- | xclip -selection clipboard -t image/png; notify-send 'Captura copiada al Portapapeles'") },
-	{ MODKEY|Mod1Mask,              XK_p,      spawn,            SHCMD("import -window root ~/Pictures/screenshot.jpg; notify-send 'Captura guardada'") },
-	{ MODKEY|ShiftMask|Mod1Mask,    XK_p,      spawn,            SHCMD("import ~/Pictures/screenhot.jpg; notify-send 'Captura guardada'") },
+	{ MODKEY,                       XK_p,      spawn,            SHCMD("screenshot all_clip") },
+	{ MODKEY|ShiftMask,             XK_p,      spawn,            SHCMD("screenshot selection_clip") },
+	{ MODKEY|Mod1Mask,              XK_p,      spawn,            SHCMD("screenshot all_save") },
+	{ MODKEY|ShiftMask|Mod1Mask,    XK_p,      spawn,            SHCMD("screenshot selection_save") },
 	// Mostrar/Ocultar barra
 	{ MODKEY,                       XK_b,      togglebar,        {0} },
 	// Hacer/Deshacer ventana permamente
@@ -207,7 +205,7 @@ static const Key keys[] = {
 	// Cerrar aplicación
 	{ MODKEY|ShiftMask,             XK_q,      killclient,       {0} },
 	// Cerrar dwm
-	{ MODKEY|ShiftMask,             XK_F11,    spwan,             SHCMD("pkill dwm") },,
+	{ MODKEY|ShiftMask,             XK_F11,    spawn,            SHCMD("pkill dwm") },
 	// Hacer/Deshacer ventana flotante
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating,   {0} },
 	// Cambiar de monitor / Mover las ventanas entre monitores
