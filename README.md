@@ -58,5 +58,6 @@ I provide scripts to compile bleachbit and abaddon automatically
 ## TODO
 
 - Configure Tauon automatically (set gruvbox theme and agave font)
+- Deploy dotfiles with update.sh from install.sh to avoid duplicate functions
 - Asking the user if they want to auto install abaddon and/or bleachbit
 - Translate the README to Spanish

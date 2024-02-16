@@ -54,7 +54,7 @@ perform_backup "default" "openfiles" ~/.dotfiles/bckp/default
 mkdir -p ~/.config/nitrogen
 echo "[xin_-1]
 file=/home/`whoami`/.dotfiles/img/wallpaper.jpg
-mode=4
+mode=5
 bgcolor=#000000" > ~/.config/nitrogen/bg-saved.cfg
 
 # Borrar links symbolicos rotos

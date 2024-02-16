@@ -218,7 +218,7 @@ mkdir -p "$HOME/.config/nitrogen"
 # Crear el archivo de configuración bg-saved.cfg
 echo "[xin_-1]
 file=$HOME/.dotfiles/img/wallpaper.png
-mode=4
+mode=5
 bgcolor=#000000" > "$HOME/.config/nitrogen/bg-saved.cfg"
 }
 
