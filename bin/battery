@@ -1,5 +1,7 @@
 #!/bin/sh
 
+ICON="/usr/local/share/icons/Papirus-Dark/128x128/devices/battery.svg"
+
 # Obtener el estado del adaptador de CA y el nivel de batería
 adapter_state=$(apm | awk '/AC adapter state/ {print $(NF-1), $NF}' | sed 's/state: //')
 battery_level=$(apm | awk -F ', ' '/Battery state/ {print substr($2, 1, length($2)-11)}')
@@ -9,8 +11,15 @@ if [ "$adapter_state" = "connected" ]; then
     exit
 fi
 
-# Verificar si el nivel de la batería es menor al 10%
-if [ "$battery_level" -lt 10 ]; then
-    notify-send "Suspending..."
-    zzz
-fi
+# Evaluar el nivel de la batería utilizando case
+case $battery_level in
+	1[5-9])
+		notify-send -i "$ICON" "Battery level is critically low." ;;
+	2[0-9])
+		notify-send -i "$ICON" "Battery Low: Battery level is $battery_level%" ;;
+	[3-9][0-9])
+		;;
+	*)
+		notify-send -i "$ICON" "Suspending..."
+		zzz;;
+esac
