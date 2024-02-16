@@ -62,7 +62,7 @@ static const int taglayouts[]	= {   0,   0,   0,   0,   0,   0,   3,   3,   3 };
 
 // Reglas pre-establecidas para colocar las ventanas
 static const Rule rules[] = {
-	// Clase	Instancia Título Espacio Permitir cerrado Flotante Terminal -Tragado Sin-bordes Monitor
+	// Clase Instancia Título   Espacio Permitir cerrado Flotante Terminal -Tragado Sin-bordes Monitor
 	// Terminal
 	{ "st-256color",	NULL,    NULL, 0,      1,        0,    1,       0,       0,             -1},
 	// Barra de iconos
@@ -98,7 +98,7 @@ static const Rule rules[] = {
 	{ NULL,  NULL,    "scratchpad", 0,      1,               1,       0,       1,       0,         -1,     's' },
 };
 
-static const float mfact        = 0.425; // Factor de escalado de la zona principal [0.05..0.95]
+static const float mfact        = 0.45; // Factor de escalado de la zona principal [0.05..0.95]
 static const int nmaster        = 1;   // Número de clientes en la zona principal
 static const int resizehints    = 1;   // 1 ¿Respetar pistas de dibujado al redimensionar ventanas no-flotantes?
 static const int decorhints     = 0;   // 1 Uno significa respetar las peticios de las ventanas de no tener bordes

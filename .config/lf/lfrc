@@ -240,7 +240,7 @@ cmd open ${{
 	application/x-keepass2) notify-send -i keepassxc "Just Open Keepass";;
 	text/*|application/json|inode/x-empty) $EDITOR $fx;;
 	application/x-shellscript) $EDITOR $fx;;
-	image/*) nsxiv $f ;;
+	image/*) rotdir $f | ggrep -i "\.\(png\|jpg\|jpeg\|gif\|webp\|avif\|tif\|ico\)\(_large\)*$" | nsxiv -aio ;;
 	audio/*) mpv --audio-display=no $f ;;
 	video/*) mpv $f ;;
 	application/pdf|application/vnd*|application/epub*) zathura $fx ;;

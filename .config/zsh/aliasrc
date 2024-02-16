@@ -21,6 +21,7 @@ alias \
 	push='git add . && git commit && git push' \
 	pull='git pull' \
 	sed='gsed' \
+	clipboard='xclip -selection clipboard' \
 
 update(){
 	npm install http-server --prefix ./.local/share/npm/bin/ && rm -rf ~/.npm
