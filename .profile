@@ -2,10 +2,14 @@
 #
 # sh/ksh initialization
 
-export PATH="$HOME/.local/src/build-rust/install_dir/nightly/bin:$HOME/.local/bin:/bin:/sbin:/usr/bin:/usr/sbin:/usr/X11R6/bin:/usr/local/bin:/usr/local/sbin:/usr/local/jdk-17/bin"
+. $HOME/.config/zsh/aliasrc
+
+export PATH="$HOME/.local/bin:/bin:/sbin:/usr/bin:/usr/sbin:/usr/X11R6/bin:/usr/local/bin:/usr/local/sbin:/usr/local/jdk-17/bin"
 
 # Empezar siempre en el directorio $HOME
 if [ "$PWD" != "$HOME" ] && [ "$PWD" -ef "$HOME" ] ; then cd ; fi
+
+export HISTFILE="${XDG_STATE_HOME}"/history
 
 # Tema del cursor
 export XCURSOR_PATH=/usr/local/lib/X11/icons/:${XDG_DATA_HOME}/icons

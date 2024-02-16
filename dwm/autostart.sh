@@ -48,7 +48,6 @@ if [ "$(ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | tail -1 | awk '
 	pgrep barrier || barrier-gui &
 fi
 
-# Empezar unos cuantos bucles si no estan empezados ya
 # Borrar archivos basura
 if [ -f /tmp/clean_lock ]; then
 	exit
@@ -57,20 +56,5 @@ else
 	while true; do
 		rm ~/.serverauth* ~/*.core ~/.pki
 		sleep 60;
-	done &
-fi
-
-# Bucle para reiniciar dwmblocks (Por si se queda pillado por cualquier motivo)
-if [ -f /tmp/dwmblock_lock ]; then
-	exit
-else
-	touch /tmp/dwmblocks_lock
-	while true; do
-		sleep 60;
-		count="$(pgrep dwmblocks | wc -l)"
-		for i in $(seq $count); do
-		kill -9 `pgrep dwmblocks | head -n1`
-		done
-		dwmblocks &
 	done &
 fi
