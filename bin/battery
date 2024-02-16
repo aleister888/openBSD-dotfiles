@@ -3,8 +3,8 @@
 ICON="/usr/local/share/icons/Papirus-Dark/128x128/devices/battery.svg"
 
 # Obtener el estado del adaptador de CA y el nivel de batería
-adapter_state=$(apm | awk '/AC adapter state/ {print $(NF-1), $NF}' | sed 's/state: //')
-battery_level=$(apm | awk -F ', ' '/Battery state/ {print substr($2, 1, length($2)-11)}')
+adapter_state="$(apm | awk '/AC adapter state/ {print $(NF-1), $NF}' | sed 's/state: //')"
+battery_level="$(apm -l)"
 
 # Verificar si el adaptador está conectado
 if [ "$adapter_state" = "connected" ]; then
