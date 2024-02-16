@@ -1,7 +1,7 @@
 #!/bin/sh
 
 ICONPATH="/usr/local/share/icons/Papirus-Dark/128x128/apps"
-RADIOFLAG="-t scratchpad -e mpv"
+RADIOFLAG="-t scratchpad -g 50x10 -e mpv"
 
 cat <<EOF | xmenu -r | dash &
 IMG:$ICONPATH/internet-web-browser.svg				Internet

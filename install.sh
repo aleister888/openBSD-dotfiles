@@ -144,12 +144,6 @@ suckless_install() {
     doas gmake clean install --directory "$HOME/.dotfiles/st" >/dev/null 2>&1
 }
 
-# Instalar xclickroot
-xclickroot_install() {
-	git clone https://github.com/phillbush/xclickroot.git "$HOME/.local/src/xclickroot" >/dev/null 2>&1
-	doas gmake install --directory "$HOME/.local/src/xclickroot" >/dev/null 2>&1
-}
-
 # Instalar nuestro reproductor de música
 tauon_music_box() {
 	# Clonar el repositorio TauonMusicBox
@@ -313,12 +307,6 @@ if suckless_install; then
 	echo "El software suckless se instaló correctamente"
 else
 	echo "Hubo un error al instalar el sotware suckless"
-fi
-
-if xclickroot_install; then
-	echo "xclickroot se instaló correctamente"
-else
-	echo "Hubo un error al instalar xclickroot"
 fi
 
 if tauon_music_box; then

@@ -59,8 +59,8 @@ typedef struct {
 
 // Nombre de los espacios cuando estan vacios y cuando tienen ventanas. Layout por defecto
 static const char *tags[]	= { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
-static const char *alttags[]	= { "", "", "", "", "", "", "󱁤", "", "" };
-static const int taglayouts[]	= {   0,   0,   0,   0,   0,   0,   0,   0,   0 };
+static const char *alttags[]	= { "", "", "", "", "", "󱁤", "", "", "" };
+static const int taglayouts[]	= {   0,   0,   0,   0,   0,   0,   3,   3,   3 };
 
 // Reglas pre-establecidas para colocar las ventanas
 static const Rule rules[] = {
@@ -85,22 +85,22 @@ static const Rule rules[] = {
 	{ "Transmission-gtk",	NULL,    NULL, 1 << 2, 1,        0,    0,       0,       0,             -1},
 	// Espacio 4: Oficina
 	{ "Zim",		NULL,    NULL, 1 << 3, 1,        0,    0,       0,       0,             -1},
-	// Espacio 6: Gráficos
-	{ "Fr.handbrake.ghb",	NULL,    NULL, 1 << 5, 1,        0,    0,       0,       0,             -1},
-	{ "Gimp",		NULL,    NULL, 1 << 5, 1,        0,    0,       0,       0,             -1},
-	// Espacio 7: Utilidades/Configuración
-	{ "KeePassXC",		NULL,    NULL, 1 << 6, 1,        0,    0,       0,       0,             -1},
-	{ "Timeshift-gtk",	NULL,    NULL, 1 << 6, 1,        0,    0,       0,       0,             -1},
-	{ "BleachBit",		NULL,    NULL, 1 << 6, 1,        0,    0,       0,       0,             -1},
-	{ "Nitrogen",		NULL,    NULL, 1 << 6, 1,        1,    0,       0,       0,             -1},
-	{ "Arandr",		NULL,    NULL, 1 << 6, 1,        0,    0,       0,       0,             -1},
-	{ "Lxappearance",	NULL,    NULL, 1 << 6, 1,        0,    0,       0,       0,             -1},
-	{ "qt5ct",		NULL,    NULL, 1 << 6, 1,        0,    0,       0,       0,             -1},
+	// Espacio 5: Gráficos
+	{ "Fr.handbrake.ghb",	NULL,    NULL, 1 << 4, 1,        0,    0,       0,       0,             -1},
+	{ "Gimp",		NULL,    NULL, 1 << 4, 1,        0,    0,       0,       0,             -1},
+	// Espacio 6: Utilidades/Configuración
+	{ "KeePassXC",		NULL,    NULL, 1 << 5, 1,        0,    0,       0,       0,             -1},
+	{ "Timeshift-gtk",	NULL,    NULL, 1 << 5, 1,        0,    0,       0,       0,             -1},
+	{ "BleachBit",		NULL,    NULL, 1 << 5, 1,        0,    0,       0,       0,             -1},
+	{ "Nitrogen",		NULL,    NULL, 1 << 5, 1,        1,    0,       0,       0,             -1},
+	{ "Arandr",		NULL,    NULL, 1 << 5, 1,        0,    0,       0,       0,             -1},
+	{ "Lxappearance",	NULL,    NULL, 1 << 5, 1,        0,    0,       0,       0,             -1},
+	{ "qt5ct",		NULL,    NULL, 1 << 5, 1,        0,    0,       0,       0,             -1},
 	// Clase Instancia Título       Espacio Permitir cerrado Flotante Terminal -Tragado Sin-bordes Monitor Tecla de scratchpad
 	{ NULL,  NULL,    "scratchpad", 0,      1,               1,       0,       1,       0,         -1,     's' },
 };
 
-static const float mfact        = 0.5; // Factor de escalado de la zona principal [0.05..0.95]
+static const float mfact        = 0.425; // Factor de escalado de la zona principal [0.05..0.95]
 static const int nmaster        = 1;   // Número de clientes en la zona principal
 static const int resizehints    = 1;   // 1 ¿Respetar pistas de dibujado al redimensionar ventanas no-flotantes?
 static const int decorhints     = 0;   // 1 Uno significa respetar las peticios de las ventanas de no tener bordes
@@ -188,44 +188,47 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask|Mod1Mask,    XK_p,      spawn,            SHCMD("import ~/Pictures/screenhot.jpg; notify-send 'Captura guardada'") },
 	// Mostrar/Ocultar barra
 	{ MODKEY,                       XK_b,      togglebar,        {0} },
-	// toggle sticky
+	// Hacer/Deshacer ventana permamente
 	{ MODKEY|Mod1Mask,              XK_s,      togglesticky,     {0} },
-	// change tag
+	// Cambiar de espacio
 	{ MODKEY,                       XK_q,      shiftviewclients, { .i = -1 } },
 	{ MODKEY,                       XK_w,      shiftviewclients, { .i = +1 } },
-	// change focus
+	// Cambiar foco/Mover ventana
 	STACKKEYS(MODKEY,                                            focus)
 	STACKKEYS(MODKEY|ShiftMask,                                  push)
-
-	// increase/decrease stack
+	// Incrementar/Decrementar el número de ventanas de la zona principal
 	{ MODKEY,                       XK_j,      incnmaster,       {.i = +1 } },
 	{ MODKEY,                       XK_k,      incnmaster,       {.i = -1 } },
-	// increase/decrease stack size
+	// Incrementar/Decrementar el tamaño de la zona principal y las ventanas
 	{ MODKEY,                       XK_u,      setmfact,         {.f = -0.025} },
 	{ MODKEY,                       XK_i,      setmfact,         {.f = +0.025} },
 	{ MODKEY,                       XK_h,      setcfact,         {.f = -0.25} },
 	{ MODKEY,                       XK_l,      setcfact,         {.f = +0.25} },
-
+	// Cerrar aplicación
 	{ MODKEY|ShiftMask,             XK_q,      killclient,       {0} },
-	{ MODKEY|ShiftMask,             XK_F11,    quit,             {0} },
+	// Cerrar dwm
+	{ MODKEY|ShiftMask,             XK_F11,    spwan,             SHCMD("pkill dwm") },,
+	// Hacer/Deshacer ventana flotante
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating,   {0} },
-	// monitor control (for spanish layout)
+	// Cambiar de monitor / Mover las ventanas entre monitores
+	// (Sólo para teclado español, "´" y "ç" son teclas del layout español)
 	{ MODKEY,                       XK_dead_acute, focusmon,     {.i = -1 } },
 	{ MODKEY,                       XK_ccedilla,   focusmon,     {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_dead_acute, tagmon,       {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_ccedilla,   tagmon,       {.i = +1 } },
-	// scratchpads
+	// Scratchpads
         { MODKEY,                       XK_s,      togglescratch,    {.v = scratchpadcmd } },
         { MODKEY|ControlMask,           XK_s,      removescratch,    {.v = scratchpadcmd } },
         { MODKEY|ShiftMask,             XK_s,      setscratch,       {.v = scratchpadcmd } },
 	{ MODKEY,                       XK_f,      spawn,            {.v = spawnscratchpadcmd } },
-	// change layout
+	// Cambiar la distribución de las ventanas
 	{ MODKEY,                       XK_e,      setlayout,        {.v = &layouts[0]} },
 	{ MODKEY,                       XK_r,      setlayout,        {.v = &layouts[1]} },
 	{ MODKEY|ShiftMask,             XK_e,      setlayout,        {.v = &layouts[2]} },
 	{ MODKEY|ShiftMask,             XK_r,      setlayout,        {.v = &layouts[3]} },
 	{ MODKEY,                       XK_y,      setlayout,        {.v = &layouts[4]} },
 	{ MODKEY|ShiftMask,             XK_y,      setlayout,        {.v = &layouts[5]} },
+	// Teclas para cada espacio
 	TAGKEYS(                        XK_1,                        0)
 	TAGKEYS(                        XK_2,                        1)
 	TAGKEYS(                        XK_3,                        2)
@@ -237,12 +240,14 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_9,                        8)
 };
 
-// Button definitions
-// Click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin
+// Botónes del teclado
+// Click puede ser ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, o ClkRootWin.
 static const Button buttons[] = {
-	// click                event mask      button          function        argument
+	// Click                Combinación     Botón           Función         Argumento
 	{ ClkLtSymbol,          0,              Button1,        setlayout,      {.v = &layouts[0]} },
 	{ ClkLtSymbol,          0,              Button3,        layoutmenu,     {0} },
+	{ ClkLtSymbol,          0,              Button3,        layoutmenu,     {0} },
+	{ ClkRootWin,           0,              Button3,        spawn,          SHCMD("xmenu.sh") },
 	{ ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd } },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
 	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
