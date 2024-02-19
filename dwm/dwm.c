@@ -1631,9 +1631,12 @@ void
 removescratch(const Arg *arg)
 {
 	Client *c = selmon->sel;
-	if (!c)
+	if (!c) {
 		return;
+	} else {
+	XSetWindowBorder(dpy, c->win, scheme[SchemeSel][ColBorder].pixel);
 	c->scratchkey = 0;
+	}
 }
 
 void
@@ -2045,10 +2048,12 @@ void
 setscratch(const Arg *arg)
 {
 	Client *c = selmon->sel;
-	if (!c)
+	if (!c){
 		return;
-
+	} else {
+	XSetWindowBorder(dpy, c->win, scheme[SchemeScratchSel][ColBorder].pixel);
 	c->scratchkey = ((char**)arg->v)[0][0];
+	}
 }
 
 void
