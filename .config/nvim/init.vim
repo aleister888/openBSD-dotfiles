@@ -80,13 +80,18 @@ if !has('gui_running')
 endif
 
 " Activar/Desactivar sugerencias de entrada
+inoremap <F1> <C-O>:call CocToggle()<CR>
 nnoremap <F1> :call CocToggle()<CR>
 " Abrir/Cerrar árbol de ficheros
-map <F2> :call NERDTreeToggleInCurDir()<CR>
+inoremap <F2> <C-O>:call NERDTreeToggleInCurDir()<CR>
+nnoremap <F2> :call NERDTreeToggleInCurDir()<CR>
 " Comprobar ortografía
-map <F3> :setlocal spell! spelllang=es_es<CR>
-map <F4> :setlocal spell! spelllang=en_us<CR>
+inoremap <F3> <C-O>:setlocal spell! spelllang=es_es<CR>
+inoremap <F4> <C-O>:setlocal spell! spelllang=en_us<CR>
+nnoremap <F3> :setlocal spell! spelllang=es_es<CR>
+nnoremap <F4> :setlocal spell! spelllang=en_us<CR>
 " Activar/Desactivar auto-cerrado de llaves, paréntesis, ...
+inoremap <F5> <C-O>:AutoPairsToggle<CR>
 nnoremap <F5> :AutoPairsToggle<CR>
 
 " Sugerencias de entrada (Configuración)
@@ -128,7 +133,6 @@ autocmd BufWritePost ~/.dotfiles/dwm/config.h silent! !xterm -title scratchpad -
 autocmd BufWritePost ~/.dotfiles/dmenu/config.h silent! !xterm -title scratchpad -e 'cd ~/.dotfiles/dmenu/; doas make install'
 autocmd BufWritePost ~/.dotfiles/st/config.h silent! !xterm -title scratchpad -e 'cd ~/.dotfiles/st/; doas make install'
 autocmd BufWritePost ~/.dotfiles/.config/sxhkd/sxhkdrc silent! !xterm -title scratchpad -e 'pkill sxhkd; sxhkd & disown; xdotool getwindowfocus windowunmap' & disown
-autocmd BufWritePost ~/.dotfiles/.config/sxhkd/sxhkdrc :!pkill sxhkd; sxhkd &
 autocmd BufWritePost ~/.dotfiles/.config/dunst/dunstrc :!pkill dunst; dunst &
 
 " LaTeX

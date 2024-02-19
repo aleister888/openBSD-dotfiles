@@ -12,7 +12,7 @@ options=(
 chosen=$(printf "%s\n" "${options[@]}" | dmenu -l ${#options[@]} -p "")
 
 case $chosen in
-	"${options[0]}") ~/.local/scripts/i3lock-fancy ;;
+	"${options[0]}") i3lock-fancy ;;
 	"${options[1]}") zzz ;;
 	"${options[2]}") pkill xinit ;;
 	"${options[3]}") pkill dwm ;;
