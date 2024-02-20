@@ -9,7 +9,7 @@ options=(
 	" Reboot"
 )
 
-chosen=$(printf "%s\n" "${options[@]}" | dmenu -l ${#options[@]} -p "")
+chosen=$(printf "%s\n" "${options[@]}" | dmenu -c -l ${#options[@]} -p "")
 
 case $chosen in
 	"${options[0]}") i3lock-fancy ;;
