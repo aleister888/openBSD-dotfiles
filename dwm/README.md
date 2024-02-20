@@ -6,8 +6,11 @@ dwm build for openBSD
 
 ## Keybindings
 
+- `LAlt + o` dmenu
 - `LAlt + b` Toggle bar
 - `LAlt + q/w` Previous/Next tag
+- `LAlt + z/x` Previous/Next Song
+- `LAlt + Shift + z/x` Play-pause music
 - Stack Keys
     - `LAlt + Minus` Focus/Move first master Window
         - `LAlt + Comma/Period` Focus/Move Previous/Next window
