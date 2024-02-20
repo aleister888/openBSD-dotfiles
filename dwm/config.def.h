@@ -1,152 +1,235 @@
 /* See LICENSE file for copyright and license details. */
 
-/* appearance */
-static const unsigned int borderpx  = 1;        /* border pixel of windows */
-static const unsigned int gappx     = 5;        /* gaps between windows */
-static const unsigned int snap      = 32;       /* snap pixel */
-static const int swallowfloating    = 0;        /* 1 means swallow floating windows by default */
-static const int showbar            = 1;        /* 0 means no bar */
-static const int topbar             = 1;        /* 0 means bottom bar */
-static const int allowkill          = 1;        /* allow killing clients by default? */
-static const int user_bh            = 2;        /* 2 is the default spacing around the bar's font */
-static const char *fonts[]          = { "monospace:size=10" };
-static const char dmenufont[]       = "monospace:size=10";
-static const char col_gray1[]       = "#222222";
-static const char col_gray2[]       = "#444444";
-static const char col_gray3[]       = "#bbbbbb";
-static const char col_gray4[]       = "#eeeeee";
-static const char col_cyan[]        = "#005577";
-static const char col_red[]         = "#FF0000";
-static const char col_orange[]      = "#FF8800";
+// Constantes
+static const unsigned int borderpx    = 6;     // Borde en pixeles de las ventanas
+static const unsigned int gappx       = 16;    // Separación entre las ventanas
+static const int vertpad              = 16;    // Separación vertical de la barra
+static const int sidepad              = 64;    // Separación horizontal de la barra
+static const unsigned int snap        = 0;     // Pixeles de cercanía para pegarse al borde (0 = desactivado)
+static const int swallowfloating      = 0;     // 1 Significa tragarse nuevas ventanas por defecto
+static const int showbar              = 1;     // 0 Para desactivar la barra
+static const int topbar               = 1;     // 0 Para la barra en la parte inferior
+static const int allowkill            = 1;     // ¿Permitir cerrar clientes por defecto?
+static const int user_bh              = 12;    // Altura barra: 0 por defecto, >= 1 Altura añadida
+static const float mfact              = 0.45;  // Factor de escalado de la zona principal [0.05..0.95]
+static const int nmaster              = 1;     // Número de clientes en la zona principal
+static const int resizehints          = 1;     // 1 ¿Respetar pistas de dibujado al redimensionar ventanas no-flotantes?
+static const int lockfullscreen       = 1;     // 1 Fuerza el foco en las ventanas en pantalla completa
+static const char *fonts[]            = { "Symbols Nerd Font:pixelsize=24:antialias=true:autohint=true",        // Fuentes de dwm
+                                          "Iosevka Nerd Font:bold:pixelsize=24:antialias=true:autohint=true" }; // Fuentes de dwm
+static const char dmenufont[]         =   "Iosevka Nerd Font:bold:pixelsize=24:antialias=true:autohint=true";   // Fuente de dmenu
+static const char background[]        = "#1D2021";
+static const char background_sel[]    = "#3C3836";
+static const char foreground[]        = "#D5C4A1";
+static const char col_cyan[]          = "#83A598";
+static const char col_red[]           = "#FB4934";
+static const char col_magenta[]       = "#B16286";
+static const char col_orange[]        = "#FE8019";
 static const char *colors[][3]      = {
-	/*               fg         bg         border   */
-	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
-	[SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
-	[SchemeStatus]  = { col_gray3, col_gray1,  "#000000"  }, // Statusbar right {text,background,not used but cannot be empty}
-	[SchemeTagsSel]  = { col_gray4, col_cyan,  "#000000"  }, // Tagbar left selected {text,background,not used but cannot be empty}
-	[SchemeTagsNorm]  = { col_gray3, col_gray1,  "#000000"  }, // Tagbar left unselected {text,background,not used but cannot be empty}
-	[SchemeInfoSel]  = { col_gray4, col_cyan,  "#000000"  }, // infobar middle  selected {text,background,not used but cannot be empty}
-	[SchemeInfoNorm]  = { col_gray3, col_gray1,  "#000000"  }, // infobar middle  unselected {text,background,not used but cannot be empty}
-	[SchemeScratchSel]  = { col_gray4, col_cyan,  col_red  },
-	[SchemeScratchNorm] = { col_gray4, col_cyan,  col_orange },
+	// Colores:             Fuente          Fondo       Borde
+	[SchemeNorm]        = { foreground, background,     col_cyan    }, // Color de las ventanas normales
+	[SchemeSel]         = { foreground, background_sel, col_orange  }, // Color de las ventanas selccionadas
+	[SchemeStatus]      = { foreground, background,     "#000000"   }, // Color de los espacios por defecto
+	[SchemeTagsNorm]    = { foreground, background,     "#000000"   }, // Información (Normal)
+	[SchemeTagsSel]     = { foreground, background_sel, "#000000"   }, // Color de los espacios seleccionados
+	[SchemeInfoNorm]    = { foreground, background,     "#000000"   }, // Estado/información
+	[SchemeInfoSel]     = { foreground, background_sel, "#000000"   }, // Información (Seleccionada)
+	[SchemeScratchNorm] = { "#000000",  "#000000",      col_cyan    }, // Scratchpad (Normal)
+	[SchemeScratchSel]  = { "#000000",  "#000000",      col_magenta }, // Scratchpad (Selecteccionado)
+	// Los valores con "#000000" no son usados pero no pueden estar vacios
 };
 
-/* tagging */
-static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
-static const char *alttags[] = { "<01>", "<02>", "<03>", "<04>", "<05>" };
+typedef struct {
+	const char *name;
+	const void *cmd;
+} Sp;
 
+// Nombre de los espacios cuando estan vacios y cuando tienen ventanas. Layout por defecto
+static const char *tags[]	= { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+static const char *alttags[]	= { "", "", "", "", "", "󱁤", "", "", "" };
+static const int taglayouts[]	= {   0,   0,   0,   0,   0,   0,   3,   3,   3 };
+
+// Reglas pre-establecidas para colocar las ventanas
 static const Rule rules[] = {
-	/* xprop(1):
-	 *	WM_CLASS(STRING) = instance, class
-	 *	WM_NAME(STRING) = title
-	 */
-	/* class      instance    title     tags mask allowkill isfloating isterminal noswallow monitor  scratch key */
-	{ "Gimp",     NULL,       NULL,     0,        1,        1,         0,         0,        -1,      0  },
-	{ "firefox",  NULL,       NULL,     1 << 8,   1,        0,         0,         0,        -1,      0  },
-	{ NULL,       NULL,   "scratchpad", 0,        1,        1,         0,         0,        -1,     's' },
+	// Clase Instancia Título   Espacio Permitir cerrado Flotante Terminal -Tragado Monitor Tecla Scratch
+	// Terminal
+	{ "st-256color",	NULL,    NULL, 0,      1,        0,    1,       0,      -1,     0},
+	// Barra de iconos
+	{ "trayer",		NULL,    NULL, 0,      0,        0,    0,       0,      -1,     0},
+	// Ventanas flotantes
+	{ "Yad",		NULL,    NULL, 0,      1,        1,    0,       0,      -1,     0},
+	{ "Gcolor2",		NULL,    NULL, 0,      1,        1,    0,       0,      -1,     0},
+	{ "gnome-calculator",	NULL,    NULL, 0,      1,        1,    0,       0,      -1,     0},
+	// Espacio 1: Música
+	{ "Tauon Music Box",	NULL,    NULL, 1 << 0, 1,        0,    0,       0,      -1,     0},
+	{ "Easytag",		NULL,    NULL, 1 << 0, 1,        0,    0,       0,      -1,     0},
+	// Espacio 2: Correo
+	{ "thunderbird",	NULL,    NULL, 1 << 1, 1,        0,    0,       0,      -1,     0},
+	// Espacio 3: Internet
+	{ "Chromium-browser",	NULL,    NULL, 1 << 2, 1,        0,    0,       0,      -1,     0},
+	{ "Abaddon",		NULL,    NULL, 1 << 2, 1,        0,    0,       0,      -1,     0},
+	{ "transmission-gtk",	NULL,    NULL, 1 << 2, 1,        0,    0,       0,      -1,     0},
+	{ "Transmission-gtk",	NULL,    NULL, 1 << 2, 1,        0,    0,       0,      -1,     0},
+	// Espacio 4: Oficina
+	{ "Zim",		NULL,    NULL, 1 << 3, 1,        0,    0,       0,      -1,     0},
+	// Espacio 5: Gráficos
+	{ "Fr.handbrake.ghb",	NULL,    NULL, 1 << 4, 1,        0,    0,       0,      -1,     0},
+	{ "Gimp",		NULL,    NULL, 1 << 4, 1,        0,    0,       0,      -1,     0},
+	// Espacio 6: Utilidades/Configuración
+	{ "KeePassXC",		NULL,    NULL, 1 << 5, 1,        0,    0,       0,      -1,     0},
+	{ "Timeshift-gtk",	NULL,    NULL, 1 << 5, 1,        0,    0,       0,      -1,     0},
+	{ "BleachBit",		NULL,    NULL, 1 << 5, 1,        0,    0,       0,      -1,     0},
+	{ "Nitrogen",		NULL,    NULL, 1 << 5, 1,        1,    0,       0,      -1,     0},
+	{ "Arandr",		NULL,    NULL, 1 << 5, 1,        0,    0,       0,      -1,     0},
+	{ "Lxappearance",	NULL,    NULL, 1 << 5, 1,        0,    0,       0,      -1,     0},
+	{ "qt5ct",		NULL,    NULL, 1 << 5, 1,        0,    0,       0,      -1,     0},
+	// Scratchpad
+	{ NULL,		NULL,"scratchpad",     0,      1,        1,    1,       1,      -1,     's'},
 };
 
-/* layout(s) */
-static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
-static const int nmaster     = 1;    /* number of clients in master area */
-static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
-static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen window */
-
-#include "layouts.c"
+#include "layouts.c" // Archivo con los layouts adicionales
 
 static const Layout layouts[] = {
-        { "[]=",      tile },           // Layout por defecto
-        { "><>",      NULL },           // Ningún layout significa comportamiento flotante
-        { "[M]",      monocle },        // Las ventans ocupan toda la pantalla
-        { "|M|",      centeredmaster }, // 3 Columnas (Zona principal centrada)
-        { "|||",      col },            // Columnas (Zona principal a la izquierda)
-        { "TTT",      bstack },         // Zona principal en la parte superior
+	{ "[]=",      tile },           // Layout por defecto
+	{ "><>",      NULL },           // Ningún layout significa comportamiento flotante
+	{ "[M]",      monocle },        // Las ventans ocupan toda la pantalla
+	{ "|M|",      centeredmaster }, // 3 Columnas (Zona principal centrada)
+	{ "|||",      col },            // Columnas (Zona principal a la izquierda)
+	{ "TTT",      bstack },         // Zona principal en la parte superior
 };
 
-/* key definitions */
-#define MODKEY Mod1Mask
+// Definiciones de las Teclas
+#define MODKEY Mod1Mask // Super (Win) como modificador
 #define TAGKEYS(KEY,TAG) \
 	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
 	{ MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
 #define STACKKEYS(MOD,ACTION) \
-	{ MOD, XK_j,     ACTION##stack, {.i = INC(+1) } }, \
-	{ MOD, XK_k,     ACTION##stack, {.i = INC(-1) } }, \
-	{ MOD, XK_grave, ACTION##stack, {.i = PREVSEL } }, \
-	{ MOD, XK_q,     ACTION##stack, {.i = 0 } }, \
-	{ MOD, XK_a,     ACTION##stack, {.i = 1 } }, \
-	{ MOD, XK_z,     ACTION##stack, {.i = 2 } }, \
-	{ MOD, XK_x,     ACTION##stack, {.i = -1 } },
+/* Poner el foco/Mover a la posición anterior */	{ MOD, XK_comma,  ACTION##stack, {.i = INC(-1) } }, \
+/* Poner el foco/Mover a la posición posterior */	{ MOD, XK_period, ACTION##stack, {.i = INC(+1) } }, \
+/* Poner el foco/Mover a la posición anterior */	{ MOD, XK_Left,   ACTION##stack, {.i = INC(-1) } }, \
+/* Poner el foco/Mover a la posición posterior */	{ MOD, XK_Right,  ACTION##stack, {.i = INC(+1) } }, \
+/* Poner el foco/Mover a la primera ventana principal */{ MOD, XK_minus,  ACTION##stack, {.i = 0 } },
 
-/* helper for spawning shell commands in the pre dwm-5.0 fashion */
+// Invocador de comandos
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
-/* commands */
-static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
-static const char *termcmd[]  = { "st", NULL };
-static const char *layoutmenu_cmd = "layoutmenu.sh";
-
-/*First arg only serves to match against key in rules*/
-static const char *scratchpadcmd[] = {"s", "st", "-t", "scratchpad", NULL};
+// Comandos
+static char dmenumon[2] = "0"; // Comando para ejecutar dmenu
+static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", background, "-nf", foreground,
+"-sb", background_sel, "-sf", foreground, "-c", "-l", "12", NULL };
+static const char *termcmd[]  = { "st", NULL }; // Terminal
+static const char *layoutmenu_cmd = "layoutmenu.sh"; // Script para cambiar el layout
+static const char *scratchpadcmd[] = { "s", NULL }; // Tecla para los scratchpads
+static const char *spawnscratchpadcmd[] = { "st", "-t", "scratchpad", NULL }; // Comando para invocar un scratchpad
 
 static const Key keys[] = {
-	/* modifier                     key        function        argument */
-	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
-	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
-	{ MODKEY,                       XK_g,      togglescratch,  {.v = scratchpadcmd } },
-	{ MODKEY|ShiftMask,             XK_g,      removescratch,  {.v = scratchpadcmd } },
-	{ MODKEY|ControlMask,           XK_g,      setscratch,     {.v = scratchpadcmd } },
-	{ MODKEY,                       XK_b,      togglebar,      {0} },
-	STACKKEYS(MODKEY,                          focus)
-	STACKKEYS(MODKEY|ShiftMask,                push)
-	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
-	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
-	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
-	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
-	{ MODKEY|ShiftMask,             XK_h,      setcfact,       {.f = +0.25} },
-	{ MODKEY|ShiftMask,             XK_l,      setcfact,       {.f = -0.25} },
-	{ MODKEY|ShiftMask,             XK_o,      setcfact,       {.f =  0.00} },
-	{ MODKEY,                       XK_Return, zoom,           {0} },
-	{ MODKEY,                       XK_Tab,    view,           {0} },
-	{ MODKEY|ShiftMask,             XK_Tab,       shiftviewclients, { .i = +1 } },
-	{ MODKEY|ShiftMask,             XK_backslash, shiftviewclients, { .i = -1 } },
-	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
-	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
-	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
-	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
-	{ MODKEY,                       XK_space,  setlayout,      {0} },
-	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
-    { MODKEY,                       XK_q,      toggleallowkill,{0} },
-	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
-	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
-	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
-	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
-	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
-	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
-	{ MODKEY,                       XK_minus,  setgaps,        {.i = -1 } },
-	{ MODKEY,                       XK_equal,  setgaps,        {.i = +1 } },
-	{ MODKEY|ShiftMask,             XK_equal,  setgaps,        {.i = 0  } },
-	TAGKEYS(                        XK_1,                      0)
-	TAGKEYS(                        XK_2,                      1)
-	TAGKEYS(                        XK_3,                      2)
-	TAGKEYS(                        XK_4,                      3)
-	TAGKEYS(                        XK_5,                      4)
-	TAGKEYS(                        XK_6,                      5)
-	TAGKEYS(                        XK_7,                      6)
-	TAGKEYS(                        XK_8,                      7)
-	TAGKEYS(                        XK_9,                      8)
-	{ MODKEY|ShiftMask,             XK_BackSpace, quit,        {0} },
+	// Modificador                  Tecla      Función           Argumento
+	// Abrir dmenu
+	{ MODKEY,                       XK_o,      spawn,            {.v = dmenucmd } },
+	// Abrir terminal
+	{ MODKEY,                       XK_Return, spawn,            {.v = termcmd } },
+	// Menu de apagado
+	{ MODKEY,                       XK_F11,    spawn,            SHCMD("powermenu") },
+	// Abrir aplicaciones más usadas
+	{ MODKEY,                       XK_F2,     spawn,            SHCMD("chrome") },
+	{ MODKEY,                       XK_F3,     spawn,            SHCMD("st lf") },
+	{ MODKEY,                       XK_F4,     spawn,            SHCMD("tauon") },
+	// Desactivar/Activar modo escritura
+	{ MODKEY|ShiftMask,             XK_t,      spawn,            SHCMD("typemode") },
+	// Desmontar discos (Ya se montan automaticamente con hotplugd)
+	{ MODKEY|ShiftMask,             XK_F5,     spawn,            SHCMD("dmenuumount") },
+	// Configurar pantallas
+	{ MODKEY,                       XK_F1,     spawn,            SHCMD("monitor-layout") },
+	{ MODKEY|ShiftMask,             XK_F1,     spawn,            SHCMD("arandr") },
+	// Cambiar música
+	{ MODKEY,                       XK_z,      spawn,            SHCMD("playerctl previous; pkill -USR2 dwmblocks") },
+	{ MODKEY,                       XK_x,      spawn,            SHCMD("playerctl next; pkill -USR2 dwmblocks") },
+	{ MODKEY|ShiftMask,             XK_z,      spawn,            SHCMD("playerctl play-pause") },
+	{ MODKEY|ShiftMask,             XK_x,      spawn,            SHCMD("playerctl play-pause") },
+	// Abrir/Cerrar barra de tareas
+	{ MODKEY,                       XK_t,      spawn,            SHCMD("pkill trayer || trayer --align center --edge top --expand false --width 4 --height 20 --distance 34 --iconspacing 6") },
+	// Subir/Bajar volumen
+	{ MODKEY,                       XK_n,      spawn,            SHCMD("sndioctl output.level=-0.025; pkill -USR1 dwmblocks") },
+	{ MODKEY,                       XK_m,      spawn,            SHCMD("sndioctl output.level=+0.025; pkill -USR1 dwmblocks") },
+	// Volumen al 100%/50%
+	{ MODKEY|ShiftMask,             XK_n,      spawn,            SHCMD("doas /usr/bin/mixerctl outputs.master=255 && sndioctl output.level=0.7; pkill -USR1 dwmblocks") },
+	{ MODKEY|ShiftMask,             XK_m,      spawn,            SHCMD("doas /usr/bin/mixerctl outputs.master=255 && sndioctl output.level=1; pkill -USR1 dwmblocks") },
+	// Silenciar/Activar Micrófono
+	{ MODKEY|ShiftMask,             XK_F4,     spawn,            SHCMD("mic-mute-toggle") },
+	// Bajar Brillo
+	// Cambiar brillo (100%/40%)
+	{ MODKEY|ShiftMask,             XK_v,      spawn,            SHCMD("xbacklight -steps 1 -set 40") },
+	{ MODKEY|ShiftMask,             XK_b,      spawn,            SHCMD("xbacklight -steps 1 -set 100") },
+	// Forzar cierre de ventana
+	{ MODKEY|ShiftMask,             XK_c,      spawn,            SHCMD("xkill") },
+	// Tomar capturas de pantalla
+	{ MODKEY,                       XK_p,      spawn,            SHCMD("screenshot all_clip") },
+	{ MODKEY|ShiftMask,             XK_p,      spawn,            SHCMD("screenshot selection_clip") },
+	{ MODKEY|ControlMask,           XK_p,      spawn,            SHCMD("screenshot all_save") },
+	{ MODKEY|ShiftMask|ControlMask, XK_p,      spawn,            SHCMD("screenshot selection_save") },
+	// Mostrar/Ocultar barra
+	{ MODKEY,                       XK_b,      togglebar,        {0} },
+	// Hacer/Deshacer ventana permamente
+	{ MODKEY|ShiftMask,             XK_a,      togglesticky,     {0} },
+	// Cambiar de espacio
+	{ MODKEY,                       XK_q,      shiftviewclients, { .i = -1 } },
+	{ MODKEY,                       XK_w,      shiftviewclients, { .i = +1 } },
+	// Cambiar foco/Mover ventana
+	STACKKEYS(MODKEY,                                            focus)
+	STACKKEYS(MODKEY|ShiftMask,                                  push)
+	// Incrementar/Decrementar el número de ventanas de la zona principal
+	{ MODKEY,                       XK_j,      incnmaster,       {.i = +1 } },
+	{ MODKEY,                       XK_k,      incnmaster,       {.i = -1 } },
+	// Incrementar/Decrementar el tamaño de la zona principal y las ventanas
+	{ MODKEY,                       XK_u,      setmfact,         {.f = -0.025} },
+	{ MODKEY,                       XK_i,      setmfact,         {.f = +0.025} },
+	{ MODKEY|ShiftMask,             XK_u,      setcfact,         {.f = -0.25} },
+	{ MODKEY|ShiftMask,             XK_i,      setcfact,         {.f = +0.25} },
+	// Cerrar aplicación
+	{ MODKEY|ShiftMask,             XK_q,      killclient,       {0} },
+	// Cerrar dwm
+	{ MODKEY|ShiftMask,             XK_F11,    spawn,            SHCMD("pkill dwm") },
+	// Hacer/Deshacer ventana flotante
+	{ MODKEY|ShiftMask,             XK_space,  togglefloating,   {0} },
+	// Cambiar de monitor / Mover las ventanas entre monitores
+	// (Sólo para teclado español, "´" y "ç" son teclas del layout español)
+	{ MODKEY,                       XK_dead_acute, focusmon,     {.i = -1 } },
+	{ MODKEY,                       XK_ccedilla,   focusmon,     {.i = +1 } },
+	{ MODKEY|ShiftMask,             XK_dead_acute, tagmon,       {.i = -1 } },
+	{ MODKEY|ShiftMask,             XK_ccedilla,   tagmon,       {.i = +1 } },
+	// Scratchpads
+        { MODKEY,                       XK_s,      togglescratch,    {.v = scratchpadcmd } },
+        { MODKEY|ControlMask,           XK_s,      removescratch,    {.v = scratchpadcmd } },
+        { MODKEY|ShiftMask,             XK_s,      setscratch,       {.v = scratchpadcmd } },
+	{ MODKEY,                       XK_f,      spawn,            {.v = spawnscratchpadcmd } },
+	// Cambiar la distribución de las ventanas
+	{ MODKEY,                       XK_e,      setlayout,        {.v = &layouts[0]} },
+	{ MODKEY,                       XK_r,      setlayout,        {.v = &layouts[1]} },
+	{ MODKEY|ShiftMask,             XK_e,      setlayout,        {.v = &layouts[2]} },
+	{ MODKEY|ShiftMask,             XK_r,      setlayout,        {.v = &layouts[3]} },
+	{ MODKEY,                       XK_y,      setlayout,        {.v = &layouts[4]} },
+	{ MODKEY|ShiftMask,             XK_y,      setlayout,        {.v = &layouts[5]} },
+	// Teclas para cada espacio
+	TAGKEYS(                        XK_1,                        0)
+	TAGKEYS(                        XK_2,                        1)
+	TAGKEYS(                        XK_3,                        2)
+	TAGKEYS(                        XK_4,                        3)
+	TAGKEYS(                        XK_5,                        4)
+	TAGKEYS(                        XK_6,                        5)
+	TAGKEYS(                        XK_7,                        6)
+	TAGKEYS(                        XK_8,                        7)
+	TAGKEYS(                        XK_9,                        8)
 };
 
-/* button definitions */
-/* click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin */
+// Botónes del teclado
+// Click puede ser ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, o ClkRootWin.
 static const Button buttons[] = {
-	/* click                event mask      button          function        argument */
-	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
+	// Click                Combinación     Botón           Función         Argumento
+	{ ClkLtSymbol,          0,              Button1,        setlayout,      {.v = &layouts[0]} },
 	{ ClkLtSymbol,          0,              Button3,        layoutmenu,     {0} },
-	{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
+	{ ClkRootWin,           0,              Button3,        spawn,          SHCMD("xmenu.sh") },
 	{ ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd } },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
 	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
@@ -156,4 +239,3 @@ static const Button buttons[] = {
 	{ ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
 	{ ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
 };
-static const int taglayouts[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
