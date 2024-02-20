@@ -5,4 +5,3 @@ if doas /usr/bin/mixerctl outputs.master.mute | grep -q 'off'; then
 else
     echo "󰖁"
 fi
-

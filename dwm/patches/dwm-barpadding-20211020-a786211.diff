@@ -1,15 +1,16 @@
-From 2f6da65e84288941babde413b9c3f4a619f853a1 Mon Sep 17 00:00:00 2001
-From: Pavel Oborin <pavel@oborin.xyz>
-Date: Mon, 20 Jul 2020 21:42:43 +0300
-Subject: [PATCH] Fixed drawbar
+From a3cfb215f7f647d83d67e33df8f33a73e43bd65f Mon Sep 17 00:00:00 2001
+From: Bakkeby <bakkeby@gmail.com>
+Date: Wed, 20 Oct 2021 09:14:07 +0200
+Subject: [PATCH] barpadding: adds space between the statusbar and the edge of
+ the screen
 
 ---
  config.def.h |  2 ++
- dwm.c        | 26 ++++++++++++++++----------
- 2 files changed, 18 insertions(+), 10 deletions(-)
+ dwm.c        | 25 +++++++++++++++----------
+ 2 files changed, 17 insertions(+), 10 deletions(-)
 
 diff --git a/config.def.h b/config.def.h
-index 1c0b587..867312f 100644
+index a2ac963..f0b739f 100644
 --- a/config.def.h
 +++ b/config.def.h
 @@ -5,6 +5,8 @@ static const unsigned int borderpx  = 1;        /* border pixel of windows */
@@ -22,7 +23,7 @@ index 1c0b587..867312f 100644
  static const char dmenufont[]       = "monospace:size=10";
  static const char col_gray1[]       = "#222222";
 diff --git a/dwm.c b/dwm.c
-index 9fd0286..ec9c293 100644
+index 5e4d494..df6d0d7 100644
 --- a/dwm.c
 +++ b/dwm.c
 @@ -242,6 +242,8 @@ static int screen;
@@ -67,25 +68,18 @@ index 9fd0286..ec9c293 100644
  		}
  	}
  	drw_map(drw, m->barwin, 0, 0, m->ww, bh);
-@@ -1548,6 +1550,9 @@ setup(void)
+@@ -1547,7 +1549,10 @@ setup(void)
+ 		die("no fonts could be loaded.");
  	lrpad = drw->fonts->h;
  	bh = drw->fonts->h + 2;
- 	updategeom();
 +	sp = sidepad;
 +	vp = (topbar == 1) ? vertpad : - vertpad;
+ 	updategeom();
 +
  	/* init atoms */
  	utf8string = XInternAtom(dpy, "UTF8_STRING", False);
  	wmatom[WMProtocols] = XInternAtom(dpy, "WM_PROTOCOLS", False);
-@@ -1574,6 +1579,7 @@ setup(void)
- 	/* init bars */
- 	updatebars();
- 	updatestatus();
-+	updatebarpos(selmon);
- 	/* supporting window for NetWMCheck */
- 	wmcheckwin = XCreateSimpleWindow(dpy, root, 0, 0, 1, 1, 0, 0, 0);
- 	XChangeProperty(dpy, wmcheckwin, netatom[NetWMCheck], XA_WINDOW, 32,
-@@ -1704,7 +1710,7 @@ togglebar(const Arg *arg)
+@@ -1704,7 +1709,7 @@ togglebar(const Arg *arg)
  {
  	selmon->showbar = !selmon->showbar;
  	updatebarpos(selmon);
@@ -94,7 +88,7 @@ index 9fd0286..ec9c293 100644
  	arrange(selmon);
  }
  
-@@ -1814,7 +1820,7 @@ updatebars(void)
+@@ -1814,7 +1819,7 @@ updatebars(void)
  	for (m = mons; m; m = m->next) {
  		if (m->barwin)
  			continue;
@@ -103,7 +97,7 @@ index 9fd0286..ec9c293 100644
  				CopyFromParent, DefaultVisual(dpy, screen),
  				CWOverrideRedirect|CWBackPixmap|CWEventMask, &wa);
  		XDefineCursor(dpy, m->barwin, cursor[CurNormal]->cursor);
-@@ -1829,11 +1835,11 @@ updatebarpos(Monitor *m)
+@@ -1829,11 +1834,11 @@ updatebarpos(Monitor *m)
  	m->wy = m->my;
  	m->wh = m->mh;
  	if (m->showbar) {
@@ -120,5 +114,5 @@ index 9fd0286..ec9c293 100644
  
  void
 -- 
-2.27.0
+2.33.0
 
