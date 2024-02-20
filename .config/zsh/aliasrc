@@ -24,8 +24,8 @@ alias \
 	clipboard='xclip -selection clipboard' \
 
 update(){
-	npm install http-server --prefix ./.local/share/npm/bin/ && rm -rf ~/.npm
 	doas pkg_add -uvi
+	npm install http-server --prefix ./.local/share/npm/bin/ && rm -rf ~/.npm
 }
 
 function wininfo {

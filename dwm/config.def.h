@@ -19,7 +19,7 @@ static const char *fonts[]            = { "Symbols Nerd Font:pixelsize=24:antial
                                           "Iosevka Nerd Font:bold:pixelsize=24:antialias=true:autohint=true" }; // Fuentes de dwm
 static const char dmenufont[]         =   "Iosevka Nerd Font:bold:pixelsize=24:antialias=true:autohint=true";   // Fuente de dmenu
 static const char background[]        = "#1D2021";
-static const char background_sel[]    = "#3C3836";
+static const char background_sel[]    = "#3C3836"; // Less contrast: "#282828"
 static const char foreground[]        = "#D5C4A1";
 static const char col_cyan[]          = "#83A598";
 static const char col_red[]           = "#FB4934";
@@ -127,7 +127,7 @@ static const char *spawnscratchpadcmd[] = { "st", "-t", "scratchpad", NULL }; //
 static const Key keys[] = {
 	// Modificador                  Tecla      Función           Argumento
 	// Abrir dmenu
-	{ MODKEY,                       XK_o,      spawn,            {.v = dmenucmd } },
+	{ MODKEY,                       XK_p,      spawn,            {.v = dmenucmd } },
 	// Abrir terminal
 	{ MODKEY,                       XK_Return, spawn,            {.v = termcmd } },
 	// Menu de apagado
@@ -165,10 +165,10 @@ static const Key keys[] = {
 	// Forzar cierre de ventana
 	{ MODKEY|ShiftMask,             XK_c,      spawn,            SHCMD("xkill") },
 	// Tomar capturas de pantalla
-	{ MODKEY,                       XK_p,      spawn,            SHCMD("screenshot all_clip") },
-	{ MODKEY|ShiftMask,             XK_p,      spawn,            SHCMD("screenshot selection_clip") },
-	{ MODKEY|ControlMask,           XK_p,      spawn,            SHCMD("screenshot all_save") },
-	{ MODKEY|ShiftMask|ControlMask, XK_p,      spawn,            SHCMD("screenshot selection_save") },
+	{ MODKEY,                       XK_o,      spawn,            SHCMD("screenshot all_clip") },
+	{ MODKEY|ShiftMask,             XK_o,      spawn,            SHCMD("screenshot selection_clip") },
+	{ MODKEY|ControlMask,           XK_o,      spawn,            SHCMD("screenshot all_save") },
+	{ MODKEY|ShiftMask|ControlMask, XK_o,      spawn,            SHCMD("screenshot selection_save") },
 	// Mostrar/Ocultar barra
 	{ MODKEY,                       XK_b,      togglebar,        {0} },
 	// Hacer/Deshacer ventana permamente
