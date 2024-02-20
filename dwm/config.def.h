@@ -1,20 +1,20 @@
 /* See LICENSE file for copyright and license details. */
 
 // Constantes
-static const unsigned int borderpx    = 6;     // Borde en pixeles de las ventanas
-static const unsigned int gappx       = 16;    // Separación entre las ventanas
-static const int vertpad              = 16;    // Separación vertical de la barra
-static const int sidepad              = 64;    // Separación horizontal de la barra
-static const unsigned int snap        = 0;     // Pixeles de cercanía para pegarse al borde (0 = desactivado)
-static const int swallowfloating      = 0;     // 1 Significa tragarse nuevas ventanas por defecto
-static const int showbar              = 1;     // 0 Para desactivar la barra
-static const int topbar               = 1;     // 0 Para la barra en la parte inferior
-static const int allowkill            = 1;     // ¿Permitir cerrar clientes por defecto?
-static const int user_bh              = 12;    // Altura barra: 0 por defecto, >= 1 Altura añadida
-static const float mfact              = 0.45;  // Factor de escalado de la zona principal [0.05..0.95]
-static const int nmaster              = 1;     // Número de clientes en la zona principal
-static const int resizehints          = 1;     // 1 ¿Respetar pistas de dibujado al redimensionar ventanas no-flotantes?
-static const int lockfullscreen       = 1;     // 1 Fuerza el foco en las ventanas en pantalla completa
+static const unsigned int gappx       = 16;      // Separación entre las ventanas
+static const unsigned int borderpx    = gappx/2; // Borde en pixeles de las ventanas
+static const int vertpad              = gappx;   // Separación vertical de la barra
+static const int sidepad              = gappx;   // Separación horizontal de la barra
+static const int user_bh              = gappx;   // Altura barra: 0 por defecto, >= 1 Altura añadida
+static const unsigned int snap        = 0;       // Pixeles de cercanía para pegarse al borde (0 = desactivado)
+static const int swallowfloating      = 0;       // 1 Significa tragarse nuevas ventanas por defecto
+static const int showbar              = 1;       // 0 Para desactivar la barra
+static const int topbar               = 1;       // 0 Para la barra en la parte inferior
+static const int allowkill            = 1;       // ¿Permitir cerrar clientes por defecto?
+static const float mfact              = 0.45;    // Factor de escalado de la zona principal [0.05..0.95]
+static const int nmaster              = 1;       // Número de clientes en la zona principal
+static const int resizehints          = 1;       // 1 ¿Respetar pistas de dibujado al redimensionar ventanas no-flotantes?
+static const int lockfullscreen       = 1;       // 1 Fuerza el foco en las ventanas en pantalla completa
 static const char *fonts[]            = { "Symbols Nerd Font:pixelsize=24:antialias=true:autohint=true",        // Fuentes de dwm
                                           "Iosevka Nerd Font:bold:pixelsize=24:antialias=true:autohint=true" }; // Fuentes de dwm
 static const char dmenufont[]         =   "Iosevka Nerd Font:bold:pixelsize=24:antialias=true:autohint=true";   // Fuente de dmenu

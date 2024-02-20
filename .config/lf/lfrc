@@ -46,54 +46,72 @@
 #
 # devour: https://github.com/salman-abedin/devour.git
 
-# Basic vars
 set shell dash
 set shellopts '-c'
 set ifs "\n"
+set filesep "\n"
 set scrolloff 10
 set icons
 set period 1
-set previewer '~/.config/lf/scope'
-set ratios 1:1:1
-set info size:time
-set filesep "\n"
-set hiddenfiles ".*:*.aux:*.log:*.toc:*.core:*.out:Missing-Tabs"
 
-# Keybindigs
+set previewer '~/.config/lf/scope'
+
+set info size:time
+# Relación entre columnas
+set ratios 1:1:1
+# Definir Archivos Ocultos
+set hiddenfiles ".*:*.aux:*.toc:*.core:*.out"
+
+# Renombrar/Copiar/Mover Archivos
 map p p-paste
-map x file-permissions-files
-map X file-permissions-folders
-map <c-r> bulk-rename
-map / :fzf_jump
-map <a-7> :fzf_search
-map Z home
-map S trash
-map <c-s> clean-trash
-map D delete
-map <a-s> restore-trash
-map E extract
-map <a-e> compress
 map r rename
+map <c-r> bulk-rename
+# Buscar Archivos
+map / :fzf_jump
+map <c-_> :fzf_search
+# Borrar Archivos
+map S delete
+map D trash
+map <a-d> restore-trash
+map <c-d> clean-trash
+# Volver a $HOME
+map Z home
+# Extraer y comprimir Archivos
+map E extract
+map <c-e> compress
+# Limpiar pantalla
 map R :reload; clean
+# Abrir Archivos
 cmd open-with %export QT_QPA_PLATFORMTHEME=qt5ct; "$@" "$fx"
 map <enter> push :open-with<space>
 map o &mimeopen $f
-map O $mimeopen --ask $f
-map H vim-config
+map O $mimeopen --ask $f && clear
+# Mostrar/Ocultar Archivos Ocultos
 map h set hidden!
-map s shell
-map V push :!nvim<space>
+# Editar Archivo
+map V push :!nvim<space>$f
+# Copiar al porta-papeles la ruta del archivo
 map Y $printf "%s" "$fx" | xclip -selection clipboard
-map <a-z> dragon
+# Poder arrastar archivo gráficamente
+map <c-z> $dragon-drop -a -x $fx
+# Imprimr tamaño de la Carpeta/s o Archivo/s
 map P size
 
-# Commands
+cmd on-cd &{{
+    # '&' commands run silently in background (which is what we want here),
+    # but are not connected to stdout.
+    # To make sure our escape sequence still reaches stdout we pipe it to /dev/tty
+    printf "\033]0;$PWD\007" > /dev/tty
+}}
+
+# Imprimir como título de ventana nuesto CWD
+on-cd
+
+# Comandos
 
 cmd clean ${{
 	clear
 }}
-
-cmd dragon %dragon-drop -a -x $fx
 
 cmd compress ${{
 	clear; tput bold
@@ -111,22 +129,7 @@ cmd size &{{
   notify-send "📚 Size is $(du -chs $fx | grep total | awk {'print $1'})"
 }}
 
-cmd on-cd &{{
-    # '&' commands run silently in background (which is what we want here),
-    # but are not connected to stdout.
-    # To make sure our escape sequence still reaches stdout we pipe it to /dev/tty
-    printf "\033]0; $PWD\007" > /dev/tty
-}}
-
-# also run at startup
-on-cd
-
-# cmds/functions
 cmd home :cd ~/
-
-cmd vim-config ${{
-	nvim $HOME/.config/lf/lfrc
-}}
 
 cmd bulk-rename ${{
     old="$(mktemp)"
@@ -176,36 +179,6 @@ cmd fzf_jump ${{
     lf -remote "send $id $cmd \"$res\""
 }}
 
-cmd file-permissions-files ${{
-	clear; tput bold
-	set -f
-	printf "Change file permissions (files):
-	[1] chmod a-x (non exectuable)
-	[2] chmod +x (exectuable)
-	[3] chmod 777 (everyone write/read)"
-	read ans
-	[ $ans = "1" ] && chmod a-x $fx && printf "done"
-	[ $ans = "2" ] && chmod +x $fx && printf "done"
-	[ $ans = "3" ] && chmod 777 $fx && printf "done"
-	read ans
-}}
-
-cmd file-permissions-folders ${{
-	clear; tput bold
-	set -f
-	printf "Change file permissions (for files inside {$fx})
-	[1] chmod a-x (non exectuable)
-	[2] chmod +x (exectuable)
-	[3] chmod 777 (everyone write/read)
-	[4] chmod 0444 (only read)"
-	read ans
-	[ $ans = "1" ] && find "$f" -type f -iname '*' -print0 | xargs -I {} -0 chmod a-x {} && printf "done"
-	[ $ans = "2" ] && find "$f" -type f -iname '*' -print0 | xargs -I {} -0 chmod +x {} && printf "done"
-	[ $ans = "3" ] && find "$f" -type f -iname '*' -print0 | xargs -I {} -0 chmod 777 {} && printf "done"
-	[ $ans = "4" ] && find "$f" -type f -iname '*' -print0 | xargs -I {} -0 chmod 0444 {} && printf "done"
-	read ans
-}}
-
 cmd clean-trash ${{
 	clear; tput bold
 	set -f
@@ -233,17 +206,17 @@ cmd restore-trash ${{
 cmd open ${{
     case $(xdg-mime query filetype "$(readlink -f $f)") in
 	image/svg+xml) display -- $f ;;
-	application/vnd.oasis.opendocument.spreadsheet) libreoffice $f ;;
-	application/vnd.oasis.opendocument.text) libreoffice $f ;;
-	application/vnd.openxmlformats-officedocument.wordprocessingml.document) libreoffice $f;;
-	application/pdf) zathura $fx ;;
-	application/x-keepass2) notify-send -i keepassxc "Just Open Keepass";;
+	application/vnd.oasis.opendocument.spreadsheet) libreoffice $f >/dev/null;;
+	application/vnd.oasis.opendocument.text) libreoffice $f >/dev/null;;
+	application/vnd.openxmlformats-officedocument.wordprocessingml.document) libreoffice $f >/dev/null;;
+	application/pdf) zathura $fx >/dev/null;;
+	application/x-keepass2) notify-send -i keepassxc "Just open Keepass...";;
 	text/*|application/json|inode/x-empty) $EDITOR $fx;;
 	application/x-shellscript) $EDITOR $fx;;
 	image/*) rotdir $f | ggrep -i "\.\(png\|jpg\|jpeg\|gif\|webp\|avif\|tif\|ico\)\(_large\)*$" | nsxiv -aio ;;
 	audio/*) mpv --audio-display=no $f ;;
-	video/*) mpv $f ;;
-	application/pdf|application/vnd*|application/epub*) zathura $fx ;;
+	video/*) mpv $f >/dev/null;;
+	application/pdf|application/vnd*|application/epub*) zathura $fx >/dev/null;;
 	application/pgp-encrypted) $EDITOR $fx ;;
         *) for f in $fx; do $OPENER $f >/dev/null 2>&1; done;;
     esac
@@ -275,8 +248,8 @@ cmd p-paste ${{
     mode="$1"
     shift
     case "$mode" in
-        copy) cp -r -- "$@" . && notify-send "📋 File(s) copied.";;
-        move) mv -- "$@" . && notify-send "📋 File(s) moved.";;
+        copy) cp -r -- "$@" . && notify-send "📋 File(s) copied." >/dev/null;;
+        move) mv -- "$@" . && notify-send "📋 File(s) moved." >/dev/null;;
     esac
     rm ~/.local/share/lf/files
     lf -remote "send clear"
