@@ -10,7 +10,6 @@ IMG:$ICONPATH/internet-web-browser.svg				Internet
 	IMG:$ICONPATH/thunderbird.svg				Thunderbird		thunderbird
 	IMG:$ICONPATH/syncthing-gtk.svg				Syncthing		xdg-open http://127.0.0.1:8384
 	IMG:$ICONPATH/transmission.svg				Transmission		transmission-gtk
-	IMG:$ICONPATH/barrier.svg				Barrier			LANG=es_ES.UTF-8 barrier-gui
 
 IMG:$ICONPATH/multimedia.svg					Vídeo y Sonido
 	IMG:$ICONPATH/tauonmb.svg				Tauon			tauon
