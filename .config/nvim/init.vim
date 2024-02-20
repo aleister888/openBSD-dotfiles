@@ -137,27 +137,27 @@ autocmd BufWritePost ~/.dotfiles/.config/dunst/dunstrc :!pkill dunst; dunst &
 
 " LaTeX
 " Compilar archivo de texto a PDF
-autocmd Filetype tex map <M-q> :AsyncRun! arara % && notify-send "Document Compiled" <CR><CR>
+autocmd Filetype tex map <C-q> :AsyncRun! arara % && notify-send "Document Compiled" <CR><CR>
 " Abrir PDF resultante en un visór de documentos
-autocmd Filetype tex map <M-w> :! zathura $(echo % \| sed 's/tex$/pdf/') & 2>/dev/null <CR><CR>
-autocmd Filetype tex map <M-e> :! xelatex % <CR>
+autocmd Filetype tex map <C-w> :! zathura $(echo % \| sed 's/tex$/pdf/') & 2>/dev/null <CR><CR>
+autocmd Filetype tex map <C-e> :! xelatex % <CR>
 
 " Groff
 " Compilar documento Groff en un PDF
-autocmd Filetype groff map <M-q> :! groff -ms % -T pdf > $(echo % \| sed 's/ms$/pdf/') <CR><CR>
+autocmd Filetype groff map <C-q> :! groff -ms % -T pdf > $(echo % \| sed 's/ms$/pdf/') <CR><CR>
 " Abrir PDF resultante en un visór de documentos
-autocmd Filetype groff map <M-w> :! zathura $(echo % \| sed 's/ms$/pdf/') & 2>/dev/null <CR><CR>
+autocmd Filetype groff map <C-w> :! zathura $(echo % \| sed 's/ms$/pdf/') & 2>/dev/null <CR><CR>
 " Compilar documento Groff en un PDF (Con imágenes)
-autocmd FIletype groff map <M-e> :! groff -ms % -Tps > $(echo % \| sed 's/ms$/ps/'); time ps2pdf $(echo % \| sed 's/ms$/ps/'); rm $(echo % \| sed 's/ms$/ps/') <CR>
+autocmd FIletype groff map <C-e> :! groff -ms % -Tps > $(echo % \| sed 's/ms$/ps/'); time ps2pdf $(echo % \| sed 's/ms$/ps/'); rm $(echo % \| sed 's/ms$/ps/') <CR>
 " Pre-procesar con pic y compilar documento Groff en un PDF
-autocmd Filetype groff map <M-a> :! pic % \| groff -ms -Tpdf > $(echo % \| sed 's/ms$/pdf/') <CR>
+autocmd Filetype groff map <C-a> :! pic % \| groff -ms -Tpdf > $(echo % \| sed 's/ms$/pdf/') <CR>
 " Pre-procesar con pic y compilar documento Groff en un PDF (Con imágenes)
-autocmd Filetype groff map <M-s> :! pic % \|  groff -ms -Tps > $(echo % \| sed 's/ms$/ps/'); time ps2pdf $(echo % \| sed 's/ms$/ps/'); rm $(echo % \| sed 's/ms$/ps/') <CR>
+autocmd Filetype groff map <C-s> :! pic % \|  groff -ms -Tps > $(echo % \| sed 's/ms$/ps/'); time ps2pdf $(echo % \| sed 's/ms$/ps/'); rm $(echo % \| sed 's/ms$/ps/') <CR>
 
 " C
-autocmd Filetype c map <M-q> :! gcc % -o $(echo % \| sed 's/.c$//') -lm <CR>
-autocmd Filetype c map <M-w> :terminal $PWD/$(echo % \| sed 's/.c$//')<CR>
-autocmd Filetype c map <M-e> :terminal gdb $PWD/$(echo % \| sed 's/.c$//')<CR>
+autocmd Filetype c map <C-q> :! gcc % -o $(echo % \| sed 's/.c$//') -lm <CR>
+autocmd Filetype c map <C-w> :terminal $PWD/$(echo % \| sed 's/.c$//')<CR>
+autocmd Filetype c map <C-e> :terminal gdb $PWD/$(echo % \| sed 's/.c$//')<CR>
 
 " Borrar automaticamente espacios inecesarios al guardar el archivo
 autocmd BufWritePre * let currPos = getpos(".")
@@ -171,26 +171,26 @@ autocmd BufRead,BufNewFile *.ms,*.me,*.mom set filetype=groff
 autocmd BufRead,BufNewFile *.md set filetype=markdown
 
 " Ayuda
-map <M-h> :echo "\n F1         Activar/Desactivar Sugestiones\n"
+map <C-h> :echo "\n F1         Activar/Desactivar Sugestiones\n"
 	\ . " F2         Activar/Desactivar Vista de Carpetas\n"
 	\ . " F3         Activar Correciones (Español)\n"
 	\ . " F4         Activar Correciones (Inglés)\n"
 	\ . " F5         Desactivar/Activar Auto-Cerrado (LLaves, paréntesis, ...)\n"
 	\ . " 'z'+'='    Corregir Palabra\n\n"
 	\ . " laTeX:\n"
-	\ . " Meta + Q   Compliar Documento (Con arara)\n"
-	\ . " Meta + E   Compliar Documento (Con xelatex)\n"
-	\ . " Meta + W   Abrir Documento\n\n"
+	\ . " Ctrl + Q   Compliar Documento (Con arara)\n"
+	\ . " Ctrl + E   Compliar Documento (Con xelatex)\n"
+	\ . " Ctrl + W   Abrir Documento\n\n"
 	\ . " Groff:\n"
-	\ . " Meta + Q   Compilar Documento (Sólo Texto)\n"
-	\ . " Meta + W   Abrir Documento\n"
-	\ . " Meta + E   Compilar Documento (Con Imágenes)\n"
-	\ . " Meta + A   Compilar Documento (Preprocesar con Pic)\n"
-	\ . " Meta + S   Compliar Documento (Preprocesar con Pic, con Imágenes)\n\n"
+	\ . " Ctrl + Q   Compilar Documento (Sólo Texto)\n"
+	\ . " Ctrl + W   Abrir Documento\n"
+	\ . " Ctrl + E   Compilar Documento (Con Imágenes)\n"
+	\ . " Ctrl + A   Compilar Documento (Preprocesar con Pic)\n"
+	\ . " Ctrl + S   Compliar Documento (Preprocesar con Pic, con Imágenes)\n\n"
 	\ . " C:\n"
-	\ . " Meta + Q   Compilar con gcc\n"
-	\ . " Meta + W   Ejecutar en terminal\n"
-	\ . " Meta + E   Abrir en gdb"<CR>
+	\ . " Ctrl + Q   Compilar con gcc\n"
+	\ . " Ctrl + W   Ejecutar en terminal\n"
+	\ . " Ctrl + E   Abrir en gdb"<CR>
 
 " Auto acentuar caracteres con groff
 " a

@@ -1,5 +1,5 @@
 // See LICENSE file for copyright and license details.
-static const unsigned int borderpx    = 4;  // Borde en pixeles de las ventanas
+static const unsigned int borderpx    = 6;  // Borde en pixeles de las ventanas
 static const unsigned int gappx       = 16; // Separación entre las ventanas
 static const unsigned int snap        = 0;  // Pixeles de cercanía para pegarse al borde (0 = desactivado)
 static const int swallowfloating      = 0;  // 1 Significa tragarse nuevas ventanas por defecto
@@ -17,7 +17,7 @@ static const char col_gray1[]         = "#1D2021";
 static const char col_gray2[]         = "#282828";
 static const char col_gray3[]         = "#3C3836";
 static const char col_gray4[]         = "#504945";
-static const char col_cyan[]          = "#83A598";
+static const char col_cyan[]          = "#458588";
 static const char col_red[]           = "#FB4934";
 static const char col_magenta[]       = "#B16286";
 static const char col_orange[]        = "#FE8019";
@@ -113,7 +113,7 @@ static const Layout layouts[] = {
 };
 
 // Definiciones de las Teclas
-#define MODKEY Mod4Mask // Super (Win) como modificador
+#define MODKEY Mod1Mask // Super (Win) como modificador
 #define TAGKEYS(KEY,TAG) \
 	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
@@ -140,7 +140,7 @@ static const char *spawnscratchpadcmd[] = { "st", "-t", "scratchpad", NULL }; //
 static const Key keys[] = {
 	// Modificador                  Tecla      Función           Argumento
 	// Abrir dmenu
-	{ MODKEY,                       XK_d,      spawn,            {.v = dmenucmd } },
+	{ MODKEY,                       XK_o,      spawn,            {.v = dmenucmd } },
 	// Abrir terminal
 	{ MODKEY,                       XK_Return, spawn,            {.v = termcmd } },
 	// Menu de apagado
@@ -158,35 +158,34 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_F1,     spawn,            SHCMD("arandr") },
 	// Cambiar música
 	{ MODKEY,                       XK_z,      spawn,            SHCMD("playerctl previous; pkill -USR2 dwmblocks") },
-	{ MODKEY,                       XK_x,      spawn,            SHCMD("playerctl play-pause") },
-	{ MODKEY,                       XK_c,      spawn,            SHCMD("playerctl next; pkill -USR2 dwmblocks") },
+	{ MODKEY,                       XK_x,      spawn,            SHCMD("playerctl next; pkill -USR2 dwmblocks") },
+	{ MODKEY|ShiftMask,             XK_z,      spawn,            SHCMD("playerctl play-pause") },
+	{ MODKEY|ShiftMask,             XK_x,      spawn,            SHCMD("playerctl play-pause") },
 	// Abrir/Cerrar barra de tareas
-	{ MODKEY,                       XK_t,      spawn,            SHCMD("pkill trayer ||	trayer --align center --edge top --expand false --width 4 --height 20 --distance 34 --iconspacing 6") },
+	{ MODKEY,                       XK_t,      spawn,            SHCMD("pkill trayer || trayer --align center --edge top --expand false --width 4 --height 20 --distance 34 --iconspacing 6") },
 	// Subir/Bajar volumen
 	{ MODKEY,                       XK_n,      spawn,            SHCMD("sndioctl output.level=-0.025; pkill -USR1 dwmblocks") },
 	{ MODKEY,                       XK_m,      spawn,            SHCMD("sndioctl output.level=+0.025; pkill -USR1 dwmblocks") },
 	// Volumen al 100%/50%
-	{ MODKEY|ShiftMask,             XK_n,      spawn,            SHCMD("doas /usr/bin/mixerctl outputs.master=255 && sndioctl output.level=1; pkill -USR1 dwmblocks") },
-	{ MODKEY|ShiftMask,             XK_m,      spawn,            SHCMD("doas /usr/bin/mixerctl outputs.master=255 && sndioctl output.level=0.7; pkill -USR1 dwmblocks") },
+	{ MODKEY|ShiftMask,             XK_n,      spawn,            SHCMD("doas /usr/bin/mixerctl outputs.master=255 && sndioctl output.level=0.7; pkill -USR1 dwmblocks") },
+	{ MODKEY|ShiftMask,             XK_m,      spawn,            SHCMD("doas /usr/bin/mixerctl outputs.master=255 && sndioctl output.level=1; pkill -USR1 dwmblocks") },
 	// Silenciar/Activar Micrófono
 	{ MODKEY|ShiftMask,             XK_F4,     spawn,            SHCMD("mic-mute-toggle") },
 	// Bajar Brillo
-	{ MODKEY,                       XK_v,      spawn,            SHCMD("xbacklight -steps 1 -dec 25") },
 	// Cambiar brillo (100%/40%)
-	{ MODKEY|ShiftMask,             XK_v,      spawn,            SHCMD("xbacklight -steps 1 -set 100") },
-	{ MODKEY|ShiftMask,             XK_b,      spawn,            SHCMD("xbacklight -steps 1 -set 40") },
+	{ MODKEY|ShiftMask,             XK_v,      spawn,            SHCMD("xbacklight -steps 1 -set 40") },
+	{ MODKEY|ShiftMask,             XK_b,      spawn,            SHCMD("xbacklight -steps 1 -set 100") },
 	// Forzar cierre de ventana
 	{ MODKEY|ShiftMask,             XK_c,      spawn,            SHCMD("xkill") },
-	{ MODKEY|ShiftMask,             XK_k,      spawn,            SHCMD("xkill") },
 	// Tomar capturas de pantalla
 	{ MODKEY,                       XK_p,      spawn,            SHCMD("screenshot all_clip") },
 	{ MODKEY|ShiftMask,             XK_p,      spawn,            SHCMD("screenshot selection_clip") },
-	{ MODKEY|Mod1Mask,              XK_p,      spawn,            SHCMD("screenshot all_save") },
-	{ MODKEY|ShiftMask|Mod1Mask,    XK_p,      spawn,            SHCMD("screenshot selection_save") },
+	{ MODKEY|ControlMask,           XK_p,      spawn,            SHCMD("screenshot all_save") },
+	{ MODKEY|ShiftMask|ControlMask, XK_p,      spawn,            SHCMD("screenshot selection_save") },
 	// Mostrar/Ocultar barra
 	{ MODKEY,                       XK_b,      togglebar,        {0} },
 	// Hacer/Deshacer ventana permamente
-	{ MODKEY|Mod1Mask,              XK_s,      togglesticky,     {0} },
+	{ MODKEY|ShiftMask,             XK_a,      togglesticky,     {0} },
 	// Cambiar de espacio
 	{ MODKEY,                       XK_q,      shiftviewclients, { .i = -1 } },
 	{ MODKEY,                       XK_w,      shiftviewclients, { .i = +1 } },
@@ -199,8 +198,8 @@ static const Key keys[] = {
 	// Incrementar/Decrementar el tamaño de la zona principal y las ventanas
 	{ MODKEY,                       XK_u,      setmfact,         {.f = -0.025} },
 	{ MODKEY,                       XK_i,      setmfact,         {.f = +0.025} },
-	{ MODKEY,                       XK_h,      setcfact,         {.f = -0.25} },
-	{ MODKEY,                       XK_l,      setcfact,         {.f = +0.25} },
+	{ MODKEY|ShiftMask,             XK_u,      setcfact,         {.f = -0.25} },
+	{ MODKEY|ShiftMask,             XK_i,      setcfact,         {.f = +0.25} },
 	// Cerrar aplicación
 	{ MODKEY|ShiftMask,             XK_q,      killclient,       {0} },
 	// Cerrar dwm

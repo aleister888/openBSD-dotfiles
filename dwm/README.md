@@ -6,34 +6,35 @@ dwm build for openBSD
 
 ## Keybindings
 
-- `Super + b` Toggle bar
-- `Super + q/w` Previous/Next tag
+- `LAlt + b` Toggle bar
+- `LAlt + q/w` Previous/Next tag
 - Stack Keys
-    - `Super + Minus` Focus first master Window
-    - `Super + Comma/Period` Focus Previous/Next window
-    - `Super + Stack Key` Focus window
-    - `Super + Shift + Stack Key` Move window
-- `Super + j/k` Add/Remove window to master
-- `Super + u/i` Change window ratio
-- `Super + h/l` Change window weight
-- `Super + Shift + q` Close window
-- `Super + Shift + F11` Restart dwm
-- `Super + Shift + Space` Toggle Floating
-- `Super + s` Toggle scratchpads
-- `Super + Shift + s` Make window scratchpad
-- `Super + Ctrl + s` Unmake window scratchpad
-- `Super + Alt + s` Toggle windows stickiness
-- `Super + f` Spawnscratchpad
-- `Super + ´/ç` Focus Previous/Next monitor (Intended for Spanish keyboards)
-- `Super + Shift + ´/ç` Send window to Previous/Next monitor (Intended for Spanish keyboards)
-- `Super + e` Default layout
-- `Super + r` Floating layout
-- `Super + Shift + e` Monocle layout
-- `Super + Shift + r` Centered master layout
-- `Super + y` Columns layout
-- `Super + Shift + y` Bottom stack layout
-- `Super + 1/9` Move to tag 1/9
-- `Super + Shift + 1/9` Move window to tag 1/9
+    - `LAlt + Minus` Focus/Move first master Window
+        - `LAlt + Comma/Period` Focus/Move Previous/Next window
+        - `LAlt + Left/Right` Focus/Move Previous/Next window
+        - `LAlt + Stack Key` Focus window
+        - `LAlt + Shift + Stack Key` Move window
+- `LAlt + j/k` Add/Remove window to master
+- `LAlt + u/i` Change window ratio
+- `LAlt + Shift + u/i` Change window weight
+- `LAlt + Shift + q` Close window
+- `LAlt + Shift + F11` Restart dwm
+- `LAlt + Shift + Space` Toggle Floating
+- `LAlt + s` Toggle scratchpads
+- `LAlt + Shift + s` Make window scratchpad
+- `LAlt + Ctrl + s` Unmake window scratchpad
+- `LAlt + Shift + a` Toggle windows stickiness
+- `LAlt + f` Spawnscratchpad
+- `LAlt + ´/ç` Focus Previous/Next monitor (Intended for Spanish keyboards)
+- `LAlt + Shift + ´/ç` Send window to Previous/Next monitor (Intended for Spanish keyboards)
+- `LAlt + e` Default layout
+- `LAlt + r` Floating layout
+- `LAlt + Shift + e` Monocle layout
+- `LAlt + Shift + r` Centered master layout
+- `LAlt + y` Columns layout
+- `LAlt + Shift + y` Bottom stack layout
+- `LAlt + 1/9` Move to tag 1/9
+- `LAlt + Shift + 1/9` Move window to tag 1/9
 
 ## Patches
 
