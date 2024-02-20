@@ -34,6 +34,8 @@ _NOTE:_ With the `persist` option in `doas.conf`, doas will not require authenti
 - [alacritty](https://alacritty.org/)
 - [dwmblocks](https://github.com/UtkarshVerma/dwmblocks-async/)
 - [Tauon Music Box](https://github.com/Taiko2k/TauonMusicBox)
+- [GTK theme](https://github.com/jmattheis/gruvbox-dark-icons-gtk)
+- [Icon theme](https://github.com/jmattheis/gruvbox-dark-gtk)
 
 ## Useful Stuff
 
@@ -45,15 +47,6 @@ simulates `i3lock-fancy` behaviour by manually adding blur and a lock icon.
 It detects if it should display a dark or light icon even better than
 the original i3lock-fancy because it reads brightness only from the part
 of the screen where the lock icon will be displayed.
-
-### Bleachbit and Abaddon (Discord client)
-
-I provide scripts to compile bleachbit and abaddon automatically
-
-## GTK gruvbox theme from:
-
-- [GTK theme](https://github.com/jmattheis/gruvbox-dark-icons-gtk)
-- [Icon theme](https://github.com/jmattheis/gruvbox-dark-gtk)
 
 ## TODO
 
