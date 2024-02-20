@@ -96,6 +96,8 @@ map Y $printf "%s" "$fx" | xclip -selection clipboard
 map <c-z> $dragon-drop -a -x $fx
 # Imprimr tamaño de la Carpeta/s o Archivo/s
 map P size
+# Ejecutar comandos
+map s shell
 
 cmd on-cd &{{
     # '&' commands run silently in background (which is what we want here),
