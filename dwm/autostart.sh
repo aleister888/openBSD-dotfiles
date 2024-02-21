@@ -40,6 +40,7 @@ pgrep dunst		|| dunst &
 pgrep dwmblocks		|| dwmblocks &
 pgrep node		|| npx http-server ~/.local/share/startpage/ 8080 &
 pgrep redshift		|| redshift -l $LOCATION
+pgrep workrave		|| workrave &
 
 # Si estoy en mi red local, iniciar Barrier
 if [ "$(ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | tail -1 | awk '{print $2}')" = "192.168.0.169" ]; then

@@ -23,10 +23,10 @@ packageinstall() {
 	lf libnotify libopenmpt libreoffice libsamplerate libvorbis lxappearance mediainfo mpg123 mpv neovim nitrogen node \
 	nsxiv obsdfreqd odt2txt opusfile p5-File-MimeInfo p7zip pandoc papirus-icon-theme pavucontrol picom playerctl \
 	poppler-utils py-gobject py3-pip qt5ct redshift remmina ripgrep sdl2 sdl2-audiolib sdl2-gfx sdl2-image \
-	sdl2-mixer sdl2-net sdl2-pango sdl2-ttf stow texlive_texmf-full thunderbird transmission-gtk trayer unrar \
+	sdl2-mixer sdl2-net sdl2-pango sdl2-ttf stow texlive_texmf-full thunderbird transmission-gtk unrar \
 	unzip-- wavpack wget wpa_supplicant xarchiver xclip xcursor-themes xdg-user-dirs xdotool yarn youtube-dl zathura \
 	zathura-pdf-mupdf zim zsh neofetch gsed gawk ggrep gnuwatch symbola-ttf meson ninja cmake xcb libconfig libev uthash \
-	chromium octave zathura-cb icecast ices--%ices2 curl syncthing xcursor-themes simple-mtpfs
+	chromium octave zathura-cb icecast ices--%ices2 curl syncthing xcursor-themes workrave
 }
 
 # Instalar las fuentes necesarias
