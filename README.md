@@ -50,7 +50,6 @@ of the screen where the lock icon will be displayed.
 
 ## TODO
 
-- Make a new dwmblocks build from scratch (just async, no clicking function)
 - Deploy dotfiles with update.sh from install.sh to avoid duplicate functions
 - Configure Tauon automatically (set gruvbox theme and agave font)
 - Translate the README to Spanish
