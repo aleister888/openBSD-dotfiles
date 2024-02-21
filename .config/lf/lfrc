@@ -94,7 +94,7 @@ map V push :!nvim<space>$f
 map Y $printf "%s" "$fx" | xclip -selection clipboard
 # Poder arrastar archivo gráficamente
 map <c-z> $dragon-drop -a -x $fx
-# Imprimr tamaño de la Carpeta/s o Archivo/s
+# Imprimr tamaño de la Carpeta/s o Archivo(s)
 map P size
 # Ejecutar comandos
 map s shell
@@ -181,30 +181,6 @@ cmd fzf_jump ${{
     lf -remote "send $id $cmd \"$res\""
 }}
 
-cmd clean-trash ${{
-	clear; tput bold
-	set -f
-	printf "TRASH BIN CONTENT:
-"
-	trash-list
-	printf "clean trash?[y/N]"
-	read ans
-	[ $ans = "y" ] && trash-empty -f && printf "done"
-	read ans
-}}
-
-cmd restore-trash ${{
-	clear; tput bold
-	set -f
-	printf "TRASH BIN CONTENT:
-"
-	trash-list
-	printf "restore trash?[y/N]"
-	read ans
-	[ $ans = "y" ] && trash-restore && printf "done"
-	read ans
-}}
-
 cmd open ${{
     case $(xdg-mime query filetype "$(readlink -f $f)") in
 	image/svg+xml) display -- $f ;;
@@ -236,15 +212,6 @@ cmd extract ${{
 	read ans
 }}
 
-cmd delete ${{
-	clear; tput bold
-	set -f
-	printf "%s\n\t" "$fx"
-	printf "delete?[y/N]"
-	read ans
-	[ $ans = "y" ] && rm -rf -- $fx
-}}
-
 cmd p-paste ${{
     set -- $(cat ~/.local/share/lf/files)
     mode="$1"
@@ -257,11 +224,49 @@ cmd p-paste ${{
     lf -remote "send clear"
 }}
 
+cmd delete ${{
+  clear; tput bold
+  set -f
+  printf "%s\n\n" "$fx"
+  printf "¿Borrar archivo(s)? [y/N] "
+  read ans
+  [ $ans = "y" ] && rm -rf -- $fx && \
+  notify-send -i \
+  /usr/local/share/icons/Papirus-Dark/128x128/places/user-trash.svg \
+  "Archivos borrados"
+}}
+
 cmd trash ${{
-	clear; tput bold
-	set -f
-	printf "%s\n\t" "$fx"
-	printf "move to trash?[y/N]"
-	read ans
-	[ $ans = "y" ] && trash-put $fx
+  clear; tput bold
+  set -f
+  printf "%s\n\n" "$fx"
+  printf "¿Mover archivo(s) a la papelera? [y/N] "
+  read ans
+  [ $ans = "y" ] && trash-put $fx &&
+  notify-send -i \
+  /usr/local/share/icons/Papirus-Dark/128x128/places/user-trash.svg \
+  "Archivos movidos a la papelera"
+}}
+
+cmd clean-trash ${{
+  clear; tput bold
+  set -f
+  printf "Contenidos de la papelera:\n"
+  trash-list
+  printf "¿Vaciar papelera? [y/N] "
+  read ans
+  [ $ans = "y" ] && trash-empty -f && \
+  notify-send -i \
+  /usr/local/share/icons/Papirus-Dark/128x128/places/user-trash.svg \
+  "Archivos borrados"
+}}
+
+cmd restore-trash ${{
+  clear; tput bold
+  set -f
+  printf "Contenidos de la papelera:\n"
+  trash-list
+  printf "¿Restaurar papelera? [y/N] "
+  read ans
+  [ $ans = "y" ] && trash-restore && printf "done"
 }}
