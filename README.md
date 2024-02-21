@@ -50,6 +50,7 @@ of the screen where the lock icon will be displayed.
 
 ## TODO
 
+- Make bar width bigger when no tray icon is present
 - Deploy dotfiles with update.sh from install.sh to avoid duplicate functions
 - Configure Tauon automatically (set gruvbox theme and agave font)
 - Translate the README to Spanish
