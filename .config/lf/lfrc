@@ -4,47 +4,32 @@
 #| (_| | |  __/ \__ \ ||  __/ |    | |  _| | (_| (_) | | | |  _| | (_| |
 # \__,_|_|\___|_|___/\__\___|_|    |_|_|    \___\___/|_| |_|_| |_|\__, |
 #
-# Dependencies (OpenBSD):
+# Dependencias (OpenBSD):
 # ImageMagick bat cdrtools poppler odt2txt
 # gnupg mediainfo ripgrep fzf
 #
-# Openers:
-# 	These just are the programs i've choosen for my
-# 	system you can just change them in the "mimeopen"
-# 	section and use the ones you want.
+# Abridores de archivos:
+#   Esto son las apps que uso en mi sitema, puedes cambiarlas poniendo
+#   tus ajustes en la sección mimeopen, encargada de abrir los archivos:
 #
 # feh mpv zathura zathura-pdf-mupdf nsxiv keepassxc
 #
 # p5-File-MimeInfo:
-# 	IF NOT RUNNING ANY Desktop Enviroment, install p5-File-MimeInfo
-# 	and set XDG_CURRENT_DESKTOP=X-Generic variable, in order for
-# 	xdg-utils to determine file types correctly.
+#   Si no estas usando un entorno de escritorio, instala p5-File-MimeInfo
+#   y escporta la variable XDG_CURRENT_DESKTOP=X-Generic. Si no xdg-utils
+#   no podrá leer los tipos de archivo correctamente.
 #
-# Apps that need manual compiling and instructions:
+# Aplicaciones que necesitan de compilarse:
 #
-# First of all add ~/.local/bin to your path with:
-# export PATH="$PATH":~/.local/bin
-#
-# atool: https://github.com/solsticedhiver/atool2.git
-# 	First change "/bin/bash" to "/usr/local/bin/bash" in
-# 	the "configure" script then install automake-1.16.5
-# 	Then run:
-#
-# 	rm build-aux/*; ln -s /usr/local/share/automake-1.16/missing ./build-aux/missing; ln -s /usr/local/share/automake-1.16/install-sh ./build-aux/install-sh
-#
-# 	Run "./configure" and copy the resulting binaries into
-# 	your path with:
-#
-# 	mkdir -p ~/.local/bin; cp acat adiff als apack arepack aunpack ~/.local/bin/
+#  atool2: Dispongo de un script de compilado, busca aquí:
+#    https://raw.githubusercontent.com/aleister888/openBSD-dotfiles/main/install.sh
 #
 # trash-cli: https://github.com/andreafrancia/trash-cli.git
-# 	install "py3-pip" package, then run "pip install trash-cli"
-# 	And create the trash directory with:
+# 	Instala "py3-pip" y ejecuta "pip install trash-cli"
+# 	Crea los directorios necesarios tal que así:
 # 		doas mkdir --parent /.Trash
 #		doas chmod a+rw /.Trash
 # 		doas chmod +t /.Trash
-#
-# devour: https://github.com/salman-abedin/devour.git
 
 set shell dash
 set shellopts '-c'
