@@ -129,7 +129,7 @@ static const Key keys[] = {
 	// Abrir dmenu
 	{ MODKEY,                       XK_p,      spawn,            {.v = dmenucmd } },
 	// Abrir terminal
-	{ MODKEY,                       XK_Return, spawn,            {.v = termcmd } },
+	{ MODKEY|ShiftMask,             XK_Return, spawn,            {.v = termcmd } },
 	// Menu de apagado
 	{ MODKEY,                       XK_F11,    spawn,            SHCMD("powermenu") },
 	// Abrir aplicaciones más usadas
