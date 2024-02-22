@@ -6,6 +6,8 @@ if [ "$(apm | grep "AC adapter state" | sed 's/AC adapter state: //' 2>&1)" = "c
 	echo ""
 else
 	case $battery_level in
+		[0-9])
+			echo "" ;;
 		[0-1][0-9])
 			echo "" ;;
 		[2-3][0-9])

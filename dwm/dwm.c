@@ -947,6 +947,7 @@ dirtomon(int dir)
 
 int
 drawstatusbar(Monitor *m, int bh, char* stext) {
+	unsigned int trayw = getsystraywidth();
 	int ret, i, w, x, len;
 	short isCode = 0;
 	char *text;
@@ -978,7 +979,11 @@ drawstatusbar(Monitor *m, int bh, char* stext) {
 		}
 	}
 	if (!isCode)
-		w += TEXTW(text) - lrpad + 3 * sp;
+		if (trayw < sp) {
+			w += TEXTW(text) - lrpad + 2 * sp;
+		} else {
+			w += TEXTW(text) - lrpad + 3 * sp;
+		}
 	else
 		isCode = 0;
 	text = p;
@@ -1057,6 +1062,7 @@ drawstatusbar(Monitor *m, int bh, char* stext) {
 void
 drawbar(Monitor *m)
 {
+	unsigned int trayw = getsystraywidth();
 	int x, w, tw = 0, stw = 0;
 	int boxs = drw->fonts->h / 9;
 	int boxw = drw->fonts->h / 6 + 2;
@@ -1072,7 +1078,11 @@ drawbar(Monitor *m)
 
 	/* draw status first so it can be overdrawn by tags later */
 	if (m == selmon || 1) { /* status is only drawn on selected monitor */
-		tw = m->ww - drawstatusbar(m, bh, stext) - 2 * sp;
+		if (trayw < sp) {
+			tw = m->ww - drawstatusbar(m, bh, stext) - sp;
+		} else {
+			tw = m->ww - drawstatusbar(m, bh, stext) - 2 * sp;
+		}
 	}
 
 	resizebarwin(m);
@@ -1096,12 +1106,20 @@ drawbar(Monitor *m)
 	if ((w = m->ww - tw - stw - x) > bh) {
 		if (m->sel) {
 			drw_setscheme(drw, scheme[m == selmon ? SchemeInfoSel : SchemeInfoNorm]);
-			drw_text(drw, x, 0, w - 2 * sp, bh, lrpad / 2, m->sel->name, 0);
+			if (trayw < sp) {
+				drw_text(drw, x, 0, w - sp, bh, lrpad / 2, m->sel->name, 0);
+			} else {
+				drw_text(drw, x, 0, w - 2 * sp, bh, lrpad / 2, m->sel->name, 0);
+			}
 			if (m->sel->isfloating)
 				drw_rect(drw, x + boxs, boxs, boxw, boxw, m->sel->isfixed, 0);
 		} else {
 			drw_setscheme(drw, scheme[SchemeInfoNorm]);
-			drw_rect(drw, x, 0, w - 2 * sp, bh, 1, 1);
+			if (trayw < sp) {
+				drw_rect(drw, x, 0, w - sp, bh, 1, 1);
+			} else {
+				drw_rect(drw, x, 0, w - 2 * sp, bh, 1, 1);
+			}
 		}
 	}
 	drw_map(drw, m->barwin, 0, 0, m->ww - stw, bh);
@@ -1775,10 +1793,15 @@ resize(Client *c, int x, int y, int w, int h, int interact)
 
 void
 resizebarwin(Monitor *m) {
+	unsigned int trayw = getsystraywidth();
 	unsigned int w = m->ww;
 	if (showsystray && m == systraytomon(m) && !systrayonleft)
 		w -= getsystraywidth();
+	if (trayw < sp) {
+	XMoveResizeWindow(dpy, m->barwin, m->wx + sp, m->by + vp, w - 2 * sp, bh);
+	} else {
 	XMoveResizeWindow(dpy, m->barwin, m->wx + sp, m->by + vp, w - 3 * sp, bh);
+	}
 }
 
 void
@@ -3473,4 +3496,3 @@ main(int argc, char *argv[])
 	XCloseDisplay(dpy);
 	return EXIT_SUCCESS;
 }
-
