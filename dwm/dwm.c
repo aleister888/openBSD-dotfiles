@@ -3144,7 +3144,11 @@ updatesystray(void)
 	w = w ? w + systrayspacing : 1;
 	x -= w;
 	XMoveResizeWindow(dpy, systray->win, x, m->by, w, bh);
-	wc.x = x; wc.y = m->by + sp; wc.width = w; wc.height = bh; // Changed y to match bar gapp
+	if (topbar != 1) {
+		wc.x = x; wc.y = m->by - sp; wc.width = w; wc.height = bh; // Changed y to match bar gapp
+	} else {
+		wc.x = x; wc.y = m->by + sp; wc.width = w; wc.height = bh; // Changed y to match bar gapp
+	}
 	wc.stack_mode = Above; wc.sibling = m->barwin;
 	XConfigureWindow(dpy, systray->win, CWX|CWY|CWWidth|CWHeight|CWSibling|CWStackMode, &wc);
 	XMapWindow(dpy, systray->win);

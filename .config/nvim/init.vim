@@ -26,7 +26,7 @@ nnoremap <leader>[ :s/\%#\([^[:space:]]\+\)/[\1]/g<CR>:noh<CR>
 nnoremap <leader>{ :s/\%#\([^[:space:]]\+\)/{\1}/g<CR>:noh<CR>
 
 " Tema de colores
-Plug 'ellisonleao/gruvbox.nvim'
+Plug 'morhetz/gruvbox'
 
 " Pre-visualización de colores
 Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }

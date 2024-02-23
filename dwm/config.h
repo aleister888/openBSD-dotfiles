@@ -2,7 +2,7 @@
 
 // Constantes
 static const unsigned int gappx          = 16;      // Separación entre las ventanas
-static const unsigned int borderpx       = gappx/2; // Borde en pixeles de las ventanas
+static const unsigned int borderpx       = gappx/3; // Borde en pixeles de las ventanas
 static const int vertpad                 = gappx;   // Separación vertical de la barra
 static const int sidepad                 = gappx;   // Separación horizontal de la barra
 static const int user_bh                 = gappx;   // Altura barra: 0 por defecto, >= 1 Altura añadida
@@ -21,12 +21,12 @@ static const int nmaster                 = 1;       // Número de clientes en la
 static const int resizehints             = 1;       // 1 ¿Respetar pistas de dibujado al redimensionar ventanas no-flotantes?
 static const int lockfullscreen          = 1;       // 1 Fuerza el foco en las ventanas en pantalla completa
 static const char *fonts[]               = { "Symbols Nerd Font:pixelsize=24:antialias=true:autohint=true",        // Fuentes de dwm
-                                             "Iosevka Nerd Font:bold:pixelsize=24:antialias=true:autohint=true" }; // Fuentes de dwm
+                                             "Iosevka Nerd Font:bold:pixelsize=22:antialias=true:autohint=true" }; // Fuentes de dwm
 static const char dmenufont[]            =   "Iosevka Nerd Font:bold:pixelsize=24:antialias=true:autohint=true";   // Fuente de dmenu
 static const char background[]           = "#1D2021";
-static const char background_sel[]       = "#282828"; // Hard contrast: "#3C3836"
-static const char foreground[]           = "#D5C4A1";
-static const char col_cyan[]             = "#83A598";
+static const char background_sel[]       = "#282828";
+static const char foreground[]           = "#EBDBB2";
+static const char col_cyan[]             = "#458588";
 static const char col_red[]              = "#FB4934";
 static const char col_magenta[]          = "#B16286";
 static const char col_orange[]           = "#FE8019";
@@ -58,34 +58,32 @@ static const int taglayouts[]	= {   0,   0,   0,   0,   0,   0,   3,   3,   3 };
 static const Rule rules[] = {
 	// Clase Instancia      Título Espacio Flotante Terminal -Tragado Monitor Tecla Scratch
 	// Terminal
-	{ "st-256color",	NULL,    NULL, 0,      0,    1,       0,      -1,     0},
+	{ "st-256color",	NULL,    NULL, 0,      0,    1,       0,      -1},
 	// Ventanas flotantes
-	{ "Yad",		NULL,    NULL, 0,      1,    0,       0,      -1,     0},
-	{ "Gcolor2",		NULL,    NULL, 0,      1,    0,       0,      -1,     0},
-	{ "gnome-calculator",	NULL,    NULL, 0,      1,    0,       0,      -1,     0},
+	{ "Yad",		NULL,    NULL, 0,      1,    0,       0,      -1},
+	{ "Gcolor2",		NULL,    NULL, 0,      1,    0,       0,      -1},
+	{ "gnome-calculator",	NULL,    NULL, 0,      1,    0,       0,      -1},
 	// Espacio 1: Música
-	{ "Tauon Music Box",	NULL,    NULL, 1 << 0, 0,    0,       0,      -1,     0},
-	{ "Easytag",		NULL,    NULL, 1 << 0, 0,    0,       0,      -1,     0},
+	{ "Tauon Music Box",	NULL,    NULL, 1 << 0, 0,    0,       0,      -1},
+	{ "Easytag",		NULL,    NULL, 1 << 0, 0,    0,       0,      -1},
 	// Espacio 2: Correo
-	{ "thunderbird",	NULL,    NULL, 1 << 1, 0,    0,       0,      -1,     0},
+	{ "thunderbird",	NULL,    NULL, 1 << 1, 0,    0,       0,      -1},
 	// Espacio 3: Internet
-	{ "Chromium-browser",	NULL,    NULL, 1 << 2, 0,    0,       0,      -1,     0},
-	{ "Abaddon",		NULL,    NULL, 1 << 2, 0,    0,       0,      -1,     0},
-	{ "transmission-gtk",	NULL,    NULL, 1 << 2, 0,    0,       0,      -1,     0},
-	{ "Transmission-gtk",	NULL,    NULL, 1 << 2, 0,    0,       0,      -1,     0},
+	{ "Chromium-browser",	NULL,    NULL, 1 << 2, 0,    0,       0,      -1},
+	{ "Abaddon",		NULL,    NULL, 1 << 2, 0,    0,       0,      -1},
+	{ "Transmission-gtk",	NULL,    NULL, 1 << 2, 0,    0,       0,      -1},
 	// Espacio 4: Oficina
-	{ "Zim",		NULL,    NULL, 1 << 3, 0,    0,       0,      -1,     0},
+	{ "Zim",		NULL,    NULL, 1 << 3, 0,    0,       0,      -1},
 	// Espacio 5: Gráficos
-	{ "Fr.handbrake.ghb",	NULL,    NULL, 1 << 4, 0,    0,       0,      -1,     0},
-	{ "Gimp",		NULL,    NULL, 1 << 4, 0,    0,       0,      -1,     0},
+	{ "Fr.handbrake.ghb",	NULL,    NULL, 1 << 4, 0,    0,       0,      -1},
+	{ "Gimp",		NULL,    NULL, 1 << 4, 0,    0,       0,      -1},
 	// Espacio 6: Utilidades/Configuración
-	{ "KeePassXC",		NULL,    NULL, 1 << 5, 0,    0,       0,      -1,     0},
-	{ "Timeshift-gtk",	NULL,    NULL, 1 << 5, 0,    0,       0,      -1,     0},
-	{ "BleachBit",		NULL,    NULL, 1 << 5, 0,    0,       0,      -1,     0},
-	{ "Nitrogen",		NULL,    NULL, 1 << 5, 1,    0,       0,      -1,     0},
-	{ "Arandr",		NULL,    NULL, 1 << 5, 0,    0,       0,      -1,     0},
-	{ "Lxappearance",	NULL,    NULL, 1 << 5, 0,    0,       0,      -1,     0},
-	{ "qt5ct",		NULL,    NULL, 1 << 5, 0,    0,       0,      -1,     0},
+	{ "KeePassXC",		NULL,    NULL, 1 << 5, 0,    0,       0,      -1},
+	{ "BleachBit",		NULL,    NULL, 1 << 5, 0,    0,       0,      -1},
+	{ "Nitrogen",		NULL,    NULL, 1 << 5, 1,    0,       0,      -1},
+	{ "Arandr",		NULL,    NULL, 1 << 5, 0,    0,       0,      -1},
+	{ "Lxappearance",	NULL,    NULL, 1 << 5, 0,    0,       0,      -1},
+	{ "qt5ct",		NULL,    NULL, 1 << 5, 0,    0,       0,      -1},
 	// Scratchpad
 	{ NULL,		NULL,"scratchpad",     0,      1,    1,       1,      -1,     's'},
 };

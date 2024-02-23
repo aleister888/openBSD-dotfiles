@@ -37,23 +37,12 @@ xrdb ~/.config/Xresources &
 pgrep dbus || sh -c 'dbus-update-activation-environment --all & dbus-launch' &
 pgrep picom		|| picom &
 pgrep dunst		|| dunst &
-pgrep dwmblocks		|| dwmblocks &
+pkill dwmblocks		;  dwmblocks &
 pgrep node		|| npx http-server ~/.local/share/startpage/ 8080 &
-pgrep redshift		|| redshift -l $LOCATION
-pgrep workrave		|| workrave &
-
-# Si estoy en mi red local, iniciar Barrier
-if [ "$(ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | tail -1 | awk '{print $2}')" = "192.168.0.169" ]; then
-	pgrep barrier || barrier-gui &
-fi
+pgrep redshift		|| redshift -l $LOCATION &
 
 # Borrar archivos basura
-if [ -f /tmp/clean_lock ]; then
-	exit
-else
-	touch /tmp/clean_lock
-	while true; do
-		rm ~/.serverauth* ~/*.core ~/.pki
-		sleep 60;
-	done &
-fi
+while true; do
+	rm ~/.serverauth* ~/*.core ~/.pki
+	sleep 60;
+done &
