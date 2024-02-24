@@ -17,16 +17,19 @@ fi
 
 # Instalar nuestros paquetes
 packageinstall() {
+	# Dependencias para compilar Tauon Music Box, libappindicator no esta disponible
+	doas pkg_add -Ix py3-dbus py-gobject py3-pip ffmpeg libnotify sdl2 sdl2-audiolib sdl2-gfx sdl2-image \
+	sdl2-mixer sdl2-net sdl2-pango sdl2-ttf wavpack flac libvorbis opusfile libopenmpt libsamplerate mpg123
+	#
 	doas pkg_add -Ix ghostscript-- arandr automake-1.16.5 avahi bash bat cdrtools chafa coreutils cups czkawka-gui dash-- dbus \
-	dragon-drop dunst easytag eza feh ffmpeg ffmpegthumbnailer flac fzf gcc%8 gcolor2 gimp%snapshot git gmake \
-	gnome-calculator gnome-keyring go gnupg handbrake hplip htop i3lock imagemagick imlib2 jdk%8 jdk%11 jq keepassxc--browser latexmk \
-	lf libnotify libopenmpt libreoffice libsamplerate libvorbis lxappearance mediainfo mpg123 mpv neovim nitrogen node \
-	nsxiv obsdfreqd odt2txt opusfile p5-File-MimeInfo p7zip pandoc papirus-icon-theme pavucontrol picom playerctl \
-	poppler-utils py-gobject py3-pip qt5ct redshift remmina ripgrep sdl2 sdl2-audiolib sdl2-gfx sdl2-image \
-	sdl2-mixer sdl2-net sdl2-pango sdl2-ttf stow texlive_texmf-full thunderbird transmission-gtk unrar \
-	unzip-- wavpack wget wpa_supplicant xarchiver xclip xcursor-themes xdg-user-dirs xdotool yarn youtube-dl zathura \
-	zathura-pdf-mupdf zim zsh neofetch gsed gawk ggrep gnuwatch symbola-ttf meson ninja cmake xcb libconfig libev uthash \
-	chromium zathura-cb icecast ices--%ices2 curl syncthing xcursor-themes workrave rsync--
+	dragon-drop dunst easytag eza feh ffmpegthumbnailer fzf gcc%8 gcolor2 gimp%snapshot git gmake gnome-calculator gnome-keyring \
+	go gnupg handbrake hplip htop i3lock imagemagick imlib2 jdk%8 jdk%11 jq keepassxc--browser latexmk lf libreoffice lxappearance \
+	mediainfo mpv neovim nitrogen node nsxiv obsdfreqd odt2txt p5-File-MimeInfo p7zip pandoc papirus-icon-theme pavucontrol picom \
+	playerctl poppler-utils qt5ct redshift remmina ripgrep stow texlive_texmf-full thunderbird transmission-gtk unrar unzip-- \
+	wget wpa_supplicant xarchiver xclip xcursor-themes xdg-user-dirs xdotool yarn youtube-dl zathura zathura-pdf-mupdf zim zsh \
+	neofetch gsed gawk ggrep gnuwatch symbola-ttf meson ninja cmake xcb libconfig libev uthash chromium zathura-cb icecast \
+	ices--%ices2 curl syncthing xcursor-themes workrave rsync--
+
 }
 
 # Instalar las fuentes necesarias
@@ -135,9 +138,11 @@ suckless_install() {
 # Instalar nuestro reproductor de música
 tauon_music_box() {
 	# Clonar el repositorio TauonMusicBox
-	git clone https://github.com/Taiko2k/TauonMusicBox.git "$HOME/.local/src/tauon-music-box" --branch v7.5.0 >/dev/null
-	# Patch Tauon Compile Script
+	git clone https://github.com/Taiko2k/TauonMusicBox.git "$HOME/.local/src/tauon-music-box" --branch v7.6.6 >/dev/null
+	# Cambiamos el compilador a egcc
 	sed -i 's/gcc/egcc/g' "$HOME/.local/src/tauon-music-box/compile-phazor.sh"
+	# Quitamos dbus-python de la lista de depedencias (Ya lo instalamos con pkg_add py3-dbus)
+	sed -i '/dbus-python/d' ""$HOME/.local/src/tauon-music-box/requirements.txt""
 	# Actualizar submódulos
 	git -C "$HOME/.local/src/tauon-music-box" submodule update --init --recursive >/dev/null
 	# Instalar urllib3==1.26.6 (La última vez que probe versiones mas recientes no se podian instalar o generaban conflictos)
@@ -145,7 +150,7 @@ tauon_music_box() {
 	# Instalar los requisitos de TauonMusicBox
 	pip install --user -r "$HOME/.local/src/tauon-music-box/requirements.txt" >/dev/null
 	# Compilar TauonMusicBox
-	sh -c "cd $HOME/.local/src/tauon-music-box && git submodule update --init --recursive && bash compile-phazor.sh" >/dev/null
+	sh -c "cd $HOME/.local/src/tauon-music-box && bash compile-phazor.sh" >/dev/null
 	rm "$HOME/.local/src/tauon-music-box/.gitignore"
 }
 
