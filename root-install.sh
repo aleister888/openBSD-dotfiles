@@ -101,7 +101,7 @@ fi
 
 ports_setup(){
 	if [ ! -d /usr/ports ]; then
-		cvs -qd anoncvs@anoncvs.fr.openbsd.org:/cvs checkout -P ports
+		cd /usr && cvs -qd anoncvs@anoncvs.fr.openbsd.org:/cvs checkout -P ports
 	fi
 }
 
