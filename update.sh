@@ -63,3 +63,8 @@ find ~/.config -type l ! -exec test -e {} \; -delete
 
 # Arreglar los permisos de la webcam
 doas chmod 640 /dev/video0
+
+# Actualizar plugins de zsh
+sh -c "cd $HOME/.config/zsh/zsh-autosuggestions && git pull"
+sh -c "cd $HOME/.config/zsh/zsh-history-substring-search && git pull"
+sh -c "cd $HOME/.config/zsh/zsh-syntax-highlighting && git pull"

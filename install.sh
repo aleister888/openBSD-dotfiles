@@ -56,30 +56,26 @@ fontdownload() {
 
 # Instalar nuestros plugins de zsh
 plugindownload(){
-	git clone https://github.com/zsh-users/zsh-history-substring-search.git "$HOME/.dotfiles/.config/zsh/zsh-history-substring-search"
-	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$HOME/.dotfiles/.config/zsh/zsh-syntax-highlighting"
-	git clone https://github.com/zsh-users/zsh-autosuggestions.git "$HOME/.dotfiles/.config/zsh/zsh-autosuggestions"
+	git clone https://github.com/zsh-users/zsh-history-substring-search.git "$HOME/.dotfiles/.config/zsh/zsh-history-substring-search" >/dev/null
+	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$HOME/.dotfiles/.config/zsh/zsh-syntax-highlighting" >/dev/null
+	git clone https://github.com/zsh-users/zsh-autosuggestions.git "$HOME/.dotfiles/.config/zsh/zsh-autosuggestions" >/dev/null
 }
 
 # Instalar pfetch
 pfetch_install() {
-	# Clonar el repositorio pfetch y copiar el ejecutable a /usr/local/bin/
-	git clone https://github.com/dylanaraps/pfetch.git "$HOME/.dotfiles/bin/pfetch" >/dev/null 2>&1
+	# Clonar el repositorio pfetch y copiar el script a /usr/local/bin/
+	git clone https://github.com/dylanaraps/pfetch.git "$HOME/.dotfiles/bin/pfetch"
 	doas cp "$HOME/.dotfiles/bin/pfetch/pfetch" /usr/local/bin/ && \
 	rm -rf "$HOME/.dotfiles/bin/pfetch"
 }
 
 # Instalar los archivos de configuración
 dotfiles_install() {
-	# Crear directorios si no existen y enlazar archivos
-	ensure_directory() {
-	    # $1: Directorio a verificar y crear si no existe
+	ensure_directory() { # Crear directorio si no existe
 	    [ ! -d "$1" ] && mkdir -p "$1"
 	}
-	# Crear enlaces simbólicos
-	create_symlink() {
-	    # $1: Origen del archivo
-	    # $2: Destino del enlace simbólico
+	create_symlink() { # Crear enlaces simbólicos
+	    # $1: Origen, $2: Destino
 	    ln -s "$1" "$2"
 	}
 	# Eliminar el archivo ~/.profile si existe y enlazarlo al archivo ~/.dotfiles/.profile
@@ -103,11 +99,11 @@ dotfiles_install() {
 # Instalar los temas GTK
 gruvbox_install() {
 	# Clonar el repositorio gruvbox-dark-icons-gtk en /usr/local/share/icons/
-	doas git clone https://github.com/jmattheis/gruvbox-dark-icons-gtk.git /usr/local/share/icons/gruvbox-dark-icons-gtk >/dev/null 2>&1
+	doas git clone https://github.com/jmattheis/gruvbox-dark-icons-gtk.git /usr/local/share/icons/gruvbox-dark-icons-gtk >/dev/null
 	# Clonar el repositorio gruvbox-dark-gtk en /usr/local/share/themes/
-	doas git clone https://github.com/jmattheis/gruvbox-dark-gtk.git /usr/local/share/themes/gruvbox-dark-gtk >/dev/null 2>&1
+	doas git clone https://github.com/jmattheis/gruvbox-dark-gtk.git /usr/local/share/themes/gruvbox-dark-gtk >/dev/null
 	# Clona el tema de gtk4
-	git clone https://github.com/Fausto-Korpsvart/Gruvbox-GTK-Theme.git /tmp/Gruvbox_Theme >/dev/null 2>&1
+	git clone https://github.com/Fausto-Korpsvart/Gruvbox-GTK-Theme.git /tmp/Gruvbox_Theme >/dev/null
 	# Copia el tema deseado a la carpeta de temas
 	doas cp -r /tmp/Gruvbox_Theme/themes/Gruvbox-Dark-B /usr/local/share/themes/Gruvbox-Dark-B
 }
@@ -139,24 +135,24 @@ suckless_install() {
 # Instalar nuestro reproductor de música
 tauon_music_box() {
 	# Clonar el repositorio TauonMusicBox
-	git clone https://github.com/Taiko2k/TauonMusicBox.git "$HOME/.local/src/tauon-music-box" --branch v7.5.0 >/dev/null 2>&1
+	git clone https://github.com/Taiko2k/TauonMusicBox.git "$HOME/.local/src/tauon-music-box" --branch v7.5.0 >/dev/null
 	# Patch Tauon Compile Script
 	sed -i 's/gcc/egcc/g' "$HOME/.local/src/tauon-music-box/compile-phazor.sh"
 	# Actualizar submódulos
-	git -C "$HOME/.local/src/tauon-music-box" submodule update --init --recursive >/dev/null 2>&1
+	git -C "$HOME/.local/src/tauon-music-box" submodule update --init --recursive >/dev/null
 	# Instalar urllib3==1.26.6 (La última vez que probe versiones mas recientes no se podian instalar o generaban conflictos)
-	pip install --user urllib3==1.26.6 >/dev/null 2>&1
+	pip install --user urllib3==1.26.6 >/dev/null
 	# Instalar los requisitos de TauonMusicBox
-	pip install --user -r "$HOME/.local/src/tauon-music-box/requirements.txt" >/dev/null 2>&1
+	pip install --user -r "$HOME/.local/src/tauon-music-box/requirements.txt" >/dev/null
 	# Compilar TauonMusicBox
-	sh -c "cd $HOME/.local/src/tauon-music-box && git submodule update --init --recursive && bash compile-phazor.sh" >/dev/null 2>&1
+	sh -c "cd $HOME/.local/src/tauon-music-box && git submodule update --init --recursive && bash compile-phazor.sh" >/dev/null
 	rm "$HOME/.local/src/tauon-music-box/.gitignore"
 }
 
 # Instalar atool (Programa para descomprimir ficheros)
 atool2_install() {
 	# Clonar el repositorio atool2
-	git clone https://github.com/solsticedhiver/atool2.git "$HOME/.local/src/atool2" >/dev/null 2>&1
+	git clone https://github.com/solsticedhiver/atool2.git "$HOME/.local/src/atool2" >/dev/null
 	# Modificar el script de configuración para usar /usr/local/bin/bash
 	sed -i 's|/bin/bash|/usr/local/bin/bash|g' "$HOME/.local/src/atool2/configure"
 	# Hacer enlaces simbólicos para compilar atool en OpenBSD
@@ -174,7 +170,7 @@ atool2_install() {
 vim_configure() {
 	# Instalar VimPlug
 	sh -c "curl -fLo ${XDG_DATA_HOME:-$HOME/.local/share}/nvim/site/autoload/plug.vim --create-dirs \
-		   https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim" >/dev/null 2>&1
+		   https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim" >/dev/null
 	# Crear enlace simbólico de neovim a vim
 	doas ln -s /usr/local/bin/nvim /usr/local/bin/vim 2>/dev/null
 	# Instalar los plugins
@@ -221,7 +217,7 @@ trash_dir() {
 	doas chmod a+rw /.Trash
 	doas chmod +t /.Trash
 	# Instalar trash-cli
-	pip install --user trash-cli >/dev/null 2>&1
+	pip install --user trash-cli >/dev/null
 }
 
 rcctl_enable() {
@@ -285,7 +281,7 @@ fi
 
 # Instalamos xdg-ninja
 NINJA_DIR="$HOME/.dotfiles/bin/xdg-ninja"
-git clone https://github.com/b3nj5m1n/xdg-ninja.git "$NINJA_DIR" >/dev/null 2>&1
+git clone https://github.com/b3nj5m1n/xdg-ninja.git "$NINJA_DIR" >/dev/null
 if [ -d "$NINJA_DIR" ]; then
     echo "xdg-ninja se instaló correctamente en $NINJA_DIR"
 else
