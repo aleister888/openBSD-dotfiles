@@ -51,6 +51,5 @@ of the screen where the lock icon will be displayed.
 ## TODO
 
 - Deploy dotfiles with update.sh from install.sh to avoid duplicate functions
-- Configure Tauon automatically (set gruvbox theme and agave font)
 - Translate the README to Spanish
 - Asking the user if they want to auto install abaddon and/or bleachbit

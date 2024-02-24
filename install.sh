@@ -137,6 +137,7 @@ suckless_install() {
 
 # Instalar nuestro reproductor de música
 tauon_music_box() {
+	local THEME_FILE="/tmp/themes.tar.gz"
 	# Clonar el repositorio TauonMusicBox
 	git clone https://github.com/Taiko2k/TauonMusicBox.git "$HOME/.local/src/tauon-music-box" --branch v7.6.6 >/dev/null
 	# Cambiamos el compilador a egcc
@@ -151,7 +152,11 @@ tauon_music_box() {
 	pip install --user -r "$HOME/.local/src/tauon-music-box/requirements.txt" >/dev/null
 	# Compilar TauonMusicBox
 	sh -c "cd $HOME/.local/src/tauon-music-box && bash compile-phazor.sh" >/dev/null
+	# Borrar .gitignore para desactivar el modo desarollador
 	rm "$HOME/.local/src/tauon-music-box/.gitignore"
+	# Descargar y extraer mis temas
+	wget https://github.com/Taiko2k/TauonMusicBox/files/14394169/themes.tar.gz --output-file="$THEME_FILE"
+	tar -xzvf "$THEME_FILE" -C "$HOME/.local/src/tauon-music-box/theme/"
 }
 
 # Instalar atool (Programa para descomprimir ficheros)
