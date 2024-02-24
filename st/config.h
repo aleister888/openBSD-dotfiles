@@ -5,7 +5,7 @@
  *
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
-static char *font = "Iosevka Nerd Font:bold:pixelsize=18:antialias=true:autohint=true";
+static char *font = "agave Nerd Font:pixelsize=20:antialias=true:autohint=true";
 /* Spare fonts */
 static char *font2[] = {
 	"Symbols Nerd Font:style=Regular:pixelsize=18:antialias=true:autohint=true",
