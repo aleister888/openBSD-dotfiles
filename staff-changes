@@ -7,8 +7,8 @@ new_datasize_cur="1024M"
 new_datasize_max="1024M"
 new_maxproc_cur="256"
 new_maxproc_max="256"
-new_openfiles_cur="8192"
-new_openfiles_max="12288"
+new_openfiles_cur="131072"
+new_openfiles_max="232878"
 
 # Utilizamos sed para establecer los nuevos valores para el grupo staff
 sed -i -e "/^staff:/,/^[a-zA-Z]+:\\$/ {

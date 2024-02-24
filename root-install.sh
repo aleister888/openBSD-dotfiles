@@ -62,7 +62,7 @@ echo '#!/bin/sh
 [ -f xrdb $HOME/.config/Xresources ] && xrdb $HOME/.config/Xresources
 
 while true; do
-	ck-launch-session /usr/local/bin/dwm >/dev/null 2>&1
+	/usr/local/bin/dwm >/dev/null 2>&1
 done' > /etc/X11/xinit/xinitrc
 }
 

@@ -17,7 +17,6 @@ IMG:$ICONPATH/multimedia.svg					Vídeo y Sonido
 	IMG:$ICONPATH/mpv.svg					mpv			mpv --player-operation-mode=pseudo-gui
 	IMG:$ICONPATH/pavucontrol.svg				Pavucontrol		pavucontrol
 	IMG:$ICONPATH/easytag.svg				EasyTAG			easytag
-	IMG:$ICONPATH/picard.svg				Picard			picard --stand-alone-instance
 
 IMG:$ICONPATH/radiotray.svg					Radio
 	Your Classical - Relax	 				$TERMINAL $RADIOFLAG "http://relax.stream.publicradio.org/relax.mp3"
@@ -35,7 +34,6 @@ IMG:$ICONPATH/radiotray.svg					Radio
 
 IMG:$ICONPATH/preferences-desktop-color.svg			Gráficos
 	IMG:$ICONPATH/gimp.svg					GIMP			gimp-2.99
-	IMG:$ICONPATH/fr.handbrake.ghb.svg			HandBrake		ghb
 	IMG:$ICONPATH/gcolor2.svg				Gcolor2			gcolor2
 
 IMG:$ICONPATH/applications-office.svg				Oficina

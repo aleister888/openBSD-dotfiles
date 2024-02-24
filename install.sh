@@ -19,16 +19,16 @@ fi
 packageinstall() {
 	# Dependencias para compilar Tauon Music Box, libappindicator no esta disponible
 	doas pkg_add -Ix py3-dbus py-gobject py3-pip ffmpeg libnotify sdl2 sdl2-audiolib sdl2-gfx sdl2-image \
-	sdl2-mixer sdl2-net sdl2-pango sdl2-ttf wavpack flac libvorbis opusfile libopenmpt libsamplerate mpg123
+	sdl2-mixer sdl2-net sdl2-pango sdl2-ttf wavpack flac libvorbis opusfile libopenmpt libsamplerate mpg123 coreutils
 	#
-	doas pkg_add -Ix ghostscript-- arandr automake-1.16.5 avahi bash bat cdrtools chafa coreutils cups czkawka-gui dash-- dbus \
+	doas pkg_add -Ix ghostscript-- arandr automake-1.16.5 avahi bash bat cdrtools chafa cups czkawka-gui dash-- dbus \
 	dragon-drop dunst easytag eza feh ffmpegthumbnailer fzf gcc%8 gcolor2 gimp%snapshot git gmake gnome-calculator gnome-keyring \
-	go gnupg handbrake hplip htop i3lock imagemagick imlib2 jdk%8 jdk%11 jq keepassxc--browser latexmk lf libreoffice lxappearance \
+	go gnupg hplip htop i3lock imagemagick imlib2 jdk%8 jdk%11 jq keepassxc--browser latexmk lf libreoffice lxappearance \
 	mediainfo mpv neovim nitrogen node nsxiv obsdfreqd odt2txt p5-File-MimeInfo p7zip pandoc papirus-icon-theme pavucontrol picom \
 	playerctl poppler-utils qt5ct redshift remmina ripgrep stow texlive_texmf-full thunderbird transmission-gtk unrar unzip-- \
 	wget wpa_supplicant xarchiver xclip xcursor-themes xdg-user-dirs xdotool yarn youtube-dl zathura zathura-pdf-mupdf zim zsh \
 	neofetch gsed gawk ggrep gnuwatch symbola-ttf meson ninja cmake xcb libconfig libev uthash chromium zathura-cb icecast \
-	ices--%ices2 curl syncthing xcursor-themes workrave rsync--
+	ices--%ices2 curl syncthing xcursor-themes workrave polkit
 
 }
 
@@ -198,7 +198,8 @@ MAILTO=$(whoami)
 * * * * *	$(whoami)	$HOME/.local/bin/bat
 * * * * *	root		rm /var/log/Xorg.*
 * * * * *	root		rm /var/log/daemon.*
-* * * * *	root		rm /var/log/maillog.*" > /tmp/crontab
+* * * * *	root		rm /var/log/maillog.*
+30 10 * * *	root		cvs -qd anoncvs@anoncvs.comstyle.com:/cvs checkout -Pd /usr/ports" > /tmp/crontab
 doas mv /tmp/crontab /etc/crontab
 fi
 }
