@@ -142,7 +142,7 @@ tauon_music_box() {
 	# Cambiamos el compilador a egcc
 	sed -i 's/gcc/egcc/g' "$HOME/.local/src/tauon-music-box/compile-phazor.sh"
 	# Quitamos dbus-python de la lista de depedencias (Ya lo instalamos con pkg_add py3-dbus)
-	sed -i '/dbus-python/d' ""$HOME/.local/src/tauon-music-box/requirements.txt""
+	sed -i '/dbus-python/d' "$HOME/.local/src/tauon-music-box/requirements.txt"
 	# Actualizar submódulos
 	git -C "$HOME/.local/src/tauon-music-box" submodule update --init --recursive >/dev/null
 	# Instalar urllib3==1.26.6 (La última vez que probe versiones mas recientes no se podian instalar o generaban conflictos)
