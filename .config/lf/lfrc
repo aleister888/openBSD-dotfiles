@@ -48,7 +48,7 @@ set ratios 1:1:1
 set hiddenfiles ".*:*.aux:*.toc:*.core:*.out"
 
 # Renombrar/Copiar/Mover Archivos
-map p p-paste
+map p paste
 map r rename
 map <c-r> bulk-rename
 # Buscar Archivos
@@ -88,7 +88,7 @@ cmd on-cd &{{
     # '&' commands run silently in background (which is what we want here),
     # but are not connected to stdout.
     # To make sure our escape sequence still reaches stdout we pipe it to /dev/tty
-    printf "\033]0;$PWD\007" > /dev/tty
+    printf "\033]0;$(pwd | sed "s|$HOME|~|")\007" >/dev/tty
 }}
 
 # Imprimir como título de ventana nuesto CWD
@@ -113,6 +113,7 @@ cmd compress ${{
 }}
 
 cmd size &{{
+  dunstctl close-all
   notify-send "📚 Size is $(du -chs $fx | grep total | awk {'print $1'})"
 }}
 
@@ -197,7 +198,7 @@ cmd extract ${{
 	read ans
 }}
 
-cmd p-paste ${{
+cmd paste ${{
     set -- $(cat ~/.local/share/lf/files)
     mode="$1"
     shift

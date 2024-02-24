@@ -7,6 +7,7 @@ cat <<EOF | xmenu -r | dash &
 IMG:$ICONPATH/internet-web-browser.svg				Internet
 	IMG:$ICONPATH/google-chrome.svg				Chromium		chrome
 	IMG:$ICONPATH/discord.svg				Discord			xdg-open https://discord.com/login
+	IMG:$ICONPATH/telegram.svg				Telegram		xdg-open https://web.telegram.org
 	IMG:$ICONPATH/thunderbird.svg				Thunderbird		thunderbird
 	IMG:$ICONPATH/syncthing-gtk.svg				Syncthing		xdg-open http://127.0.0.1:8384
 	IMG:$ICONPATH/transmission.svg				Transmission		transmission-gtk
@@ -39,7 +40,6 @@ IMG:$ICONPATH/preferences-desktop-color.svg			Gráficos
 
 IMG:$ICONPATH/applications-office.svg				Oficina
 	IMG:$ICONPATH/zim.svg					Notas			zim
-	IMG:$ICONPATH/octave.svg				Octave			/usr/local/bin/octave --gui
 	IMG:$ICONPATH/libreoffice-writer.svg			Libre Office Writer	libreoffice --writer
 	IMG:$ICONPATH/libreoffice-calc.svg			Libre Office Calc	libreoffice --calc
 	IMG:$ICONPATH/libreoffice-impress.svg			Libre Office Impress	libreoffice --impress

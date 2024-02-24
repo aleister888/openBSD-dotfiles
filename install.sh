@@ -26,7 +26,7 @@ packageinstall() {
 	sdl2-mixer sdl2-net sdl2-pango sdl2-ttf stow texlive_texmf-full thunderbird transmission-gtk unrar \
 	unzip-- wavpack wget wpa_supplicant xarchiver xclip xcursor-themes xdg-user-dirs xdotool yarn youtube-dl zathura \
 	zathura-pdf-mupdf zim zsh neofetch gsed gawk ggrep gnuwatch symbola-ttf meson ninja cmake xcb libconfig libev uthash \
-	chromium octave zathura-cb icecast ices--%ices2 curl syncthing xcursor-themes workrave
+	chromium zathura-cb icecast ices--%ices2 curl syncthing xcursor-themes workrave rsync--
 }
 
 # Instalar las fuentes necesarias
