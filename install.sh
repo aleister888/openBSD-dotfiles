@@ -56,17 +56,9 @@ fontdownload() {
 
 # Instalar nuestros plugins de zsh
 plugindownload(){
-repositories=(
-	wget https://github.com/zsh-users/zsh-history-substring-search.git "$HOME/.dotfiles/.config/zsh/zsh-history-substring-search"
-	wget https://github.com/zsh-users/zsh-syntax-highlighting.git "$HOME/.dotfiles/.config/zsh/zsh-syntax-highlighting"
-	wget https://github.com/zsh-users/zsh-autosuggestions.git "$HOME/.dotfiles/.config/zsh/zsh-autosuggestions"
-)
-# Clonar los repositorios
-for repo in "${repositories[@]}"; do
-	# Separar la URL del destino utilizando espacios
-	url_dest=("$repo")
-	git clone "${url_dest[0]}" "${url_dest[1]}" >/dev/null 2>&1
-done
+	git clone https://github.com/zsh-users/zsh-history-substring-search.git "$HOME/.dotfiles/.config/zsh/zsh-history-substring-search"
+	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$HOME/.dotfiles/.config/zsh/zsh-syntax-highlighting"
+	git clone https://github.com/zsh-users/zsh-autosuggestions.git "$HOME/.dotfiles/.config/zsh/zsh-autosuggestions"
 }
 
 # Instalar pfetch

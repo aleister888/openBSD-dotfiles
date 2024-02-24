@@ -60,3 +60,6 @@ bgcolor=#000000" > ~/.config/nitrogen/bg-saved.cfg
 # Borrar links symbolicos rotos
 find ~/.local/bin -type l ! -exec test -e {} \; -delete
 find ~/.config -type l ! -exec test -e {} \; -delete
+
+# Arreglar los permisos de la webcam
+doas chmod 640 /dev/video0
