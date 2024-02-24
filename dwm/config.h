@@ -172,6 +172,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_b,      togglebar,        {0} },
 	// Hacer/Deshacer ventana permamente
 	{ MODKEY|ShiftMask,             XK_a,      togglesticky,     {0} },
+	{ MODKEY|ControlMask            XK_a,      togglesticky,     {0} },
 	// Cambiar de espacio
 	{ MODKEY,                       XK_q,      shiftviewclients, { .i = -1 } },
 	{ MODKEY,                       XK_w,      shiftviewclients, { .i = +1 } },

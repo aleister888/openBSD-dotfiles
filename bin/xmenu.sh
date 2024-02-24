@@ -6,7 +6,7 @@ RADIOFLAG="-t scratchpad -g 50x10 -e mpv"
 cat <<EOF | xmenu -r | dash &
 IMG:$ICONPATH/internet-web-browser.svg				Internet
 	IMG:$ICONPATH/google-chrome.svg				Chromium		chrome
-	IMG:$ICONPATH/discord.svg				Discord			cd "$HOME/.local/src/abaddon/" && ./build/abaddon || notify-send -i discord "Abaddon not installed"
+	IMG:$ICONPATH/discord.svg				Discord			xdg-open https://discord.com/login
 	IMG:$ICONPATH/thunderbird.svg				Thunderbird		thunderbird
 	IMG:$ICONPATH/syncthing-gtk.svg				Syncthing		xdg-open http://127.0.0.1:8384
 	IMG:$ICONPATH/transmission.svg				Transmission		transmission-gtk
