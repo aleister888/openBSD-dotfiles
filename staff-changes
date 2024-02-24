@@ -5,8 +5,8 @@ cp /etc/login.conf /etc/login.conf.backup
 # Especificamos los valores para los parámetros
 new_datasize_cur="1024M"
 new_datasize_max="1024M"
-new_maxproc_cur="256"
-new_maxproc_max="256"
+new_maxproc_cur="320"
+new_maxproc_max="384"
 new_openfiles_cur="131072"
 new_openfiles_max="232878"
 

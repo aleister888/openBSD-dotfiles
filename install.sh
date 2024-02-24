@@ -199,7 +199,7 @@ MAILTO=$(whoami)
 * * * * *	root		rm /var/log/Xorg.*
 * * * * *	root		rm /var/log/daemon.*
 * * * * *	root		rm /var/log/maillog.*
-30 10 * * *	root		cvs -qd anoncvs@anoncvs.comstyle.com:/cvs checkout -Pd /usr/ports" > /tmp/crontab
+30 10 * * *	root		cd /usr/ports && cvs -q up -Pd -A" > /tmp/crontab
 doas mv /tmp/crontab /etc/crontab
 fi
 }

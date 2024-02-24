@@ -99,6 +99,12 @@ if ! grep -q proxy /etc/chromium/unveil.main; then
 fi
 }
 
+ports_setup(){
+	if [ ! -d /usr/ports ]; then
+		cvs -qd anoncvs@anoncvs.fr.openbsd.org:/cvs checkout -P ports
+	fi
+}
+
 # Crear enlace simbólico para exa
 ln -s /usr/local/bin/eza /usr/local/bin/exa 2>/dev/null
 
@@ -161,7 +167,7 @@ read -rp "¿Desea permitir el uso de webcam/micrófono? (S/n): " answer1
 answer1=${answer1:-$default_answer}  # Si la respuesta está vacía, establece la respuesta predeterminada
 
 if [ "${answer1,,}" = "s" ]; then
-    multimedia_enable
+	multimedia_enable
 fi
 
 # Pregunta si cambiar los limites del grupo staff
@@ -170,5 +176,13 @@ answer2=${answer2:-$default_answer}  # Si la respuesta está vacía, establece l
 
 # Verifica la respuesta del usuario
 if [ "${answer2,,}" = "s" ]; then
-    ./staff-changes
+	./staff-changes
+fi
+
+# Preguntar si se desea descargar el código de los ports
+read -rp "¿Desea descargar los ports? (S/n): " answer3
+answer3=${answer3:-$default_answer}
+
+if [ "${answer3,,}" = "s" ]; then
+	ports_setup
 fi
