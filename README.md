@@ -31,11 +31,9 @@ _NOTE:_ With the `persist` option in `doas.conf`, doas will not require authenti
 
 - [dwm](https://dwm.suckless.org/) [(my build)](https://github.com/aleister888/openBSD-dotfiles/tree/main/dwm)
 - [dmenu](https://tools.suckless.org/dmenu/) [(my build)](https://github.com/aleister888/openBSD-dotfiles/tree/main/dmenu)
-- [alacritty](https://alacritty.org/)
-- [dwmblocks](https://github.com/UtkarshVerma/dwmblocks-async/)
+- [st](https://st.suckless.org/) [(my build)](https://github.com/aleister888/openBSD-dotfiles/tree/main/st)
+- [dwmblocks](https://github.com/torrinfail/dwmblocks)
 - [Tauon Music Box](https://github.com/Taiko2k/TauonMusicBox)
-- [GTK theme](https://github.com/jmattheis/gruvbox-dark-icons-gtk)
-- [Icon theme](https://github.com/jmattheis/gruvbox-dark-gtk)
 
 ## Useful Stuff
 
