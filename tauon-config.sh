@@ -54,10 +54,10 @@ sed -i 's/font-main-condensed-bold = ".*"/font-main-condensed-bold = "Iosevka Ne
 file="$HOME/.local/src/tauon-music-box/user-data/state.p"
 
 # Definimos los rangos de bytes para buscar
-range1=( {220..280} )
-range2=( {430..490} )
-range3=( {450..510} )
-range4=( {760..820} )
+range1=( {200..350} )
+range2=( {400..550} )
+range3=( {450..600} )
+range4=( {750..900} )
 
 # Función para buscar la secuencia deseada en un rango específico
 search_sequence() {
