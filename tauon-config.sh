@@ -43,18 +43,47 @@ sed -i 's/font-main-condensed-bold = ".*"/font-main-condensed-bold = "Iosevka Ne
 # Vamos a activar al búsqueda de artista y la búsqueda de letras.
 
 # Tauon guarda estos ajustes en el archivo binario state.p
-# Los bytes que corresponden a los parámetros que queremos ajustar son:
-# 251, 463, 483, 793
-# Donde el valor para activado es 210 (Por defecto es 211, desactivado).
+# Los bytes que corresponden a los parámetros que queremos ajustar suelen
+# estar entorno a las posiciones 250, 460, 480 y 800
+# Donde el valor para activado es 210 y 211, desactivado.
+#
+# Aveces la posición cambia al generarse state.p pero los valores que rodean
+# al byte, no. Vamos a buscar en que bytes state.p guarda estos ajustes y modifcarlos.
 
-# Vamos a cambiar los bytes para este archivo
-archivo="$HOME/.local/src/tauon-music-box/user-data/state.p"
+file="$HOME/.local/src/tauon-music-box/user-data/state.p"
 
-# Definimos las posiciones-1 de los bytes y el nuevo valor
-posiciones_bytes=(250 462 482 792)
-nuevo_valor_byte="\210"
+# Definimos los rangos de bytes para buscar
+range1=( {220..280} )
+range2=( {430..490} )
+range3=( {450..510} )
+range4=( {760..820} )
 
-# Iteramos sobre cada posición de byte y modificamos el valor del byte
-for pos in "${posiciones_bytes[@]}"; do
-    printf "$nuevo_valor_byte" | dd of="$archivo" bs=1 seek="$pos" count=1 conv=notrunc status=none
-done
+# Función para buscar la secuencia deseada en un rango específico
+search_sequence() {
+    local prev_value1=$1
+    local prev_value2=$2
+    local next_value=$3
+    local range=("${!4}")
+
+    for byte_position in "${range[@]}"; do
+        current_byte=$(dd if="$file" bs=1 count=1 skip="$byte_position" 2>/dev/null | od -An -t o1)
+        if [ -z "$current_byte" ]; then
+            break
+        fi
+
+        prev_byte=$(dd if="$file" bs=1 count=1 skip=$(( byte_position - 1 )) 2>/dev/null | od -An -t o1)
+        next_byte=$(dd if="$file" bs=1 count=1 skip=$(( byte_position + 1 )) 2>/dev/null | od -An -t o1)
+
+        if [[ ( "$prev_byte" -eq "$prev_value1" || "$prev_byte" -eq "$prev_value2" ) && "$next_byte" -eq "$next_value" ]]; then
+            echo "Byte precedido por $prev_value1 o $prev_value2 y seguido por $next_value encontrado en la posición: $byte_position"
+            # Cambiamos el valor del byte a 210
+            printf '\210' | dd of="$file" bs=1 seek="$byte_position" count=1 conv=notrunc 2>/dev/null
+        fi
+    done
+}
+
+# Buscamos las secuencias en los rangos especificados y cambiamos los bytes encontrados a 210
+search_sequence 210 210 116 range1[@]
+search_sequence 026 033 211 range2[@]
+search_sequence 224 224 135 range3[@]
+search_sequence 006 006 116 range4[@]

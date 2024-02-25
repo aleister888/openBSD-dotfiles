@@ -381,7 +381,7 @@ if [ -f /tmp/multimedia ]; then
 	doas chown "$(whoami)" /dev/video0
 fi
 
-if "$HOME/.dotfiles/tauon-config.sh"; then
+if "$HOME/.dotfiles/tauon-config.sh" >/dev/null; then
 	echo "El reproductor de música fue configurado correctamente"
 else
 	echo "Hubo un fallo al configurar el reproductor de música"
