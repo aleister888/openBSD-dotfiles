@@ -20,9 +20,8 @@ static const float mfact                 = 0.45;    // Factor de escalado de la 
 static const int nmaster                 = 1;       // Número de clientes en la zona principal
 static const int resizehints             = 1;       // 1 ¿Respetar pistas de dibujado al redimensionar ventanas no-flotantes?
 static const int lockfullscreen          = 1;       // 1 Fuerza el foco en las ventanas en pantalla completa
-static const char *fonts[]               = { "Symbols Nerd Font:pixelsize=24:antialias=true:autohint=true",        // Fuentes de dwm
-                                             "Iosevka Nerd Font:bold:pixelsize=22:antialias=true:autohint=true" }; // Fuentes de dwm
-static const char dmenufont[]            =   "Iosevka Nerd Font:bold:pixelsize=24:antialias=true:autohint=true";   // Fuente de dmenu
+static const char dmenufont[]            =   "agave Nerd Font:bold:pixelsize=26:antialias=true:autohint=true"; // Fuentes
+static const char *fonts[]               = { "Symbols Nerd Font:pixelsize=24:autohint=true","agave Nerd Font:pixelsize=22" };
 static const char background[]           = "#1D2021";
 static const char background_sel[]       = "#282828";
 static const char foreground[]           = "#EBDBB2";
@@ -172,7 +171,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_b,      togglebar,        {0} },
 	// Hacer/Deshacer ventana permamente
 	{ MODKEY|ShiftMask,             XK_a,      togglesticky,     {0} },
-	{ MODKEY|ControlMask            XK_a,      togglesticky,     {0} },
+	{ MODKEY|ControlMask,           XK_a,      togglesticky,     {0} },
 	// Cambiar de espacio
 	{ MODKEY,                       XK_q,      shiftviewclients, { .i = -1 } },
 	{ MODKEY,                       XK_w,      shiftviewclients, { .i = +1 } },
