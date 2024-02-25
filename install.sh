@@ -55,6 +55,12 @@ fontdownload() {
 	doas unzip -q "$AGAVE_ZIP" -d "$AGAVE_DIR"
 	doas unzip -q "$SYMBOLS_ZIP" -d "$SYMBOLS_DIR"
 	doas unzip -q "$IOSEVKA_ZIP" -d "$IOSEVKA_DIR"
+	#
+	if [ ! -d "$HOME/.local/share/fonts" ]; then
+		mkdir "$HOME/.local/share/fonts"
+		ln -s /usr/local/share/fonts/Iosevka "$HOME/.local/share/fonts/Iosevka"
+		ln -s /usr/local/share/fonts/Agave "$HOME/.local/share/fonts/Agave"
+	fi
 }
 
 # Instalar nuestros plugins de zsh
@@ -88,10 +94,10 @@ dotfiles_install() {
 	}
 	# Directorio con los scripts
 	ensure_directory "$HOME/.local/bin"
-	sh -c "cd $HOME/.dotfiles && stow --target="${HOME}/.local/bin/" bin/" >/dev/null
+	sh -c "cd $HOME/.dotfiles && stow --target=$HOME/.local/bin/ bin/" >/dev/null
 	# Directorio de configuración
 	ensure_directory "$HOME/.config"
-	sh -c "cd $HOME/.dotfiles && stow --target="${HOME}/.config/" .config/" >/dev/null
+	sh -c "cd $HOME/.dotfiles && stow --target=$HOME/.config/ .config/" >/dev/null
 	# Directorio dwm
 	ensure_directory "$HOME/.local/share/dwm"
 	create_symlink "$HOME/.dotfiles/dwm/autostart.sh" "$HOME/.local/share/dwm/autostart.sh"
@@ -120,7 +126,7 @@ gtk_config() {
 	gtk-theme-name=Gruvbox-Dark-B
 	gtk-icon-theme-name=gruvbox-dark-icons-gtk" > "$HOME/.dotfiles/.config/gtk-4.0/settings.ini"
 	# Aplicar configuraciones utilizando stow
-	sh -c "cd $HOME/.dotfiles && stow --target="${HOME}/.config/" .config/" >/dev/null
+	sh -c "cd $HOME/.dotfiles && stow --target=${HOME}/.config/ .config/" >/dev/null
 }
 
 # Instalar nuestro software suckless
@@ -139,7 +145,7 @@ suckless_install() {
 tauon_music_box() {
 	local THEME_FILE="/tmp/themes.tar.gz"
 	# Clonar el repositorio TauonMusicBox
-	git clone https://github.com/Taiko2k/TauonMusicBox.git "$HOME/.local/src/tauon-music-box" --branch v7.6.6 >/dev/null
+	git clone https://github.com/Taiko2k/TauonMusicBox.git "$HOME/.local/src/tauon-music-box" --branch v7.7.1 >/dev/null
 	# Cambiamos el compilador a egcc
 	sed -i 's/gcc/egcc/g' "$HOME/.local/src/tauon-music-box/compile-phazor.sh"
 	# Quitamos dbus-python de la lista de depedencias (Ya lo instalamos con pkg_add py3-dbus)
@@ -372,7 +378,13 @@ ln -s /usr/local/lib/X11/icons/whiteglass "$HOME/.local/share/icons/whiteglass" 
 # Cambia los permisos de la webcam si se decidio
 # permitir el uso de webcam en root-install.sh
 if [ -f /tmp/multimedia ]; then
-	doas chown $(whoami) /dev/video0
+	doas chown "$(whoami)" /dev/video0
+fi
+
+if "$HOME/.dotfiles/tauon-config.sh"; then
+	echo "El reproductor de música fue configurado correctamente"
+else
+	echo "Hubo un fallo al configurar el reproductor de música"
 fi
 
 echo "Instalación terminada"

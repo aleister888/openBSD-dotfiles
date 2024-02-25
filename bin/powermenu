@@ -1,12 +1,12 @@
 #!/usr/local/bin/bash
 
 options=(
-	" Bloquear"
-	"⏼ Suspender"
+	"  Bloquear"
+	"⏼  Suspender"
 	" Cerrar sesión"
-	" Restart dwm"
-	" Apagar"
-	" Reiniciar"
+	"  Reiniciar DWM"
+	"  Apagar"
+	"  Reiniciar"
 )
 
 chosen=$(printf "%s\n" "${options[@]}" | dmenu -c -l ${#options[@]} -p "")
@@ -16,6 +16,6 @@ case $chosen in
 	"${options[1]}") i3lock-fancy & sleep 2; zzz ;;
 	"${options[2]}") pkill xinit ;;
 	"${options[3]}") pkill dwm ;;
-	"${options[4]}") xterm -title scratchpad -e "doas halt -p" ;;
-	"${options[5]}") xterm -title scratchpad -e "doas reboot" ;;
+	"${options[4]}") $TERMINAL $TERMTITLE scratchpad $TERMEXEC sh -c "doas halt -p" ;;
+	"${options[5]}") $TERMINAL $TERMTITLE scratchpad $TERMEXEC sh -c "doas reboot" ;;
 esac

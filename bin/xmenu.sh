@@ -1,7 +1,7 @@
 #!/bin/sh
 
 ICONPATH="/usr/local/share/icons/Papirus-Dark/128x128/apps"
-RADIOFLAG="-t scratchpad -g 50x10 -e mpv"
+RADIOFLAG="$TERMTITLE scratchpad $TERMEXEC mpv"
 
 cat <<EOF | xmenu -r | dash &
 IMG:$ICONPATH/internet-web-browser.svg				Internet
@@ -50,7 +50,7 @@ IMG:$ICONPATH/applications-office.svg				Oficina
 IMG:$ICONPATH/applications-utilities.svg			Utilidades
 	IMG:$ICONPATH/htop.svg					Procesos		$TERMINAL -e htop
 	IMG:$ICONPATH/keepassxc.svg				Contraseñas		keepassxc
-	IMG:$ICONPATH/bleachbit.svg				Bleachbit		cd ~/.local/src/bleachbit && python3 ./bleachbit.py || notify-send -i bleachbit "Bleachbit not installed"
+	IMG:$ICONPATH/bleachbit.svg				Bleachbit		cd ~/.local/src/bleachbit && python3 ./bleachbit.py
 	IMG:$ICONPATH/fr.romainvigier.MetadataCleaner.svg	Czkawka			czkawka_gui
 	IMG:$ICONPATH/grandr.svg				Ajustes Pantalla	arandr
 	IMG:$ICONPATH/preferences-desktop-theme.svg		Ajustes GTK		lxappearance
@@ -66,8 +66,8 @@ IMG:$ICONPATH/system-shutdown.svg				Apagado
 	IMG:$ICONPATH/system-suspend-hibernate.svg		Bloquear y Suspender	i3lock-fancy && zzz
 	IMG:$ICONPATH/sleep.svg					Suspender		zzz
 	IMG:$ICONPATH/system-log-out.svg			Cerrar sesión		pkill dwm
-	IMG:$ICONPATH/system-shutdown.svg			Apagar			xterm -title scratchpad -e "doas halt -p"
-	IMG:$ICONPATH/system-reboot.svg				Reiniciar		xterm -title scratchpad -e "doas reboot"
+	IMG:$ICONPATH/system-shutdown.svg			Apagar			$TERMINAL $TERMTITLE scratchpad $TERMEXEC sh -c "doas halt -p"
+	IMG:$ICONPATH/system-reboot.svg				Reiniciar		$TERMINAL $TERMTITLE scratchpad $TERMEXEC sh -c "doas reboot"
 EOF
 
 #IMG:$ICONPATH/multimc.svg					MultiMC			minecraft
