@@ -20,8 +20,8 @@ static const float mfact                 = 0.45;    // Factor de escalado de la 
 static const int nmaster                 = 1;       // Número de clientes en la zona principal
 static const int resizehints             = 1;       // 1 ¿Respetar pistas de dibujado al redimensionar ventanas no-flotantes?
 static const int lockfullscreen          = 1;       // 1 Fuerza el foco en las ventanas en pantalla completa
-static const char dmenufont[]            =   "agave Nerd Font:bold:pixelsize=26:antialias=true:autohint=true"; // Fuentes
-static const char *fonts[]               = { "Symbols Nerd Font:pixelsize=24:autohint=true","agave Nerd Font:pixelsize=22" };
+static const char dmenufont[]            =   "agave Nerd Font:pixelsize=22"; // Fuentes
+static const char *fonts[]               = { "Symbols Nerd Font:pixelsize=24","agave Nerd Font:pixelsize=22" };
 static const char background[]           = "#1D2021";
 static const char background_sel[]       = "#282828";
 static const char foreground[]           = "#EBDBB2";
