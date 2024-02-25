@@ -1,6 +1,7 @@
 #!/usr/local/bin/bash
 
-rm "$HOME/.local/src/tauon-music-box/user-data/state*" "$HOME/.local/src/tauon-music-box/user-data/tauon.conf"
+rm $HOME/.local/src/tauon-music-box/user-data/state* ;\
+rm $HOME/.local/src/tauon-music-box/user-data/tauon.conf
 
 # Primero vamos a iniciar tauon para que se creen los archivos que queremos editar
 
@@ -64,6 +65,7 @@ search_sequence() {
     local prev_value2=$2
     local next_value=$3
     local range=("${!4}")
+    local new_value=$5
 
     for byte_position in "${range[@]}"; do
         current_byte=$(dd if="$file" bs=1 count=1 skip="$byte_position" 2>/dev/null | od -An -t o1)
@@ -77,13 +79,13 @@ search_sequence() {
         if [[ ( "$prev_byte" -eq "$prev_value1" || "$prev_byte" -eq "$prev_value2" ) && "$next_byte" -eq "$next_value" ]]; then
             echo "Byte precedido por $prev_value1 o $prev_value2 y seguido por $next_value encontrado en la posición: $byte_position"
             # Cambiamos el valor del byte a 210
-            printf '\210' | dd of="$file" bs=1 seek="$byte_position" count=1 conv=notrunc 2>/dev/null
+            printf '\\$new_value' | dd of="$file" bs=1 seek="$byte_position" count=1 conv=notrunc 2>/dev/null
         fi
     done
 }
 
-# Buscamos las secuencias en los rangos especificados y cambiamos los bytes encontrados a 210
-search_sequence 210 210 116 range1[@]
-search_sequence 026 033 211 range2[@]
-search_sequence 224 224 135 range3[@]
-search_sequence 006 006 116 range4[@]
+# Buscamos en los rangos especificados y modificamos los bytes encontrados
+search_sequence 210 210 116 range1[@] 210
+search_sequence 026 033 211 range2[@] 210
+search_sequence 224 224 135 range3[@] 210
+search_sequence 006 006 116 range4[@] 210
