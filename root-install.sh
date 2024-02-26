@@ -105,6 +105,13 @@ ports_setup(){
 	fi
 }
 
+staff-changes(){
+# Si el número máximo de archivos no esta definido para staff, definelo
+grep "openfiles-cur=16384" /etc/login.conf || \
+	sed -i 's/staff:\\$/staff:\\\
+	:openfiles-cur=16384:\\/g' /etc/login.conf
+}
+
 # Crear enlace simbólico para exa
 ln -s /usr/local/bin/eza /usr/local/bin/exa 2>/dev/null
 
@@ -168,6 +175,15 @@ answer1=${answer1:-$default_answer}  # Si la respuesta está vacía, establece l
 
 if [ "${answer1,,}" = "s" ]; then
 	multimedia_enable
+fi
+
+# Pregunta si cambiar los limites del grupo staff
+read -rp "¿Desea establecer los limites recomendados para el grupo staff? (S/n): " answer2
+answer2=${answer2:-$default_answer}  # Si la respuesta está vacía, establece la respuesta predeterminada
+
+# Verifica la respuesta del usuario
+if [ "${answer2,,}" = "s" ]; then
+	staff-changes
 fi
 
 # Preguntar si se desea descargar el código de los ports
