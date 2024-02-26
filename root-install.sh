@@ -107,9 +107,9 @@ ports_setup(){
 
 staff-changes(){
 # Si el número máximo de archivos no esta definido para staff, definelo
-grep "openfiles-cur=16384" /etc/login.conf || \
+grep "openfiles=16384" /etc/login.conf || \
 	sed -i 's/staff:\\$/staff:\\\
-	:openfiles-cur=16384:\\/g' /etc/login.conf
+	:openfiles=16384:\\/g' /etc/login.conf && cap_mkdb /etc/login.conf
 }
 
 # Crear enlace simbólico para exa
