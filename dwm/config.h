@@ -63,7 +63,7 @@ static const Rule rules[] = {
 	{ "Gcolor2",		NULL,    NULL, 0,      1,    0,       0,      -1},
 	{ "gnome-calculator",	NULL,    NULL, 0,      1,    0,       0,      -1},
 	// Espacio 1: Música
-	{ "Tauon Music Box",	NULL,    NULL, 1 << 0, 0,    0,       0,      -1},
+	{ "tauonmb",		NULL,    NULL, 1 << 0, 0,    0,       0,      -1},
 	{ "Easytag",		NULL,    NULL, 1 << 0, 0,    0,       0,      -1},
 	// Espacio 2: Correo
 	{ "thunderbird",	NULL,    NULL, 1 << 1, 0,    0,       0,      -1},

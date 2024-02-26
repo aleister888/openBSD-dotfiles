@@ -1,4 +1,4 @@
-static char delim[] ="";
+ static char delim[] ="";
 static unsigned int delimLen = 0;
 static const Block blocks[] = {
 	// Título                        Comando             Tiempo de Actualización   Señal para actualizar

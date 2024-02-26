@@ -170,15 +170,6 @@ if [ "${answer1,,}" = "s" ]; then
 	multimedia_enable
 fi
 
-# Pregunta si cambiar los limites del grupo staff
-read -rp "¿Desea establecer los limites recomendados para el grupo staff? (S/n): " answer2
-answer2=${answer2:-$default_answer}  # Si la respuesta está vacía, establece la respuesta predeterminada
-
-# Verifica la respuesta del usuario
-if [ "${answer2,,}" = "s" ]; then
-	./staff-changes
-fi
-
 # Preguntar si se desea descargar el código de los ports
 read -rp "¿Desea descargar los ports? (S/n): " answer3
 answer3=${answer3:-$default_answer}
