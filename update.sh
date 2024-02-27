@@ -2,7 +2,7 @@
 
 rm ~/.config/mimeapps.list 2>/dev/null
 
-# Stow dotfiles
+# Stow archivos de configuración y scripts
 sh -c "cd $HOME/.dotfiles && stow --target="${HOME}/.local/bin/" bin/" >/dev/null
 sh -c "cd $HOME/.dotfiles && stow --target="${HOME}/.config/" .config/" >/dev/null
 
@@ -27,7 +27,12 @@ done
 
 # Make some configuration user-agnostic
 
-echo "file:///home/$(whoami)/Downloads" > ~/.dotfiles/.config/gtk-3.0/bookmarks
+echo "file:///home/$(whoami)
+file:///home/$(whoami)/Downloads
+file:///home/$(whoami)/Documents
+file:///home/$(whoami)/Pictures
+file:///home/$(whoami)/Videos
+file:///home/$(whoami)/Music" > ~/.dotfiles/.config/gtk-3.0/bookmarks
 sed -i "s|$(cat ~/.config/qt5ct/qt5ct.conf | grep color_scheme)|color_scheme_path=/home/`whoami`/.config/qt5ct/colors/Gruvbox.conf|g" ~/.config/qt5ct/qt5ct.conf
 
 # Función para realizar la copia de /etc/login.conf
@@ -36,19 +41,21 @@ perform_backup() {
 	local cap="$2"
 	local file="$3"
 
-	echo "$user" > "$file"
-	getcap -f /etc/login.conf "$user" | sed 's/	/\\n/g' | grep "$cap" | head -n2 >> "$file"
+	getcap -f /etc/login.conf "$user" | sed 's/:/:\
+/g' | grep "$cap" >> "$file"
 }
 
+echo "staff" > "$HOME/.dotfiles/bckp/staff"
 # Realizar la copia para el grupo "staff"
-perform_backup "staff" "datasize" ~/.dotfiles/bckp/staff
-perform_backup "staff" "maxproc" ~/.dotfiles/bckp/staff
-perform_backup "staff" "openfiles" ~/.dotfiles/bckp/staff
+perform_backup "staff" "datasize"  "$HOME/.dotfiles/bckp/staff"
+perform_backup "staff" "maxproc"   "$HOME/.dotfiles/bckp/staff"
+perform_backup "staff" "openfiles" "$HOME/.dotfiles/bckp/staff"
 
+echo "default" > "$HOME/.dotfiles/bckp/default"
 # Realizar la copia para el grupo "default"
-perform_backup "default" "datasize" ~/.dotfiles/bckp/default
-perform_backup "default" "maxproc" ~/.dotfiles/bckp/default
-perform_backup "default" "openfiles" ~/.dotfiles/bckp/default
+perform_backup "default" "datasize"  "$HOME/.dotfiles/bckp/default"
+perform_backup "default" "maxproc"   "$HOME/.dotfiles/bckp/default"
+perform_backup "default" "openfiles" "$HOME/.dotfiles/bckp/default"
 
 # Set Wallpaper
 mkdir -p ~/.config/nitrogen
@@ -62,7 +69,9 @@ find ~/.local/bin -type l ! -exec test -e {} \; -delete
 find ~/.config -type l ! -exec test -e {} \; -delete
 
 # Arreglar los permisos de la webcam
-doas chmod 640 /dev/video0
+if [ ! "$(gstat -c "%a" /dev/video0)" = "640" ]; then
+	doas chmod 640 /dev/video0
+fi
 
 # Actualizar plugins de zsh
 sh -c "cd $HOME/.config/zsh/zsh-autosuggestions && git pull"

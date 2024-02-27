@@ -57,7 +57,7 @@ fontdownload() {
 	doas unzip -q "$IOSEVKA_ZIP" -d "$IOSEVKA_DIR"
 	#
 	if [ ! -d "$HOME/.local/share/fonts" ]; then
-		mkdir "$HOME/.local/share/fonts"
+		mkdir -p "$HOME/.local/share/fonts"
 		ln -s /usr/local/share/fonts/Iosevka "$HOME/.local/share/fonts/Iosevka"
 		ln -s /usr/local/share/fonts/Agave "$HOME/.local/share/fonts/Agave"
 	fi

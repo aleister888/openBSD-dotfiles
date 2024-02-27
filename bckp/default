@@ -1,2 +1,7 @@
 default
-default:path=/usr/bin /bin /usr/sbin /sbin /usr/X11R6/bin /usr/local/bin /usr/local/sbin:umask=022:datasize-cur=86M:datasize-max=256M:maxproc-cur=96:maxproc-max=192:openfiles-max=3072:openfiles-cur=4096:stacksize-cur=4M:localcipher=blowfish,a:auth=passwd,skey:auth-ftp=passwd:
+datasize-max=1536M:
+datasize-cur=1536M:
+maxproc-max=256:
+maxproc-cur=128:
+openfiles-max=1024:
+openfiles-cur=512:

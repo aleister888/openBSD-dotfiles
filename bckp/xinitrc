@@ -3,5 +3,5 @@
 [ -f xrdb $HOME/.config/Xresources ] && xrdb $HOME/.config/Xresources &
 
 while true; do
-	ck-launch-session /usr/local/bin/dwm
+	/usr/local/bin/dwm 2>/dev/null
 done

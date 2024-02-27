@@ -2,7 +2,9 @@ SHELL=/bin/sh
 MAILTO=aleister
 
 # Auto suspend laptop
-*/5 * * * *	aleister	XAUTHORITY=$HOME/.config/Xauthority DISPLAY=:0 XDG_RUNTIME_DIR=/var/run/user/$(id -u) ~/.local/bin/battery
+*/5 * * * *	aleister	XAUTHORITY=/home/aleister/.config/Xauthority DISPLAY=:0 XDG_RUNTIME_DIR=/var/run/user/$(id -u) ~/.local/bin/battery
+0 10 * * *	aleister	find ~/Music -type d -empty
 * * * * *	root		rm /var/log/Xorg.*
 * * * * *	root		rm /var/log/daemon.*
 * * * * *	root		rm /var/log/maillog.*
+30 10 * * *	root		cd /usr/ports && cvs -q up -Pd -A
