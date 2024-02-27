@@ -5,8 +5,8 @@
 `OpenBSD` dotfiles for my `Thinkpad X270`
 
 <p float="left">
-    <img src="https://raw.githubusercontent.com/aleister888/openBSD-dotfiles/main/img/screenshot1.jpg" width="49.5%" />
-    <img src="https://raw.githubusercontent.com/aleister888/openBSD-dotfiles/main/img/screenshot.jpg" width="49.5%" />
+    <img src="https://raw.githubusercontent.com/aleister888/openBSD-dotfiles/main/img/screenshot1.jpg" width="45%" />
+    <img src="https://raw.githubusercontent.com/aleister888/openBSD-dotfiles/main/img/screenshot.jpg" width="45%" />
 </p>
 
 ## Steps to Install
