@@ -3053,7 +3053,7 @@ updatesystrayicongeom(Client *i, int w, int h)
 		/* force icons into the systray dimensions if they don't want to */
 		if (i->h > bh / 2) {
 			if (i->w == i->h)
-				i->w = 2 * sp; // Changed to match icon size to bar
+				i->w = i->h - 0.5 * sp; // Changed to match icon size to bar
 			else
 				i->w = (int) ((float)bh * ((float)i->w / (float)i->h));
 			i->h = bh;

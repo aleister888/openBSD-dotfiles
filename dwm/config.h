@@ -51,7 +51,7 @@ typedef struct {
 // Nombre de los espacios cuando estan vacios y cuando tienen ventanas. Layout por defecto
 static const char *tags[]	= { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 static const char *alttags[]	= { "", "", "", "", "", "󱁤", "", "", "" };
-static const int taglayouts[]	= {   0,   0,   0,   0,   0,   0,   3,   3,   3 };
+static const int taglayouts[]	= {   0,   0,   0,   0,   0,   0,   0,   0,   0 };
 
 // Reglas pre-establecidas para colocar las ventanas
 static const Rule rules[] = {
@@ -163,6 +163,8 @@ static const Key keys[] = {
 	// Forzar cierre de ventana
 	{ MODKEY|ShiftMask,             XK_c,      spawn,            SHCMD("xkill") },
 	// Tomar capturas de pantalla
+	{ 0,                            XK_Print,  spawn,            SHCMD("screenshot all_clip") },
+	{ ShiftMask,                    XK_Print,  spawn,            SHCMD("screenshot selection_clip") },
 	{ MODKEY,                       XK_o,      spawn,            SHCMD("screenshot all_clip") },
 	{ MODKEY|ShiftMask,             XK_o,      spawn,            SHCMD("screenshot selection_clip") },
 	{ MODKEY|ControlMask,           XK_o,      spawn,            SHCMD("screenshot all_save") },
