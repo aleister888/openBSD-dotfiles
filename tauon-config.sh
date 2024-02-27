@@ -35,7 +35,7 @@ sed -i 's/theme-name = ".*"/theme-name = "aleister-gruvbox"/g' "$CONF"
 
 # Ccambiar las fuentes usadas
 sed -i 's/use-custom-fonts = false/use-custom-fonts = true/g' "$CONF"
-sed -i 's/font-main-standard = ".*"/font-main-standard = "agave Nerd Font Mono"/g' "$CONF"
+sed -i 's/font-main-standard = ".*"/font-main-standard = "Iosevka Nerd Font Mono"/g' "$CONF"
 sed -i 's/font-main-medium = ".*"/font-main-medium = "Iosevka Nerd Font Medium"/g' "$CONF"
 sed -i 's/font-main-bold = ".*"/font-main-bold = "Iosevka Nerd Font Bold"/g' "$CONF"
 sed -i 's/font-main-condensed = ".*"/font-main-condensed = "Iosevka Nerd Font"/g' "$CONF"
@@ -65,7 +65,6 @@ search_sequence() {
     local prev_value2=$2
     local next_value=$3
     local range=("${!4}")
-    local new_value=$5
 
     for byte_position in "${range[@]}"; do
         current_byte=$(dd if="$file" bs=1 count=1 skip="$byte_position" 2>/dev/null | od -An -t o1)
@@ -79,13 +78,13 @@ search_sequence() {
         if [[ ( "$prev_byte" -eq "$prev_value1" || "$prev_byte" -eq "$prev_value2" ) && "$next_byte" -eq "$next_value" ]]; then
             echo "Byte precedido por $prev_value1 o $prev_value2 y seguido por $next_value encontrado en la posición: $byte_position"
             # Cambiamos el valor del byte a 210
-            printf '\\$new_value' | dd of="$file" bs=1 seek="$byte_position" count=1 conv=notrunc 2>/dev/null
+            printf '\210' | dd of="$file" bs=1 seek="$byte_position" count=1 conv=notrunc 2>/dev/null
         fi
     done
 }
 
 # Buscamos en los rangos especificados y modificamos los bytes encontrados
-search_sequence 210 210 116 range1[@] 210
-search_sequence 026 033 211 range2[@] 210
-search_sequence 224 224 135 range3[@] 210
-search_sequence 006 006 116 range4[@] 210
+search_sequence 210 210 116 range1[@]
+search_sequence 026 033 211 range2[@]
+search_sequence 224 224 135 range3[@]
+search_sequence 006 006 116 range4[@]
