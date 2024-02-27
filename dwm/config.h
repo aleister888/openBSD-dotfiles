@@ -58,6 +58,8 @@ static const Rule rules[] = {
 	// Clase Instancia      Título Espacio Flotante Terminal -Tragado Monitor Tecla Scratch
 	// Terminal
 	{ "st-256color",	NULL,    NULL, 0,      0,    1,       0,      -1},
+	// -Tragado
+	{ "Dragon-drop",	NULL,    NULL, 0,      1,    0,      -1,      -1},
 	// Ventanas flotantes
 	{ "Yad",		NULL,    NULL, 0,      1,    0,       0,      -1},
 	{ "Gcolor2",		NULL,    NULL, 0,      1,    0,       0,      -1},
