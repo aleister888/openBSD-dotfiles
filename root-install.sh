@@ -59,7 +59,7 @@ chmod 640 /dev/video0
 xinit_make(){
 echo '#!/bin/sh
 
-[ -f xrdb $HOME/.config/Xresources ] && xrdb $HOME/.config/Xresources
+[ -f $HOME/.config/Xresources ] && xrdb $HOME/.config/Xresources
 
 while true; do
 	/usr/local/bin/dwm >/dev/null 2>&1
