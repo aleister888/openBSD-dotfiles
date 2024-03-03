@@ -31,7 +31,6 @@ Plug 'morhetz/gruvbox'
 " Pre-visualización de colores
 Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }
 let g:Hexokinase_highlighters = [
-\   'sign_column',
 \   'backgroundfull',
 \ ]
 
