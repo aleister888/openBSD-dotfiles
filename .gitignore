@@ -5,3 +5,6 @@
 
 # Object files
 *.o
+
+# QT5 Config
+qt5ct.conf

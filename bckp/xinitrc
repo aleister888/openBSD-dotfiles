@@ -1,6 +1,6 @@
 #!/bin/sh
 
-[ -f xrdb $HOME/.config/Xresources ] && xrdb $HOME/.config/Xresources &
+[ -f $HOME/.config/Xresources ] && xrdb $HOME/.config/Xresources &
 
 while true; do
 	/usr/local/bin/dwm 2>/dev/null

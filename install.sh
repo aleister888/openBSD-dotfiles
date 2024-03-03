@@ -28,7 +28,7 @@ packageinstall() {
 	playerctl poppler-utils qt5ct redshift remmina ripgrep stow texlive_texmf-full thunderbird transmission-gtk unrar unzip-- \
 	wget wpa_supplicant xarchiver xclip xcursor-themes xdg-user-dirs xdotool yarn youtube-dl zathura zathura-pdf-mupdf zim zsh \
 	neofetch gsed gawk ggrep gnuwatch symbola-ttf meson ninja cmake xcb libconfig libev uthash chromium zathura-cb icecast \
-	ices--%ices2 curl syncthing xcursor-themes workrave polkit
+	ices--%ices2 curl syncthing xcursor-themes workrave polkit gsimplecal
 
 }
 
@@ -193,6 +193,17 @@ vim_configure() {
 	nvim +'PlugInstall --sync' +qa >/dev/null 2>&1
 }
 
+# Hacemos la configuración de QT5 independiente del nombre de usuario
+qt_config(){
+mkdir -p "$HOME/.config/qt5ct"
+	echo "[Appearance]
+color_scheme_path=$HOME/.config/qt5ct/colors/Gruvbox.conf
+custom_palette=true
+icon_theme=gruvbox-dark-icons-gtk
+standard_dialogs=default
+style=Fusion" > "$HOME/.config/qt5ct/qt5ct.conf"
+}
+
 # Configurar cronie
 crontab_install() {
 # Verificar si /etc/crontab no existe y configurar cronjobs
@@ -330,6 +341,12 @@ if vim_configure; then
 	echo "Neovim se configuró correctamente"
 else
 	echo "Hubo un error al configurar Neovim"
+fi
+
+if qt_config; then
+	echo "QT5 se configuró correctamente"
+else
+	echo "Hubo un error al configurar QT5"
 fi
 
 # Change login shell to zsh

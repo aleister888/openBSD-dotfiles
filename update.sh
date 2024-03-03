@@ -36,7 +36,6 @@ file:///home/$(whoami)/Documents
 file:///home/$(whoami)/Pictures
 file:///home/$(whoami)/Videos
 file:///home/$(whoami)/Music" > ~/.dotfiles/.config/gtk-3.0/bookmarks
-sed -i "s|$(cat ~/.config/qt5ct/qt5ct.conf | grep color_scheme)|color_scheme_path=/home/`whoami`/.config/qt5ct/colors/Gruvbox.conf|g" ~/.config/qt5ct/qt5ct.conf
 
 # Hacer una copia de seguridad de /etc/login.conf
 perform_backup() {
@@ -66,6 +65,19 @@ echo "[xin_-1]
 file=/home/$(whoami)/.dotfiles/img/wallpaper.jpg
 mode=5
 bgcolor=#000000" > ~/.config/nitrogen/bg-saved.cfg
+
+# Configurar QT5
+mkdir -p $HOME/.config/qt5ct
+	echo "[Appearance]
+color_scheme_path=$HOME/.config/qt5ct/colors/Gruvbox.conf
+custom_palette=true
+icon_theme=gruvbox-dark-icons-gtk
+standard_dialogs=default
+style=Fusion
+
+[Fonts]
+fixed=\"Iosevka Nerd Font Mono,12,-1,5,50,0,0,0,0,0,Bold\"
+general=\"Iosevka Nerd Font,12,-1,5,63,0,0,0,0,0,SemiBold\"" > "$HOME/.dotfiles/.config/qt5ct/qt5ct.conf"
 
 # Arreglar los permisos de la webcam
 if [ ! "$(gstat -c "%a" /dev/video0)" = "640" ]; then

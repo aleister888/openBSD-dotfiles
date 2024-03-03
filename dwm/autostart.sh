@@ -38,7 +38,6 @@ pgrep dbus || sh -c 'dbus-update-activation-environment --all & dbus-launch' &
 pgrep picom		|| picom &
 pgrep dunst		|| dunst &
 pkill dwmblocks		;  dwmblocks &
-pgrep node		|| npx http-server ~/.local/share/startpage/ 8080 &
 pgrep redshift		|| redshift -l $LOCATION &
 
 # Borrar archivos basura

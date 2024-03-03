@@ -64,6 +64,7 @@ static const Rule rules[] = {
 	{ "Yad",		NULL,    NULL, 0,      1,    0,       0,      -1},
 	{ "Gcolor2",		NULL,    NULL, 0,      1,    0,       0,      -1},
 	{ "gnome-calculator",	NULL,    NULL, 0,      1,    0,       0,      -1},
+	{ "Gsimplecal",		NULL,    NULL, 0,      1,    0,       0,      -1},
 	// Espacio 1: Música
 	{ "tauonmb",		NULL,    NULL, 1 << 0, 0,    0,       0,      -1},
 	{ "Easytag",		NULL,    NULL, 1 << 0, 0,    0,       0,      -1},
@@ -145,6 +146,8 @@ static const Key keys[] = {
 	// Configurar pantallas
 	{ MODKEY,                       XK_F1,     spawn,            SHCMD("monitor-layout") },
 	{ MODKEY|ShiftMask,             XK_F1,     spawn,            SHCMD("arandr") },
+	// Abrir/Cerrar Calendario
+	{ MODKEY|ControlMask,           XK_c,      spawn,            SHCMD("gsimplecal") },
 	// Cambiar música
 	{ MODKEY,                       XK_z,      spawn,            SHCMD("playerctl previous; pkill -USR2 dwmblocks") },
 	{ MODKEY,                       XK_x,      spawn,            SHCMD("playerctl next; pkill -USR2 dwmblocks") },
