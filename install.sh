@@ -27,8 +27,8 @@ packageinstall() {
 	mediainfo mpv neovim nitrogen node nsxiv obsdfreqd odt2txt p5-File-MimeInfo p7zip pandoc papirus-icon-theme pavucontrol picom \
 	playerctl poppler-utils qt5ct redshift remmina ripgrep stow texlive_texmf-full thunderbird transmission-gtk unrar unzip-- \
 	wget wpa_supplicant xarchiver xclip xcursor-themes xdg-user-dirs xdotool yarn youtube-dl zathura zathura-pdf-mupdf zim zsh \
-	neofetch gsed gawk ggrep gnuwatch symbola-ttf meson ninja cmake xcb libconfig libev uthash chromium zathura-cb icecast \
-	ices--%ices2 curl syncthing xcursor-themes workrave polkit gsimplecal
+	neofetch gsed gawk ggrep gnuwatch symbola-ttf meson ninja cmake xcb libconfig libev uthash chromium zathura-cb \
+	curl syncthing xcursor-themes workrave polkit gsimplecal
 
 }
 
@@ -250,7 +250,7 @@ trash_dir() {
 
 rcctl_enable() {
 	# Lista de servicios a habilitar
-	servicios="multicast messagebus avahi_daemon cupsd wpa_supplicant cron apmd obsdfreqd icecast"
+	servicios="multicast messagebus avahi_daemon cupsd wpa_supplicant cron apmd obsdfreqd"
 	# Habilitar servicios con rcctl
 	for servicio in $servicios; do
 		doas rcctl enable "$servicio"

@@ -136,7 +136,7 @@ autocmd BufWritePost ~/.dotfiles/.config/dunst/dunstrc :!pkill dunst; dunst &
 " LaTeX
 " Compilar archivo de texto a PDF
 autocmd Filetype tex map <M-g> :AsyncRun! arara % && notify-send "Document Compiled" <CR><CR>
-autocmd Filetype tex map <M-S-g> :! xelatex % <CR>
+autocmd Filetype tex map <M-S-g> :! xelatex % \| tail -20 <CR>
 " Abrir PDF resultante en un visór de documentos
 autocmd Filetype tex map <M-h> :! zathura $(echo % \| sed 's/tex$/pdf/') & 2>/dev/null <CR><CR>
 
