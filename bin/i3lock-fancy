@@ -22,4 +22,4 @@ convert "$lock_original" -blur 0x5 "$lock_original" && \
 # Agrega el icono de bloqueo a la captura de pantalla desenfocada
 convert "$lock_original" "$HOME/.dotfiles/img/$lock_icon" -gravity center -composite -matte "$lock_original" && \
 # Bloquea la pantalla
-i3lock -eui "$lock_original"
+i3lock -ei "$lock_original"
