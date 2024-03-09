@@ -85,7 +85,11 @@
 
 /* enums */
 enum { CurNormal, CurResize, CurMove, CurLast }; /* cursor */
-enum { SchemeNorm, SchemeSel, SchemeStatus, SchemeTagsSel, SchemeTagsNorm, SchemeInfoSel, SchemeInfoNorm, SchemeScratchNorm, SchemeScratchSel}; /* color schemes */
+enum { SchemeNorm, SchemeSel, SchemeStatus, SchemeTagsSel, SchemeTagsNorm,
+	SchemeInfoSel, SchemeInfoNorm, SchemeScratchNorm, SchemeScratchSel,
+	SchemeTag1, SchemeTag2,  SchemeTag3,  SchemeTag4,
+	SchemeTag5, SchemeTag6,  SchemeTag7,  SchemeTag8,
+	SchemeTag9, SchemeTag10, SchemeTag11, SchemeTag12}; /* color schemes */
 enum { NetSupported, NetWMName, NetWMState, NetWMCheck,
        NetSystemTray, NetSystemTrayOP, NetSystemTrayOrientation, NetSystemTrayOrientationHorz,
        NetWMFullscreen, NetWMSticky, NetActiveWindow, NetWMWindowType,
@@ -157,6 +161,7 @@ struct Monitor {
 	unsigned int seltags;
 	unsigned int sellt;
 	unsigned int tagset[2];
+	unsigned int colorfultag;
 	int showbar;
 	int topbar;
 	Client *clients;
@@ -860,6 +865,7 @@ createmon(void)
 	m->nmaster = nmaster;
 	m->showbar = showbar;
 	m->topbar = topbar;
+	m->colorfultag = colorfultag ? colorfultag : 0;
 	m->gappx = gappx;
 	m->pertag = ecalloc(1, sizeof(Pertag));
 	m->pertag->curtag = m->pertag->prevtag = 1;
@@ -1091,8 +1097,13 @@ drawbar(Monitor *m)
 	for (i = 0; i < LENGTH(tags); i++) {
 		tagtext = occ & 1 << i ? alttags[i] : tags[i];
 		w = TEXTW(tagtext);
- 		drw_setscheme(drw, scheme[m->tagset[m->seltags] & 1 << i ? SchemeTagsSel : SchemeTagsNorm]);
+			if (selmon->colorfultag)
+				drw_setscheme(drw, scheme[m->tagset[m->seltags] & 1 << i ? tagschemes[i] : SchemeTagsNorm]);
+			else
+				drw_setscheme(drw, scheme[m->tagset[m->seltags] & 1 << i ? SchemeTagsSel : SchemeTagsNorm]);
 		drw_text(drw, x, 0, w, bh, lrpad / 2, tagtext, urg & 1 << i);
+		if (ulineall || m->tagset[m->seltags] & 1 << i)
+					drw_rect(drw, x + ulinepad, bh - ulinestroke - ulinevoffset, w - (ulinepad * 2), ulinestroke, 1, 0);
 		x += w;
 	}
 	w = TEXTW(m->ltsymbol);
@@ -2992,9 +3003,9 @@ updatesystrayicongeom(Client *i, int w, int h)
 			i->w = (int) ((float)bh * ((float)w / (float)h));
 		applysizehints(i, &(i->x), &(i->y), &(i->w), &(i->h), False);
 		/* force icons into the systray dimensions if they don't want to */
-		if (i->h > bh / 2) {
+		if (i->h > bh) {
 			if (i->w == i->h)
-				i->w = i->h - 0.5 * sp; // Changed to match icon size to bar
+				i->w = bh - gappx;
 			else
 				i->w = (int) ((float)bh * ((float)i->w / (float)i->h));
 			i->h = bh;

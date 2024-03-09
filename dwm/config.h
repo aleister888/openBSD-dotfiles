@@ -20,28 +20,49 @@ static const float mfact                 = 0.45;    // Factor de escalado de la 
 static const int nmaster                 = 1;       // Número de clientes en la zona principal
 static const int resizehints             = 1;       // 1 ¿Respetar pistas de dibujado al redimensionar ventanas no-flotantes?
 static const int lockfullscreen          = 1;       // 1 Fuerza el foco en las ventanas en pantalla completa
+static const unsigned int colorfultag    = 1;       // 1, Los indicadores de espacio son coloridos
+static const unsigned int ulinepad       = 0;       // Espaciado horizontal entre subrayado y el indicador del espacio de trabajo
+static const unsigned int ulinestroke    = 3;       // Grosor/Altura del subrayado
+static const unsigned int ulinevoffset   = 0;       // Espacio entre el subrayado y el borde inferior de la barra
+static const int ulineall                = 0;       // 1 para mostrar el subrayado en todos los espacios, 0 para mostrarlo en los seleccionados
 static const char dmenufont[]            = "Iosevka Nerd Font:bold:pixelsize=22"; // Fuentes
 static const char *fonts[]               = { "Symbols Nerd Font:pixelsize=24","Iosevka Nerd Font:bold:pixelsize=22" };
 static const char background[]           = "#1D2021";
 static const char background_sel[]       = "#282828";
 static const char foreground[]           = "#EBDBB2";
-static const char col_cyan[]             = "#458588";
 static const char col_red[]              = "#FB4934";
-static const char col_magenta[]          = "#B16286";
+static const char col_green[]            = "#B8BB26" ;
+static const char col_yellow[]           = "#FABD2F" ;
+static const char col_blue[]             = "#83A598";
+static const char col_purple[]           = "#D3869B";
+static const char col_aqua[]             = "#8EC07C" ;
 static const char col_orange[]           = "#FE8019";
-static const char *colors[][3] = {
+static const char *colors[][3]      = {
 	// Colores:             Fuente          Fondo       Borde
-	[SchemeNorm]        = { foreground, background,     col_cyan    }, // Color de las ventanas normales
+	[SchemeNorm]        = { foreground, background,     col_blue    }, // Color de las ventanas normales
 	[SchemeSel]         = { foreground, background_sel, col_orange  }, // Color de las ventanas selccionadas
 	[SchemeStatus]      = { foreground, background,     "#000000"   }, // Color de los espacios por defecto
 	[SchemeTagsNorm]    = { foreground, background,     "#000000"   }, // Información (Normal)
 	[SchemeTagsSel]     = { foreground, background_sel, "#000000"   }, // Color de los espacios seleccionados
 	[SchemeInfoNorm]    = { foreground, background,     "#000000"   }, // Estado/información
 	[SchemeInfoSel]     = { foreground, background_sel, "#000000"   }, // Información (Seleccionada)
-	[SchemeScratchNorm] = { "#000000",  "#000000",      col_cyan    }, // Scratchpad (Normal)
-	[SchemeScratchSel]  = { "#000000",  "#000000",      col_magenta }, // Scratchpad (Selecteccionado)
+	[SchemeScratchNorm] = { "#000000",  "#000000",      col_blue    }, // Scratchpad (Normal)
+	[SchemeScratchSel]  = { "#000000",  "#000000",      col_purple  }, // Scratchpad (Selecteccionado)
+	[SchemeTag1]        = { col_purple, background_sel, "#000000"   }, // Colores de los espacios 1-12
+	[SchemeTag2]        = { col_aqua,   background_sel, "#000000"   },
+	[SchemeTag3]        = { col_orange, background_sel, "#000000"   },
+	[SchemeTag4]        = { col_red,    background_sel, "#000000"   },
+	[SchemeTag5]        = { col_green,  background_sel, "#000000"   },
+	[SchemeTag6]        = { col_yellow, background_sel, "#000000"   },
+	[SchemeTag7]        = { col_blue,   background_sel, "#000000"   },
+	[SchemeTag8]        = { col_purple, background_sel, "#000000"   },
+	[SchemeTag9]        = { col_aqua,   background_sel, "#000000"   },
 	// Los valores con "#000000" no son usados pero no pueden estar vacios
 };
+
+static const int tagschemes[] = { SchemeTag1,  SchemeTag2,  SchemeTag3,
+                                  SchemeTag4,  SchemeTag5,  SchemeTag6,
+                                  SchemeTag7,  SchemeTag8,  SchemeTag9 };
 
 typedef struct {
 	const char *name;

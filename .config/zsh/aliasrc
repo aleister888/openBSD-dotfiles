@@ -22,11 +22,7 @@ alias \
 	pull='git pull' \
 	sed='gsed' \
 	clipboard='xclip -selection clipboard' \
-
-update(){
-	doas pkg_add -uvi
-	npm install http-server --prefix ./.local/share/npm/bin/ && rm -rf ~/.npm
-}
+	update='doas pkg_add -uvi'
 
 wininfo(){
 xprop | awk '
