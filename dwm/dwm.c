@@ -981,7 +981,7 @@ drawstatusbar(Monitor *m, int bh, char* stext) {
 		}
 	}
 	if (!isCode)
-		if (trayw < sp) {
+		if (trayw < sp || m != selmon) {
 			w += TEXTW(text) - lrpad + 2 * sp;
 		} else {
 			w += TEXTW(text) - lrpad + 3 * sp;
@@ -992,7 +992,11 @@ drawstatusbar(Monitor *m, int bh, char* stext) {
 
 	w += 2; /* 1px padding on both sides */
 	ret = m->ww - w;
-	x = m->ww - w - getsystraywidth();
+	if (m == selmon) {
+		x = m->ww - w - getsystraywidth();
+	} else {
+		x = m->ww - w;
+	}
 
 	drw_setscheme(drw, scheme[LENGTH(colors)]);
 	drw->scheme[ColFg] = scheme[SchemeNorm][ColFg];
@@ -1075,11 +1079,11 @@ drawbar(Monitor *m)
 	if (!m->showbar)
 		return;
 
-	if(showsystray && m == systraytomon(m) && !systrayonleft)
+	if(showsystray && m == systraytomon(m))
 		stw = getsystraywidth();
 
 	/* draw status first so it can be overdrawn by tags later */
-	if (m == selmon || 1) { /* status is only drawn on selected monitor */
+	if (m == selmon || 1) {
 		if (trayw < sp) {
 			tw = m->ww - drawstatusbar(m, bh, stext) - sp;
 		} else {
@@ -1785,9 +1789,9 @@ void
 resizebarwin(Monitor *m) {
 	unsigned int trayw = getsystraywidth();
 	unsigned int w = m->ww;
-	if (showsystray && m == systraytomon(m) && !systrayonleft)
+	if (showsystray && m == systraytomon(m))
 		w -= getsystraywidth();
-	if (trayw < sp) {
+	if (trayw < sp || m != selmon) {
 	XMoveResizeWindow(dpy, m->barwin, m->wx + sp, m->by + vp, w - 2 * sp, bh);
 	} else {
 	XMoveResizeWindow(dpy, m->barwin, m->wx + sp, m->by + vp, w - 3 * sp, bh);
@@ -3054,8 +3058,6 @@ updatesystray(void)
 
 	if (!showsystray)
 		return;
-	if (systrayonleft)
-		x -= sw + lrpad / 2;
 	if (!systray) {
 		/* init systray */
 		if (!(systray = (Systray *)calloc(1, sizeof(Systray))))
