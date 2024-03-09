@@ -15,5 +15,5 @@ chosen="$(echo "$allunmountable" | dmenu -p "Unmount which drive?")"
 chosen="${chosen%% *}"
 test -n "$chosen"
 
-xterm -title scratchpad -e "doas umount "/${chosen#*/}""
+$TERM $TERMTITLE scratchpad $TERMEXEC sh -c "doas umount "/${chosen#*/}""
 notify-send -i "$ICON" "Device unmounted." "$chosen has been unmounted."
