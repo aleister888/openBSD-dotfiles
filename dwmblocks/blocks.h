@@ -11,7 +11,7 @@ static const Block blocks[] = {
 	// Battery percentage
 	{" ^c#FABD2F^"                 ,"apm -l",                                 15, 0},
 	// Volume icon
-	{"% ^d^^c#458588^"             , "sb-vol-icon",                           1,  0},
+	{"% ^d^^c#458588^"             , "sb-vol-icon",                           1,  1},
 	// Volume level
 	{" ^c#83A598^"                 , "sb-vol",                                0,  1},
 	// Memory used

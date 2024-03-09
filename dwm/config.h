@@ -177,6 +177,8 @@ static const Key keys[] = {
 	// Subir/Bajar volumen
 	{ MODKEY,                       XK_n,      spawn,            SHCMD("sndioctl output.level=-0.025; pkill -USR1 dwmblocks") },
 	{ MODKEY,                       XK_m,      spawn,            SHCMD("sndioctl output.level=+0.025; pkill -USR1 dwmblocks") },
+	{ MODKEY|ControlMask,           XK_n,      spawn,            SHCMD("sndioctl output.mute=!; pkill -USR1 dwmblocks") },
+	{ MODKEY|ControlMask,           XK_m,      spawn,            SHCMD("sndioctl output.mute=!; pkill -USR1 dwmblocks") },
 	// Volumen al 100%/50%
 	{ MODKEY|ShiftMask,             XK_n,      spawn,            SHCMD("sndioctl output.level=0.75; pkill -USR1 dwmblocks") },
 	{ MODKEY|ShiftMask,             XK_m,      spawn,            SHCMD("sndioctl output.level=1; pkill -USR1 dwmblocks") },
