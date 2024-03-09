@@ -13,7 +13,7 @@ static const Block blocks[] = {
 	// Volume icon
 	{"% ^d^^c#458588^"             , "sb-vol-icon",                           1,  1},
 	// Volume level
-	{" ^c#83A598^"                 , "sb-vol",                                0,  1},
+	{" ^c#83A598^"                 , "sb-vol",                                1,  1},
 	// Memory used
 	{"% ^d^^c#B16286^ ^c#D3869B^" , "vmstat | awk 'END {printf $3}'",        5,  0},
 	// Date
