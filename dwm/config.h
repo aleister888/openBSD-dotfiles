@@ -9,7 +9,7 @@ static const int user_bh                 = gappx;   // Altura barra: 0 por defec
 static const unsigned int snap           = 0;       // Pixeles de cercanía para pegarse al borde (0 = desactivado)
 static const unsigned int systraypinning = 0;       // Monitor para la barra de tareas (0: Monitor seleccionado, >0 Monitor X)
 static const unsigned int systrayspacing = gappx/2; // Espaciado de la barra de tareas
-static const int systraypinningfailfirst = 0;       // Monitor barra (Seguro) 1: Barra de tareas en el 1er monitor
+static const int systraypinningfailfirst = 1;       // Monitor barra (Seguro) 1: Barra de tareas en el 1er monitor
 static const int showsystray             = 1;       // ¿Barra de tareas? (0: Desactivada)
 static const int swallowfloating         = 0;       // 1 Significa tragarse nuevas ventanas por defecto
 static const int showbar                 = 1;       // 0 Para desactivar la barra
@@ -164,7 +164,7 @@ static const Key keys[] = {
 	// Desmontar discos (Ya se montan automaticamente con hotplugd)
 	{ MODKEY|ShiftMask,             XK_F5,     spawn,            SHCMD("dmenuumount") },
 	// Configurar pantallas
-	{ MODKEY,                       XK_F1,     spawn,            SHCMD("monitor-layout") },
+	{ MODKEY,                       XK_F1,     spawn,            SHCMD("monitor-layout && nitrogen --restore") },
 	{ MODKEY|ShiftMask,             XK_F1,     spawn,            SHCMD("arandr") },
 	// Abrir/Cerrar Calendario
 	{ MODKEY|ControlMask,           XK_c,      spawn,            SHCMD("gsimplecal") },
