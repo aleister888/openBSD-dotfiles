@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/aleister888/openBSD-dotfiles/master/img/puffy.png" height="100px">
+<img src="https://raw.githubusercontent.com/aleister888/openBSD-dotfiles/master/img/puffy.png" height="75px">
 
 ## OpenBSD Dotfiles
 
