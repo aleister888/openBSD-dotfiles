@@ -9,7 +9,7 @@ static const Block blocks[] = {
 	// Charging status
 	{" ^d^^c#D79921^"              ,"sb-bat",                                 1,  0},
 	// Battery percentage
-	{" ^c#FABD2F^"                 ,"apm -l",                                 15, 0},
+	{" ^c#FABD2F^"                 ,"apm -l",                                 1, 0},
 	// Volume icon
 	{"% ^d^^c#458588^"             , "sb-vol-icon",                           1,  1},
 	// Volume level
