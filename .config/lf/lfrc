@@ -103,7 +103,7 @@ cmd clean ${{
 cmd compress ${{
 	clear; tput bold; set -f
 	default=y
-	echo "Comprimir todos los archivos:\n  Archivos de => $(echo $f |sed 's#/[^/]*$##')\n  En el archivo => /tmp/$(echo $PWD | sed 's/\//\_/g').\*"
+	echo "Comprimir todos los archivos:\n  Archivos de => $(echo $f |sed 's#/[^/]*$##')\n  En el archivo => /tmp/$(echo $PWD | sed 's/\//\_/g').*"
 	printf "Comprimir? [S/n] "
 	read respuesta
 	[ -z $respuesta ] && ans=$default
