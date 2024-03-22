@@ -85,10 +85,10 @@ map P size
 map s shell
 
 cmd on-cd &{{
-    # '&' commands run silently in background (which is what we want here),
-    # but are not connected to stdout.
-    # To make sure our escape sequence still reaches stdout we pipe it to /dev/tty
-    printf "\033]0;$(pwd | sed "s|$HOME|~|")\007" >/dev/tty
+	# '&' commands run silently in background (which is what we want here),
+	# but are not connected to stdout.
+	# To make sure our escape sequence still reaches stdout we pipe it to /dev/tty
+	printf "\033]0;$(pwd | sed "s|$HOME|~|")\007" >/dev/tty
 }}
 
 # Imprimir como título de ventana nuesto CWD
@@ -108,7 +108,7 @@ cmd compress ${{
 	read respuesta
 	[ -z $respuesta ] && ans=$default
 	[ $ans = "y" ] && \
-	echo '¿En formato desea comprimirlos? "tar", "zip" o "7z"' && read formato
+	echo '¿En que formato desea comprimirlos? "tar", "zip" o "7z"' && read formato
 	case "$formato" in
 	tar)
 		tar -zcvf /tmp/$(date +'%H_%M_%S').tar.gz . >/dev/null && \
@@ -125,76 +125,76 @@ cmd compress ${{
 }}
 
 cmd size &{{
-  dunstctl close-all
-  notify-send -i system-file-manager "El tamaño es de $(du -chs $fx | grep total | awk {'print $1'})"
+	dunstctl close-all
+	notify-send -i system-file-manager "El tamaño es de $(du -chs $fx | grep total | awk {'print $1'})"
 }}
 
 cmd home :cd ~/
 
 cmd bulk-rename ${{
-    old="$(mktemp)"
-    new="$(mktemp)"
-    if [ -n "$fs" ]; then
-        fs="$(basename $fs)"
-    else
-        fs="$(ls)"
-    fi
-    printf '%s\n' "$fs" >"$old"
-    printf '%s\n' "$fs" >"$new"
-    $EDITOR "$new"
-    [ "$(wc -l < "$new")" -ne "$(wc -l < "$old")" ] && exit
-    paste "$old" "$new" | while IFS= read -r names; do
-        src="$(printf '%s' "$names" | cut -f1)"
-        dst="$(printf '%s' "$names" | cut -f2)"
-        if [ "$src" = "$dst" ] || [ -e "$dst" ]; then
-            continue
-        fi
-        mv -- "$src" "$dst"
-    done
-    rm -- "$old" "$new"
-    lf -remote "send $id unselect"
+	old="$(mktemp)"
+	new="$(mktemp)"
+	if [ -n "$fs" ]; then
+		fs="$(basename $fs)"
+	else
+		fs="$(ls)"
+	fi
+	printf '%s\n' "$fs" >"$old"
+	printf '%s\n' "$fs" >"$new"
+	$EDITOR "$new"
+	[ "$(wc -l < "$new")" -ne "$(wc -l < "$old")" ] && exit
+	paste "$old" "$new" | while IFS= read -r names; do
+		src="$(printf '%s' "$names" | cut -f1)"
+		dst="$(printf '%s' "$names" | cut -f2)"
+		if [ "$src" = "$dst" ] || [ -e "$dst" ]; then
+			continue
+		fi
+		mv -- "$src" "$dst"
+	done
+	rm -- "$old" "$new"
+	lf -remote "send $id unselect"
 }}
 
 cmd fzf_search ${{
-    res="$( \
-        RG_PREFIX="rg --column --line-number --no-heading --color=always \
-            --smart-case "
-        FZF_DEFAULT_COMMAND="$RG_PREFIX ''" \
-            fzf --bind "change:reload:$RG_PREFIX {q} || true" \
-            --ansi --layout=reverse --header 'Search in files' \
-            | cut -d':' -f1
-    )"
-    [ ! -z "$res" ] && lf -remote "send $id select \"$res\""
+	res="$(
+		RG_PREFIX="rg --column --line-number --no-heading --color=always \
+			--smart-case "
+		FZF_DEFAULT_COMMAND="$RG_PREFIX ''" \
+			fzf --bind "change:reload:$RG_PREFIX {q} || true" \
+			--ansi --layout=reverse --header 'Buscar en los archivos' \
+			| cut -d':' -f1
+	)"
+	[ ! -z "$res" ] && lf -remote "send $id select \"$res\""
 }}
 
 cmd fzf_jump ${{
-    res="$(find . -maxdepth 1 | fzf --reverse --header='Jump to location' | sed 's/\\/\\\\/g;s/"/\\"/g')"
-    if [ -d "$res" ] ; then
-        cmd="cd"
-    elif [ -f "$res" ] ; then
-        cmd="select"
-    else
-        exit 0
-    fi
-    lf -remote "send $id $cmd \"$res\""
+	res="$(find . -maxdepth 1 | fzf --reverse --header='Ir a la localización' | sed 's/\\/\\\\/g;s/"/\\"/g')"
+	if [ -d "$res" ] ; then
+		cmd="cd"
+	elif [ -f "$res" ] ; then
+		cmd="select"
+	else
+		exit 0
+	fi
+	lf -remote "send $id $cmd \"$res\""
 }}
 
 cmd open ${{
-    case $(xdg-mime query filetype "$(readlink -f $f)") in
-	image/svg+xml) display -- $f ;;
-	application/vnd.oasis.opendocument.spreadsheet) libreoffice $f ;;
-	application/vnd.oasis.opendocument.text) libreoffice $f ;;
-	application/vnd.openxmlformats-officedocument.wordprocessingml.document) libreoffice $f ;;
-	application/x-keepass2) notify-send -i keepassxc "Just open Keepass...";;
-	text/*|application/json|inode/x-empty) $EDITOR $fx;;
-	application/x-shellscript) $EDITOR $fx;;
-	image/*) rotdir $f | ggrep -i "\.\(png\|jpg\|jpeg\|gif\|webp\|avif\|tif\|ico\)\(_large\)*$" | nsxiv -aio ;;
-	audio/*) mpv --audio-display=no $f ;;
-	video/*) mpv $f ;;
-	application/pdf|application/vnd*|application/epub*) zathura $f;;
-	application/pgp-encrypted) $EDITOR $fx ;;
-        *) for f in $fx; do $OPENER $f 2>&1 && clear; done;;
-    esac
+	case $(xdg-mime query filetype "$(readlink -f $f)") in
+		image/svg+xml) display -- $f ;;
+		application/vnd.oasis.opendocument.spreadsheet) libreoffice $f ;;
+		application/vnd.oasis.opendocument.text) libreoffice $f ;;
+		application/vnd.openxmlformats-officedocument.wordprocessingml.document) libreoffice $f ;;
+		application/x-keepass2) notify-send -i keepassxc "Just open Keepass...";;
+		text/*|application/json|inode/x-empty) $EDITOR $fx;;
+		application/x-shellscript) $EDITOR $fx;;
+		image/*) rotdir $f | ggrep -i "\.\(png\|jpg\|jpeg\|gif\|webp\|avif\|tif\|ico\)\(_large\)*$" | nsxiv -aio ;;
+		audio/*) mpv --audio-display=no $f ;;
+		video/*) mpv $f ;;
+		application/pdf|application/vnd*|application/epub*) zathura $f;;
+		application/pgp-encrypted) $EDITOR $fx ;;
+		*) for f in $fx; do $OPENER $f 2>&1 && clear; done;;
+	esac
 }}
 
 cmd mkdir $mkdir -p "$(echo $* | tr ' ' '\ ')"
@@ -212,60 +212,60 @@ cmd extract ${{
 }}
 
 cmd paste ${{
-    set -- $(cat ~/.local/share/lf/files)
-    mode="$1"
-    shift
-    case "$mode" in
-        copy) cp -r -- "$@" . && notify-send -i copyq "Archivo(s) copiados." >/dev/null;;
-        move) mv -- "$@" . && notify-send -i copyq "Archivo(s) movidos." >/dev/null;;
-    esac
-    rm ~/.local/share/lf/files
-    lf -remote "send clear"
+	set -- $(cat ~/.local/share/lf/files)
+	mode="$1"
+	shift
+	case "$mode" in
+		copy) cp -r -- "$@" . && notify-send -i copyq "Archivo(s) copiados." >/dev/null;;
+		move) mv -- "$@" . && notify-send -i copyq "Archivo(s) movidos." >/dev/null;;
+	esac
+	rm ~/.local/share/lf/files
+	lf -remote "send clear"
 }}
 
 cmd delete ${{
-  clear; tput bold
-  set -f
-  printf "%s\n\n" "$fx"
-  printf "¿Borrar archivo(s)? [s/N] "
-  read ans
-  [ $ans = "s" ] && rm -rf -- $fx && \
-  notify-send -i \
-  /usr/local/share/icons/Papirus-Dark/128x128/places/user-trash.svg \
-  "Archivos borrados"
+	clear; tput bold
+	set -f
+	printf "%s\n\n" "$fx"
+	printf "¿Borrar archivo(s)? [s/N] "
+	read ans
+	[ $ans = "s" ] && rm -rf -- $fx && \
+	notify-send -i \
+	/usr/local/share/icons/Papirus-Dark/128x128/places/user-trash.svg \
+	"Archivos borrados"
 }}
 
 cmd trash ${{
-  clear; tput bold
-  set -f
-  printf "%s\n\n" "$fx"
-  printf "¿Mover archivo(s) a la papelera? [s/N] "
-  read ans
-  [ $ans = "s" ] && trash-put $fx &&
-  notify-send -i \
-  /usr/local/share/icons/Papirus-Dark/128x128/places/user-trash.svg \
-  "Archivos movidos a la papelera"
+	clear; tput bold
+	set -f
+	printf "%s\n\n" "$fx"
+	printf "¿Mover archivo(s) a la papelera? [s/N] "
+	read ans
+	[ $ans = "s" ] && trash-put $fx &&
+	notify-send -i \
+	/usr/local/share/icons/Papirus-Dark/128x128/places/user-trash.svg \
+	"Archivos movidos a la papelera"
 }}
 
 cmd clean-trash ${{
-  clear; tput bold
-  set -f
-  printf "Contenidos de la papelera:\n"
-  trash-list
-  printf "¿Vaciar papelera? [s/N] "
-  read ans
-  [ $ans = "s" ] && trash-empty -f && \
-  notify-send -i \
-  /usr/local/share/icons/Papirus-Dark/128x128/places/user-trash.svg \
-  "Archivos borrados"
+	clear; tput bold
+	set -f
+	printf "Contenidos de la papelera:\n"
+	trash-list
+	printf "¿Vaciar papelera? [s/N] "
+	read ans
+	[ $ans = "s" ] && trash-empty -f && \
+	notify-send -i \
+	/usr/local/share/icons/Papirus-Dark/128x128/places/user-trash.svg \
+	"Archivos borrados"
 }}
 
 cmd restore-trash ${{
-  clear; tput bold
-  set -f
-  printf "Contenidos de la papelera:\n"
-  trash-list
-  printf "¿Restaurar papelera? [s/N] "
-  read ans
-  [ $ans = "s" ] && trash-restore && printf "done"
+	clear; tput bold
+	set -f
+	printf "Contenidos de la papelera:\n"
+	trash-list
+	printf "¿Restaurar papelera? [s/N] "
+	read ans
+	[ $ans = "s" ] && trash-restore && printf "done"
 }}
