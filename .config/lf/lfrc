@@ -101,20 +101,32 @@ cmd clean ${{
 }}
 
 cmd compress ${{
-	clear; tput bold
-	set -f
-	echo "COMPRESS EVERYTHING:"
-	echo "  INSIDE => $(echo $f |sed 's#/[^/]*$##')"
-	echo "  INTO   => /tmp/$(echo $PWD | sed 's/\//\_/g').tar.gz"
-	printf "Compress? [y/N]"
-	read ans
-	[ $ans = "y" ] && tar -zcvf /tmp/$(date +'%H_%M_%S').tar.gz . && printf "done"
-	read ans
+	clear; tput bold; set -f
+	default=y
+	echo "Comprimir todos los archivos:\n  Archivos de => $(echo $f |sed 's#/[^/]*$##')\n  En el archivo => /tmp/$(echo $PWD | sed 's/\//\_/g').\*"
+	printf "Comprimir? [S/n] "
+	read respuesta
+	[ -z $respuesta ] && ans=$default
+	[ $ans = "y" ] && \
+	echo '¿En formato desea comprimirlos? "tar", "zip" o "7z"' && read formato
+	case "$formato" in
+	tar)
+		tar -zcvf /tmp/$(date +'%H_%M_%S').tar.gz . >/dev/null && \
+		echo "Archivo comprimido en: /tmp/$(date +'%H_%M_%S').tar.gz" ;;
+	zip)
+		zip -r /tmp/$(date +'%H_%M_%S').zip . >/dev/null && \
+		echo "Archivo comprimido en: /tmp/$(date +'%H_%M_%S').zip" ;;
+	7z)
+		7z a /tmp/$(date +'%H_%M_%S').7z . >/dev/null && \
+		echo "Archivo comprimido en: 7z a /tmp/$(date +'%H_%M_%S').7z" ;;
+	*)
+		echo "$formato no es una opción valida (tar, zip o 7z)." ;;
+	esac && read ans
 }}
 
 cmd size &{{
   dunstctl close-all
-  notify-send "📚 Size is $(du -chs $fx | grep total | awk {'print $1'})"
+  notify-send -i system-file-manager "El tamaño es de $(du -chs $fx | grep total | awk {'print $1'})"
 }}
 
 cmd home :cd ~/
@@ -190,11 +202,13 @@ cmd mkdir $mkdir -p "$(echo $* | tr ' ' '\ ')"
 cmd extract ${{
 	clear; tput bold
 	set -f
-	printf "%s\n\t" "$fx"
-	printf "extract $f?[y/N]"
+	default=y
+	printf "¿Quieres extraer el archivo $f? [S/n] "
+	read respuesta
+	[ -z $respuesta ] && ans=$default
+	[ $ans = "y" ] && aunpack $f >/dev/null 2>&1 && printf "Archivo descomprimido con éxito" && \
 	read ans
-	[ $ans = "y" ] && aunpack $f && printf "done"
-	read ans
+
 }}
 
 cmd paste ${{
@@ -202,8 +216,8 @@ cmd paste ${{
     mode="$1"
     shift
     case "$mode" in
-        copy) cp -r -- "$@" . && notify-send "📋 File(s) copied." >/dev/null;;
-        move) mv -- "$@" . && notify-send "📋 File(s) moved." >/dev/null;;
+        copy) cp -r -- "$@" . && notify-send -i copyq "Archivo(s) copiados." >/dev/null;;
+        move) mv -- "$@" . && notify-send -i copyq "Archivo(s) movidos." >/dev/null;;
     esac
     rm ~/.local/share/lf/files
     lf -remote "send clear"
@@ -213,9 +227,9 @@ cmd delete ${{
   clear; tput bold
   set -f
   printf "%s\n\n" "$fx"
-  printf "¿Borrar archivo(s)? [y/N] "
+  printf "¿Borrar archivo(s)? [s/N] "
   read ans
-  [ $ans = "y" ] && rm -rf -- $fx && \
+  [ $ans = "s" ] && rm -rf -- $fx && \
   notify-send -i \
   /usr/local/share/icons/Papirus-Dark/128x128/places/user-trash.svg \
   "Archivos borrados"
@@ -225,9 +239,9 @@ cmd trash ${{
   clear; tput bold
   set -f
   printf "%s\n\n" "$fx"
-  printf "¿Mover archivo(s) a la papelera? [y/N] "
+  printf "¿Mover archivo(s) a la papelera? [s/N] "
   read ans
-  [ $ans = "y" ] && trash-put $fx &&
+  [ $ans = "s" ] && trash-put $fx &&
   notify-send -i \
   /usr/local/share/icons/Papirus-Dark/128x128/places/user-trash.svg \
   "Archivos movidos a la papelera"
@@ -238,9 +252,9 @@ cmd clean-trash ${{
   set -f
   printf "Contenidos de la papelera:\n"
   trash-list
-  printf "¿Vaciar papelera? [y/N] "
+  printf "¿Vaciar papelera? [s/N] "
   read ans
-  [ $ans = "y" ] && trash-empty -f && \
+  [ $ans = "s" ] && trash-empty -f && \
   notify-send -i \
   /usr/local/share/icons/Papirus-Dark/128x128/places/user-trash.svg \
   "Archivos borrados"
@@ -251,7 +265,7 @@ cmd restore-trash ${{
   set -f
   printf "Contenidos de la papelera:\n"
   trash-list
-  printf "¿Restaurar papelera? [y/N] "
+  printf "¿Restaurar papelera? [s/N] "
   read ans
-  [ $ans = "y" ] && trash-restore && printf "done"
+  [ $ans = "s" ] && trash-restore && printf "done"
 }}
