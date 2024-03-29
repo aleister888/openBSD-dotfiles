@@ -1,12 +1,12 @@
-<img src="https://raw.githubusercontent.com/aleister888/openBSD-dotfiles/master/img/puffy.png" align="left" height="110px" hspace="0px" vspace="0px">
+<img src="https://raw.githubusercontent.com/aleister888/openBSD-dotfiles/master/img/puffy.png" align="left" height="100px" hspace="10px" vspace="0px">
 
 ## OpenBSD Dotfiles
 
 `OpenBSD` dotfiles for my `Thinkpad X270`
 
-<p float="left">
-    <img src="https://raw.githubusercontent.com/aleister888/openBSD-dotfiles/main/img/screenshot1.jpg" width="45%" />
-    <img src="https://raw.githubusercontent.com/aleister888/openBSD-dotfiles/main/img/screenshot.jpg" width="45%" />
+<p float="center">
+    <img src="https://raw.githubusercontent.com/aleister888/openBSD-dotfiles/main/img/screenshot1.jpg" width="49.75%" />
+    <img src="https://raw.githubusercontent.com/aleister888/openBSD-dotfiles/main/img/screenshot.jpg" width="49.75%" />
 </p>
 
 ## Steps to Install
