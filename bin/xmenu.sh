@@ -12,7 +12,7 @@ IMG:$ICONPATH/internet-web-browser.svg				Internet
 	IMG:$ICONPATH/syncthing-gtk.svg				Syncthing		xdg-open http://127.0.0.1:8384
 	IMG:$ICONPATH/transmission.svg				Transmission		transmission-gtk
 
-IMG:$ICONPATH/multimedia.svg					Vídeo y Sonido
+IMG:$ICONPATH/multimedia.svg					Vídeo/Sonido
 	IMG:$ICONPATH/tauonmb.svg				Tauon			tauon
 	IMG:$ICONPATH/mpv.svg					mpv			mpv --player-operation-mode=pseudo-gui
 	IMG:$ICONPATH/pavucontrol.svg				Pavucontrol		pavucontrol
@@ -60,7 +60,7 @@ IMG:$ICONPATH/google-chrome.svg					Chromium		chrome
 IMG:$ICONPATH/thunderbird.svg					Thunderbird		thunderbird
 IMG:$ICONPATH/system-file-manager.svg				Explorador		$TERMINAL -e lf
 IMG:$ICONPATH/st.svg						Terminal		$TERMINAL
-IMG:$ICONPATH/pomodoro-indicator.svg				Temporizador		pomodoro
+IMG:$ICONPATH/pomodoro-indicator.svg				Pomodoro		pomodoro
 IMG:$ICONPATH/system-shutdown.svg				Apagado
 	IMG:$ICONPATH/system-lock-screen.svg			Bloquear		i3lock-fancy
 	IMG:$ICONPATH/system-suspend-hibernate.svg		Bloquear y Suspender	i3lock-fancy && zzz

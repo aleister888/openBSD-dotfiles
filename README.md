@@ -50,3 +50,4 @@ of the screen where the lock icon will be displayed.
 
 - Deploy dotfiles with update.sh from install.sh to avoid duplicate functions
 - Translate scripts comments to Spanish
+- Finish PDF and add and test cronie scripts (imported from Artix installation)
