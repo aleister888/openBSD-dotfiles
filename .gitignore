@@ -8,3 +8,25 @@
 
 # QT5 Config
 qt5ct.conf
+
+bookmarks
+.stfolder
+*.toc
+*.log
+*.out
+*.aux
+util.o
+dwm.o
+dwm/dwm
+dwm/config.h
+drw.o
+stest.o
+dmenu.o
+dmenu/dmenu
+dmenu/config.h
+stest
+hb.o
+st/config.h
+st/st
+st.o
+x.o

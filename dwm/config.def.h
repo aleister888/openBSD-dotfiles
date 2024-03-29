@@ -1,21 +1,14 @@
 /* See LICENSE file for copyright and license details. */
 
-#define DLINES "16" // Lineas para los comandos de dmenu
-#define TERM   "st" // Terminal
-#define TERMT  "-t" // Flag usada para determinar el título de la terminal
-#define TERMC  "st-256color" // Clase de ventana de la terminal
-#define BROWSER "firefox" // Navegador Web
-
 // Constantes
-static const unsigned int gappx          = 24;      // Separación entre las ventanas
-static const unsigned int borderpx       = gappx/4+4; // Borde en pixeles de las ventanas
+static const unsigned int gappx          = 16;      // Separación entre las ventanas
+static const unsigned int borderpx       = gappx/3; // Borde en pixeles de las ventanas
 static const int vertpad                 = gappx;   // Separación vertical de la barra
 static const int sidepad                 = gappx;   // Separación horizontal de la barra
 static const int user_bh                 = gappx;   // Altura barra: 0 por defecto, >= 1 Altura añadida
 static const unsigned int snap           = 0;       // Pixeles de cercanía para pegarse al borde (0 = desactivado)
 static const unsigned int systraypinning = 0;       // Monitor para la barra de tareas (0: Monitor seleccionado, >0 Monitor X)
-static const unsigned int systrayonleft  = 0;       // Posición de la barra de tareas (0: Esquina derecha, >0 Izquierda del estado)
-static const unsigned int systrayspacing = gappx/2+2; // Espaciado de la barra de tareas
+static const unsigned int systrayspacing = gappx/2; // Espaciado de la barra de tareas
 static const int systraypinningfailfirst = 1;       // Monitor barra (Seguro) 1: Barra de tareas en el 1er monitor
 static const int showsystray             = 1;       // ¿Barra de tareas? (0: Desactivada)
 static const int swallowfloating         = 0;       // 1 Significa tragarse nuevas ventanas por defecto
@@ -28,23 +21,21 @@ static const int resizehints             = 1;       // 1 ¿Respetar pistas de di
 static const int lockfullscreen          = 1;       // 1 Fuerza el foco en las ventanas en pantalla completa
 static const unsigned int colorfultag    = 1;       // 1, Los indicadores de espacio son coloridos
 static const unsigned int ulinepad       = 0;       // Espaciado horizontal entre subrayado y el indicador del espacio de trabajo
-static const unsigned int ulinestroke    = 2;       // Grosor/Altura del subrayado
+static const unsigned int ulinestroke    = 3;       // Grosor/Altura del subrayado
 static const unsigned int ulinevoffset   = 0;       // Espacio entre el subrayado y el borde inferior de la barra
 static const int ulineall                = 0;       // 1 para mostrar el subrayado en todos los espacios, 0 para mostrarlo en los seleccionados
-static const char dmenufont[]            = "Iosevka Nerd Font:bold:pixelsize=36"; // Fuentes
-static const char *fonts[]               = { "Symbols Nerd Font:pixelsize=38","Iosevka Nerd Font:bold:pixelsize=36" };
+static const char dmenufont[]            = "Iosevka Nerd Font:bold:pixelsize=24"; // Fuentes
+static const char *fonts[]               = { "Symbols Nerd Font:pixelsize=26","Iosevka Nerd Font:bold:pixelsize=24" };
 static const char background[]           = "#1D2021";
 static const char background_sel[]       = "#282828";
 static const char foreground[]           = "#EBDBB2";
 static const char col_red[]              = "#FB4934";
-static const char col_green[]            = "#B8BB26";
-static const char col_yellow[]           = "#FABD2F";
+static const char col_green[]            = "#B8BB26" ;
+static const char col_yellow[]           = "#FABD2F" ;
 static const char col_blue[]             = "#83A598";
 static const char col_purple[]           = "#D3869B";
-static const char col_aqua[]             = "#8EC07C";
+static const char col_aqua[]             = "#8EC07C" ;
 static const char col_orange[]           = "#FE8019";
-
-
 static const char *colors[][3]      = {
 	// Colores:             Fuente          Fondo       Borde
 	[SchemeNorm]        = { foreground, background,     col_blue    }, // Color de las ventanas normales
@@ -59,22 +50,18 @@ static const char *colors[][3]      = {
 	[SchemeTag1]        = { col_purple, background_sel, "#000000"   }, // Colores de los espacios 1-12
 	[SchemeTag2]        = { col_aqua,   background_sel, "#000000"   },
 	[SchemeTag3]        = { col_orange, background_sel, "#000000"   },
-	[SchemeTag4]        = { col_blue,   background_sel, "#000000"   },
-	[SchemeTag5]        = { col_blue,   background_sel, "#000000"   },
-	[SchemeTag6]        = { col_blue,   background_sel, "#000000"   },
-	[SchemeTag7]        = { col_green,  background_sel, "#000000"   },
-	[SchemeTag8]        = { col_yellow, background_sel, "#000000"   },
-	[SchemeTag9]        = { col_blue,   background_sel, "#000000"   },
-	[SchemeTag10]       = { col_purple, background_sel, "#000000"   },
-	[SchemeTag11]       = { col_aqua,   background_sel, "#000000"   },
-	[SchemeTag12]       = { col_orange, background_sel, "#000000"   },
+	[SchemeTag4]        = { col_red,    background_sel, "#000000"   },
+	[SchemeTag5]        = { col_green,  background_sel, "#000000"   },
+	[SchemeTag6]        = { col_yellow, background_sel, "#000000"   },
+	[SchemeTag7]        = { col_blue,   background_sel, "#000000"   },
+	[SchemeTag8]        = { col_purple, background_sel, "#000000"   },
+	[SchemeTag9]        = { col_aqua,   background_sel, "#000000"   },
 	// Los valores con "#000000" no son usados pero no pueden estar vacios
 };
 
 static const int tagschemes[] = { SchemeTag1,  SchemeTag2,  SchemeTag3,
                                   SchemeTag4,  SchemeTag5,  SchemeTag6,
-                                  SchemeTag7,  SchemeTag8,  SchemeTag9,
-                                  SchemeTag10, SchemeTag11, SchemeTag12 };
+                                  SchemeTag7,  SchemeTag8,  SchemeTag9 };
 
 typedef struct {
 	const char *name;
@@ -82,74 +69,48 @@ typedef struct {
 } Sp;
 
 // Nombre de los espacios cuando estan vacios y cuando tienen ventanas. Layout por defecto
-static const char *tags[]	= { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" };
-static const char *alttags[]	= { "", "", "󰈹", "", "󰙯", "", "󰋅", "", "",  "󱁤",  "",  "" };
-static const int taglayouts[]	= {   0,   0,   0,   0,   2,   2,   0,   0,   2,    0,    0,    0 };
+static const char *tags[]	= { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+static const char *alttags[]	= { "", "", "", "", "", "󱁤", "", "", "" };
+static const int taglayouts[]	= {   0,   0,   0,   0,   0,   0,   0,   0,   0 };
 
 // Reglas pre-establecidas para colocar las ventanas
 static const Rule rules[] = {
-	// Clase      Instancia Título          Espacio Flotante Terminal -Tragado Monitor Scratch
+	// Clase Instancia      Título Espacio Flotante Terminal -Tragado Monitor Tecla Scratch
 	// Terminal
-	{ TERMC,		NULL,	NULL,	0,	0,	1,	0,	-1,     0},
+	{ "st-256color",	NULL,    NULL, 0,      0,    1,       0,      -1},
+	// -Tragado
+	{ "Dragon-drop",	NULL,    NULL, 0,      1,    0,      -1,      -1},
 	// Ventanas flotantes
-	{ "Yad",		NULL,	NULL,	0,	1,	0,	0,	-1,     0},
-	{ "Gcolor3",		NULL,	NULL,	0,	1,	0,	0,	-1,     0},
-	{ "Pavucontrol",	NULL,	NULL,	0,	1,	0,	0,	-1,     0},
-	{ "Alarm-clock-applet",	NULL,	NULL,	0,	1,	0,	0,	-1,     0},
-	{ "Galculator",		NULL,	NULL,	0,	1,	0,	0,	-1,     0},
+	{ "Yad",		NULL,    NULL, 0,      1,    0,       0,      -1},
+	{ "Gcolor2",		NULL,    NULL, 0,      1,    0,       0,      -1},
+	{ "gnome-calculator",	NULL,    NULL, 0,      1,    0,       0,      -1},
+	{ "Gsimplecal",		NULL,    NULL, 0,      1,    0,       0,      -1},
 	// Espacio 1: Música
-	{ "tauonmb",		NULL,	NULL,	1 << 0,	0,	0,	0,	-1,     0},
+	{ "tauonmb",		NULL,    NULL, 1 << 0, 0,    0,       0,      -1},
+	{ "Easytag",		NULL,    NULL, 1 << 0, 0,    0,       0,      -1},
 	// Espacio 2: Correo
-	{ "thunderbird",	NULL,	NULL,	1 << 1,	0,	0,	0,	-1,     0},
-	{ "electron-mail",	NULL,	NULL,	1 << 1,	0,	0,	0,	-1,     0},
+	{ "thunderbird",	NULL,    NULL, 1 << 1, 0,    0,       0,      -1},
 	// Espacio 3: Internet
+	{ "Chromium-browser",	NULL,    NULL, 1 << 2, 0,    0,       0,      -1},
+	{ "Abaddon",		NULL,    NULL, 1 << 2, 0,    0,       0,      -1},
+	{ "Transmission-gtk",	NULL,    NULL, 1 << 2, 0,    0,       0,      -1},
 	// Espacio 4: Oficina
-	{ "Zim",		NULL,	NULL,	1 << 3,	0,	0,	0,	-1,   's'},
-	{ "Soffice",		NULL,	NULL,	1 << 3,	0,	0,	0,	-1,     0},
-	// Espacio 5: Chats
-	{ "discord",		NULL,	NULL,	1 << 4,	0,	0,	0,	-1,     0},
-	{ "TelegramDesktop",	NULL,	NULL,	1 << 4,	0,	0,	0,	-1,     0},
-	{ "TelegramDesktop","telegram-desktop","Media viewer",1 << 4,1,0,0,	-1,     0},
-	// Espacio 6: Gaming y Virtualización
-	{ "Virt-manager",	NULL,	NULL,	1 << 5,	0,	0,	0,	-1,     0},
-	{ "looking-glass-client",NULL,	NULL,	1 << 5,	0,	0,	0,	-1,     0},
-	{ "MultiMC",		NULL,	NULL,	1 << 5,	1,	0,	0,	-1,     0},
-	{ "Minecraft* 1.16.5",	NULL,	NULL,	1 << 5,	0,	0,	0,	-1,     0},
-	{ "steam",		NULL,	NULL,	1 << 5,	0,	0,	0,	-1,     0},
-	{ "ProtonUp-Qt",	NULL,	NULL,	1 << 5,	1,	0,	0,	-1,     0},
-	// Espacio 7: Guitarra/Producción MusicAudioPlayal
-	{ "TuxGuitar",		NULL,	NULL,	1 << 6,	0,	0,	0,	-1,     0},
-	{ "Gmetronome",		NULL,	NULL,	1 << 6,	1,	0,	0,	-1,     0},
-	{ "REAPER",		NULL,	NULL,	1 << 6,	0,	0,	0,	-1,     0},
-	{ "Guitarix",		NULL,	NULL,	1 << 6,	0,	0,	0,	-1,     0},
-	// Espacio 8: Gráficos
-	{ "krita",		NULL,	NULL,	1 << 7,	0,	0,	0,	-1,     0},
-	{ "Fr.handbrake.ghb",	NULL,	NULL,	1 << 7,	0,	0,	0,	-1,     0},
-	{ "Gimp",		NULL,	NULL,	1 << 7,	0,	0,	0,	-1,     0},
-	// Espacio 9: Organizar/Descargar Música
-	{ "Lrcget",		NULL,	NULL,	1 << 8,	0,	0,	0,	-1,     0},
-	{ "Easytag",		NULL,	NULL,	1 << 8,	0,	0,	0,	-1,     0},
-	{ "Picard",		NULL,	NULL,	1 << 8,	0,	0,	0,	-1,     0},
-	{ "qBittorrent",	NULL,	NULL,	1 << 8,	0,	0,	0,	-1,     0},
-	// Espacio 10: Utilidades/Configuración
-	{ "org.gnome.clocks",	NULL,	NULL,	1 << 9,	1,	0,	0,	-1,     0},
-	{ "KeePassXC",		NULL,	NULL,	1 << 9,	0,	0,	0,	-1,     0},
-	{ "Timeshift-gtk",	NULL,	NULL,	1 << 9,	0,	0,	0,	-1,     0},
-	{ "BleachBit",		NULL,	NULL,	1 << 9,	0,	0,	0,	-1,     0},
-	{ "Gnome-disks",	NULL,	NULL,	1 << 9,	0,	0,	0,	-1,     0},
-	{ "Clamtk",		NULL,	NULL,	1 << 9,	1,	0,	0,	-1,     0},
-	{ "balena-etcher",	NULL,	NULL,	1 << 9,	1,	0,	0,	-1,     0},
-	{ "Nitrogen",		NULL,	NULL,	1 << 9,	1,	0,	0,	-1,     0},
-	{ "Blueman-manager",	NULL,	NULL,	1 << 9,	0,	0,	0,	-1,     0},
-	{ "Arandr",		NULL,	NULL,	1 << 9,	0,	0,	0,	-1,     0},
-	{ "Lxappearance",	NULL,	NULL,	1 << 9,	0,	0,	0,	-1,     0},
-	{ "qt5ct",		NULL,	NULL,	1 << 9,	0,	0,	0,	-1,     0},
-	{ "baobab",		NULL,	NULL,	1 << 9,	0,	0,	0,	-1,     0},
+	{ "Zim",		NULL,    NULL, 1 << 3, 0,    0,       0,      -1},
+	// Espacio 5: Gráficos
+	{ "Fr.handbrake.ghb",	NULL,    NULL, 1 << 4, 0,    0,       0,      -1},
+	{ "Gimp",		NULL,    NULL, 1 << 4, 0,    0,       0,      -1},
+	// Espacio 6: Utilidades/Configuración
+	{ "KeePassXC",		NULL,    NULL, 1 << 5, 0,    0,       0,      -1},
+	{ "BleachBit",		NULL,    NULL, 1 << 5, 0,    0,       0,      -1},
+	{ "Nitrogen",		NULL,    NULL, 1 << 5, 1,    0,       0,      -1},
+	{ "Arandr",		NULL,    NULL, 1 << 5, 0,    0,       0,      -1},
+	{ "Lxappearance",	NULL,    NULL, 1 << 5, 0,    0,       0,      -1},
+	{ "qt5ct",		NULL,    NULL, 1 << 5, 0,    0,       0,      -1},
 	// Scratchpad
-	{ NULL,	NULL,"scratchpad",              0,      1,      1,      1,      -1,     's'},
+	{ NULL,		NULL,"scratchpad",     0,      1,    1,       1,      -1,     's'},
 };
 
-#include "layouts.c" // Archivo con los layouts
+#include "layouts.c" // Archivo con los layouts adicionales
 
 static const Layout layouts[] = {
 	{ "[]=",      tile },           // Layout por defecto
@@ -175,59 +136,58 @@ static const Layout layouts[] = {
 /* Poner el foco/Mover a la primera ventana principal */{ MOD, XK_minus,  ACTION##stack, {.i = 0 } },
 
 // Invocador de comandos
-#define SHCMD(cmd) { .v = (const char*[]){ "/usr/bin/zsh", "-c", cmd, NULL } }
+#define SHCMD(cmd) { .v = (const char*[]){ "/usr/local/bin/zsh", "-c", cmd, NULL } }
 
 // Comandos
 static char dmenumon[2] = "0"; // Comando para ejecutar dmenu
-static const char *dmenucmd[] = { "dbus-launch", "dmenu_run",
-"-m",  dmenumon,       "-fn", dmenufont,
-"-nb", background,     "-nf", foreground,
-"-sb", background_sel, "-sf", foreground,
-"-c",                  "-l",  DLINES, NULL };
-static const char *termcmd[]  = { TERM, NULL };      // Terminal
+static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", background, "-nf", foreground,
+"-sb", background_sel, "-sf", foreground, "-c", "-l", "12", NULL };
+static const char *termcmd[]  = { "st", NULL }; // Terminal
 static const char *layoutmenu_cmd = "layoutmenu.sh"; // Script para cambiar el layout
-static const char *scratchpadcmd[] = { "s", NULL };  // Tecla para los scratchpads
-static const char *spawnscratchpadcmd[] = { TERM, TERMT, "scratchpad", NULL }; // Comando para invocar un scratchpad
-
-#include <X11/XF86keysym.h> // Incluir teclas especiales
+static const char *scratchpadcmd[] = { "s", NULL }; // Tecla para los scratchpads
+static const char *spawnscratchpadcmd[] = { "st", "-t", "scratchpad", NULL }; // Comando para invocar un scratchpad
 
 static const Key keys[] = {
 	// Modificador                  Tecla      Función           Argumento
 	// Abrir dmenu
 	{ MODKEY,                       XK_p,      spawn,            {.v = dmenucmd } },
-	{ MODKEY|ShiftMask,             XK_p,      spawn,            SHCMD("j4-dmenu-desktop --dmenu 'dmenu -c -l 16'") },
 	// Abrir terminal
 	{ MODKEY|ShiftMask,             XK_Return, spawn,            {.v = termcmd } },
-	// Configurar pantallas
-	{ MODKEY,                       XK_F1,     spawn,            SHCMD("monitor-layout") },
-	{ MODKEY|ShiftMask,             XK_F1,     spawn,            SHCMD("arandr") },
-	// Abrir aplicaciones más usadas
-	{ MODKEY,                       XK_F2,     spawn,            {.v = (const char*[]){ BROWSER, NULL } } },
-	{ MODKEY,                       XK_F3,     spawn,            {.v = (const char*[]){ TERM, "lf", NULL } } },
-	{ MODKEY,                       XK_F4,     spawn,            SHCMD("tauon") },
-	// Montar/Desmontar dispositivos android
-	{ MODKEY,                       XK_F5,     spawn,            SHCMD("android-mount") },
-	{ MODKEY|ShiftMask,             XK_F5,     spawn,            SHCMD("android-umount") },
 	// Menu de apagado
 	{ MODKEY,                       XK_F11,    spawn,            SHCMD("powermenu") },
-	// Cerrar dwm
-	{ MODKEY|ShiftMask,             XK_F11,    spawn,            SHCMD("pkill dwm") },
-	// Ajustes de audio
-	{ MODKEY,                       XK_F12,    spawn,           SHCMD("pavucontrol") },
+	// Abrir aplicaciones más usadas
+	{ MODKEY,                       XK_F2,     spawn,            SHCMD("chrome") },
+	{ MODKEY,                       XK_F3,     spawn,            SHCMD("st lf") },
+	{ MODKEY,                       XK_F4,     spawn,            SHCMD("tauon") },
+	// Desactivar/Activar modo escritura
+	{ MODKEY|ShiftMask,             XK_t,      spawn,            SHCMD("typemode") },
+	// Desmontar discos (Ya se montan automaticamente con hotplugd)
+	{ MODKEY|ShiftMask,             XK_F5,     spawn,            SHCMD("dmenuumount") },
+	// Configurar pantallas
+	{ MODKEY,                       XK_F1,     spawn,            SHCMD("monitor-layout && nitrogen --restore") },
+	{ MODKEY|ShiftMask,             XK_F1,     spawn,            SHCMD("arandr") },
+	// Abrir/Cerrar Calendario
+	{ MODKEY|ControlMask,           XK_c,      spawn,            SHCMD("gsimplecal") },
 	// Cambiar música
-	{ MODKEY,                       XK_z,      spawn,            SHCMD("playerctl -p tauon previous; pkill -54 dwmblocks") },
-	{ MODKEY,                       XK_x,      spawn,            SHCMD("playerctl -p tauon next; pkill -54 dwmblocks") },
-	{ MODKEY|ShiftMask,             XK_z,      spawn,            SHCMD("playerctl -p tauon play-pause; pkill -54 dwmblocks") },
-	{ MODKEY|ShiftMask,             XK_x,      spawn,            SHCMD("playerctl -p tauon play-pause; pkill -54 dwmblocks") },
-	{ 0,                XF86XK_AudioPlay,      spawn,            SHCMD("playerctl -p tauon play-pause; pkill -54 dwmblocks") },
-	// Cambiar volumen
-	{ MODKEY,                       XK_n,      spawn,            SHCMD("pactl set-sink-volume @DEFAULT_SINK@ -5%; pkill -44 dwmblocks") },
-	{ MODKEY,                       XK_m,      spawn,            SHCMD("pactl set-sink-volume @DEFAULT_SINK@ +5%; pkill -44 dwmblocks") },
-	{ MODKEY|ControlMask,           XK_n,      spawn,            SHCMD("pactl set-sink-mute @DEFAULT_SINK@ toggle; pkill -44 dwmblocks") },
-	{ MODKEY|ControlMask,           XK_m,      spawn,            SHCMD("pactl set-sink-mute @DEFAULT_SINK@ toggle; pkill -44 dwmblocks") },
-	{ MODKEY|ShiftMask,             XK_n,      spawn,            SHCMD("pactl set-sink-volume @DEFAULT_SINK@ 32768; pkill -44 dwmblocks") },
-	{ MODKEY|ShiftMask,             XK_m,      spawn,            SHCMD("pactl set-sink-volume @DEFAULT_SINK@ 65536; pkill -44 dwmblocks") },
-	// Forzar cerrar ventana
+	{ MODKEY,                       XK_z,      spawn,            SHCMD("playerctl previous; pkill -USR2 dwmblocks") },
+	{ MODKEY,                       XK_x,      spawn,            SHCMD("playerctl next; pkill -USR2 dwmblocks") },
+	{ MODKEY|ShiftMask,             XK_z,      spawn,            SHCMD("playerctl play-pause") },
+	{ MODKEY|ShiftMask,             XK_x,      spawn,            SHCMD("playerctl play-pause") },
+	// Subir/Bajar volumen
+	{ MODKEY,                       XK_n,      spawn,            SHCMD("sndioctl output.level=-0.025; pkill -USR1 dwmblocks") },
+	{ MODKEY,                       XK_m,      spawn,            SHCMD("sndioctl output.level=+0.025; pkill -USR1 dwmblocks") },
+	{ MODKEY|ControlMask,           XK_n,      spawn,            SHCMD("sndioctl output.mute=!; pkill -USR1 dwmblocks") },
+	{ MODKEY|ControlMask,           XK_m,      spawn,            SHCMD("sndioctl output.mute=!; pkill -USR1 dwmblocks") },
+	// Volumen al 100%/50%
+	{ MODKEY|ShiftMask,             XK_n,      spawn,            SHCMD("sndioctl output.level=0.75; pkill -USR1 dwmblocks") },
+	{ MODKEY|ShiftMask,             XK_m,      spawn,            SHCMD("sndioctl output.level=1; pkill -USR1 dwmblocks") },
+	// Silenciar/Activar Micrófono
+	{ MODKEY|ShiftMask,             XK_F4,     spawn,            SHCMD("mic-mute-toggle") },
+	// Bajar Brillo
+	// Cambiar brillo (100%/40%)
+	{ MODKEY|ShiftMask,             XK_v,      spawn,            SHCMD("xbacklight -steps 1 -set 40") },
+	{ MODKEY|ShiftMask,             XK_b,      spawn,            SHCMD("xbacklight -steps 1 -set 100") },
+	// Forzar cierre de ventana
 	{ MODKEY|ShiftMask,             XK_c,      spawn,            SHCMD("xkill") },
 	// Tomar capturas de pantalla
 	{ 0,                            XK_Print,  spawn,            SHCMD("screenshot all_clip") },
@@ -240,6 +200,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_b,      togglebar,        {0} },
 	// Hacer/Deshacer ventana permamente
 	{ MODKEY|ShiftMask,             XK_a,      togglesticky,     {0} },
+	{ MODKEY|ControlMask,           XK_a,      togglesticky,     {0} },
 	// Cambiar de espacio
 	{ MODKEY,                       XK_q,      shiftviewclients, { .i = -1 } },
 	{ MODKEY,                       XK_w,      shiftviewclients, { .i = +1 } },
@@ -256,6 +217,8 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_i,      setcfact,         {.f = +0.25} },
 	// Cerrar aplicación
 	{ MODKEY|ShiftMask,             XK_q,      killclient,       {0} },
+	// Cerrar dwm
+	{ MODKEY|ShiftMask,             XK_F11,    spawn,            SHCMD("pkill dwm") },
 	// Hacer/Deshacer ventana flotante
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating,   {0} },
 	// Cambiar de monitor / Mover las ventanas entre monitores
@@ -286,20 +249,16 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_7,                        6)
 	TAGKEYS(                        XK_8,                        7)
 	TAGKEYS(                        XK_9,                        8)
-	TAGKEYS(                        XK_0,                        9)
-	TAGKEYS(                        XK_apostrophe,              10)
-	TAGKEYS(                        XK_exclamdown,              11)
 };
 
-// Botónes del ratón
+// Botónes del teclado
 // Click puede ser ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, o ClkRootWin.
 static const Button buttons[] = {
 	// Click                Combinación     Botón           Función         Argumento
 	{ ClkLtSymbol,          0,              Button1,        setlayout,      {.v = &layouts[0]} },
 	{ ClkLtSymbol,          0,              Button3,        layoutmenu,     {0} },
+	{ ClkRootWin,           0,              Button3,        spawn,          SHCMD("xmenu.sh") },
 	{ ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd } },
-	{ ClkRootWin,           0,              Button2,        spawn,          SHCMD("xmenu-sinks") },
-	{ ClkRootWin,           0,              Button3,        spawn,          SHCMD("xmenu-apps") },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
 	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
 	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
