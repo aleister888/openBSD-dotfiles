@@ -46,7 +46,7 @@
 % Enlaces clicables
 \usepackage[colorlinks=true, linkcolor=myorange, urlcolor=myorange]{hyperref}
 
-\title{\textcolor{myorange}{\bfseries Configuración de Artix OpenRC}} % Título del documento
+\title{\textcolor{myorange}{\bfseries Configuración de OpenBSD}} % Título del documento
 \date{\today} % Fecha actual
 \author{aleister888}
 
@@ -56,7 +56,7 @@
 
 \section{Introducción}
 
-Este documento pretende ser una guía para terminar de configurar nuestra instalación de Artix, pues hay cosas que no son factibles auto-configurar. Así como puede ser una ayuda para terceros que se han animado a usar mi instalador y que ahora se encuentran ante la tarea de aprender a usar un entorno de trabajo que no es el suyo.
+Este documento pretende ser una guía para terminar de configurar nuestra instalación de OpenBSD, pues hay cosas que no son factibles auto-configurar. Así como puede ser una ayuda para terceros que se han animado a usar mi instalador y que ahora se encuentran ante la tarea de aprender a usar un entorno de trabajo que no es el suyo.
 
 \begin{mybox}{Nota}
 Cualquier texto que veas coloreado en naranja es un hiper-vínculo \emph{(exceptuando los títulos)}, si haces doble clic en él, te llevará a la página web a la que hace referencia o a una donde se explica de que estoy hablando.
@@ -78,7 +78,7 @@ Cualquier texto que veas coloreado en naranja es un hiper-vínculo \emph{(except
 \item Alt Izq. + V: Pegar texto
 \end{itemize}
 \item Alt Izq. + F1 / Alt + Shift + F1: Configurar pantallas
-\item Alt Izq. + F2: Abrir Navegador \emph{(Firefox)}
+\item Alt Izq. + F2: Abrir Navegador \emph{(Chromium)}
 \item Alt Izq. + F3: Abrir Administrador de archivos
 \begin{itemize}
 \setlength\itemsep{-0.2em}
@@ -132,35 +132,28 @@ Cualquier texto que veas coloreado en naranja es un hiper-vínculo \emph{(except
 \item Alt Izq. + Shift + \{: Mover ventana al monitor siguiente
 \end{itemize}
 
-\section{Compartir audio en Discord}
-
-Si has instalado el cliente de discord te darás cuenta de una funcionalidad que esta en la versión de Windows y no en la de Linux. En Linux, no puedes compartir el audio cuando compartes tu escritorio o video.
-
-Para solucionar este problema, cuando inicias sesión se crea un \emph{micrófono virtual} al que puedes añadir tu micrófono real y el audio de las aplicaciones que desees. Para que la gente pueda escuchar el audio de las aplicaciones tendrás que elegir en discord el micrófono como \emph{my-virtualmic}, y, recomendablemente; desactivar al reducción de ruido. Pues esta detectará el audio de las aplicaciones como ruido.
-
-Para añadir tu micrófono, haz click en una parte vacía del escritorio y en la pestaña \emph{Compar. audio} haz clic en \emph{Ajustes Mic.}. Aparecerá un menu para añadir o quitar dispositivos de audio del micrófono virtual.
-
-También verás que en la pestaña \emph{Compar. audio} puedes hacer clic en las diferentes opciones que hay para compartir o dejar de compartir el audio de las aplicaciones
-
 \section{Cronie y script útiles}
 
 Mi instalación viene con varios scripts para automatizar tareas pero que por defecto no se usan para nada.
 
 Con tu instalación base deberías de tener activado el servicio \href{https://wiki.archlinux.org/title/cron}{crond}. Este servicio se encarga de ejecutar comandos de forma automática. El archivo de configuración se encuentra en \emph{/etc/crontab} y tal como se ha configurado, debería verse como:
 
-
 \begin{lstlisting}[basicstyle=\scriptsize\ttfamily]
-SHELL=/bin/bash
-PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+SHELL=/bin/sh
+MAILTO=usuario
 
-0 8 * * * root reflector --verbose --latest 10 --sort rate --save /etc/pacman.d/mirrorlist-arch
-@reboot usuario syncthing --no-browser --no-default-folder
+# Auto suspend laptop
+* * * * *	usuario		$HOME/.local/bin/bat
+* * * * *	root		rm /var/log/Xorg.*
+* * * * *	root		rm /var/log/daemon.*
+* * * * *	root		rm /var/log/maillog.*
+30 10 * * *	root		cd /usr/ports && cvs -q up -Pd -A
 \end{lstlisting}
 
 \begin{itemize}
 \setlength\itemsep{-0.2em}
-\item \emph{"0 8 * * *"} es la parte de donde definimos cuando se ejecutara el comando, si quieres investigar hay un montón de guías en youtube o cualquier otra plataforma sobre cual es la sintáxis para configurar la ejecución de los comandos. Puedes también comprobar si tu sintaxis es correcta en \href{https://crontab.guru/}{crontab.guru}.
-\item \emph{"root"} es el usuario que ejecuta el comando, y \emph{"reflector --verbose --latest 10 --sort rate --save /etc/pacman.d/mirrorlist-arch"}, el comando.
+\item \emph{"30 10 * * *"} es la parte de donde definimos cuando se ejecutara el comando, si quieres investigar hay un montón de guías en youtube o cualquier otra plataforma sobre cual es la sintáxis para configurar la ejecución de los comandos. Puedes también comprobar si tu sintaxis es correcta en \href{https://crontab.guru/}{crontab.guru}.
+\item \emph{"root"} es el usuario que ejecuta el comando, y \emph{cd /usr/ports \&\& cvs -q up -Pd -A}, el comando.
 \end{itemize}
 
 \subsection{convert-2m4a y convert-2mp3}
@@ -202,53 +195,6 @@ Para borrar automaticamente los metadatos de una carpeta, puedes añadir a \emph
 0 17 * * * usuario1 exif-remove /fotografias
 \end{verbatim}
 
-\subsection{wake}
-
-\label{sec:wake}
-
-Este script comprueba si hay alguna máquina virtual en ejecucción, y si no encuentra ninguna, suspende nuestro equipo y lo reanuda a las 7 de la mañana del día siguiente. Útil para ahorrar energía y no tener que preocuparte por suspender tu equipo, ni de encenderlo por las mañanas.
-
-Para suspender tu equipo automáticamente todos los dias a las 11:00 puedes añadir a tu crontab:
-
-\begin{verbatim}
-0 23 * * * root wake
-\end{verbatim}
-
-Y para notificar al usuario \emph{usuario1} de que el sistema se suspenderá con 10 minutos de antelación:
-
-\begin{verbatim}
-50 22 * * * usuario1 DISPLAY=:0 XDG_RUNTIME_DIR=/run/usr/$(id -u) notify-send
--u critical -i system-error "El sistema se suspenderá en 10min"
-5 7 usuario1 dunstctl close-all
-0 23 * * * root wake
-\end{verbatim}
-
-Para que este script funcione correctamente, es recomendable establecer el reloj como \href{https://en.wikipedia.org/wiki/Time_Stamp_Counter}{TSC}. Puedes mirar como se hace esto en \ref{sec:tsc}
-
-\subsection{wakeme}
-
-Este script es un despertador, hace sonar un archivo de audio hasta que le damos al un botón que apaga nuestra alarma. Necesita como único argumento el archivo de audio que queremos usar como despertador. Si queremos que este despertador suene todas las mañanas a las 7:30, podemos añadir una linea parecida a esta a \emph{/etc/crontab}:
-
-\begin{lstlisting}[basicstyle=\scriptsize\ttfamily]
-30 7 * * * usuario1 DISPLAY=:0 XDG_RUNTIME_DIR=/run/usr/$(id -u) wakeme ~/musica/alarma.mp3
-\end{lstlisting}
-
-\subsection{Mantenimiento btrfs}
-
-Si elegiste particionar tu disco con BTRFS es recomendable que se ejecuten tareas de mantenimiento cada $X$ tiempo. Añadir esto a tu \emph{/etc/crontab} bastará:
-
-\begin{lstlisting}[basicstyle=\scriptsize\ttfamily]
-0 14 * * 5 root btrfs balance start -dusage=95 / && btrfs balance start -musage=95 /
-\end{lstlisting}
-
-Esto realizará diversas tareas de mantenimiento en tu disco principal todos los viernes a las 14:00.
-
-Si tienes un disco diferente para tu partición home, también formateado en BTRFS, puede interesarte hacer lo mismo para tu disco /home
-
-\begin{lstlisting}[basicstyle=\scriptsize\ttfamily]
-0 14 * * 5 root btrfs balance start -dusage=95 /home && btrfs balance start -musage=95 /home
-\end{lstlisting}
-
 \subsection{Limpiar cache periódicamente}
 
 Puede interesarte limpiar periódicamente archivos de registro y cache antigua de tu ordenador. Para borrarla de forma periódica para el usuario \emph{usuario1} añade a tu \emph{/etc/crontab}:
@@ -256,14 +202,6 @@ Puede interesarte limpiar periódicamente archivos de registro y cache antigua d
 \begin{verbatim}
 30 7 * * */2 usuario1 find ~/.cache -mtime +2 -delete
 30 7 * * */2 usuario1 find ~/ -name "*.log" -mtime +4 -delete
-\end{verbatim}
-
-\subsection{Reorganizar plugins}
-
-Si elegiste instalar herramientas de producción musical, deberás tener instalado \href{https://github.com/robbert-vdh/yabridge}{yabridge}, una aplicación para usar plugins \href{https://es.wikipedia.org/wiki/Virtual_Studio_Technology}{VST} de windows en linux. Es recomendable configurar el escaneo de nuevos plugins y el mantenimiento de tu librería de plugins para que se haga automáticamente.
-
-\begin{verbatim}
-15 23 * * * usuario1 yabridgectl sync --prune
 \end{verbatim}
 
 \subsection{compressed-backup}
@@ -291,309 +229,6 @@ Por ejemplo, añadir esta línea a nuestro \emph{/etc/crontab}:
 
 Hará que se cree un mirror de nuestro directorio \emph{/home} en \emph{/mnt/Mirror1} cada 2 días y otro en \emph{/mnt/Mirror2} cada semana.
 
-\section{VFIO GPU passthrough}
-
-VFIO (Virtual Function I/O) GPU passthrough es una forma de asignar una tarjeta gráfica física a una máquina virtual en un entorno de hipervisor.
-
-Esto es de nuestro interés cuando queremos tener gráficos acelerados dentro de una máquina virtual. Si afirmó que iba a usar máquinas virtuales a la hora de la instalación, \emph{virt-manager} debería haberse instalado y configurado para usar máquinas virtuales con QEMU (Quick EMUlator) y KVM (Kernel-based Virtual Machine).
-
-Sin embargo, crear una máquina virtual y auto-configurar el uso de una gráfica dedicada através de VFIO es un proceso más complejo, que prefiero dejar en manos del usuario.
-
-A continuación te acompañare en el proceso:
-
-\subsection{Pasos Iniciales}
-
-\begin{itemize}
-\setlength\itemsep{-0.2em}
-\item Antes de usar máquinas virtuales necesitas tener \href{https://en.wikipedia.org/wiki/X86_virtualization#Intel-VT-d}{VT-d o AMD-v} activado \emph{dependiendo de si tienes un procesador Intel o AMD}, lo que nos permite la ejecución de maquinas virtuales.
-\item Debes de tener \href{https://en.wikipedia.org/wiki/Input\%E2\%80\%93output_memory_management_unit}{IOMMU (Unidad de administración de memoria de entrada/salida)} activado, lo mas probable es que en tu placa base, activar VT-d o AMD-v active también IOMMU. Incluyo este requisito para los raros casos en los que activarlo es un ajuste por separado.
-\item Debes tener desactivado \href{https://en.wikipedia.org/wiki/UEFI#CSM_booting}{CSM (Compatibility Support Module)}. Esto normalmente se hace en los ajustes de arranque de tu placa base.
-\end{itemize}
-
-\subsection{Pre-configurar el gestor de arranque}
-
-El gestor de arranque que estamos usando es \href{https://es.wikipedia.org/wiki/GNU_GRUB}{GNU GRUB}, es el programa que se encarga de cargar el kernel de nuestro sistema operativo.
-
-Para poder usar VFIO necesitamos configurar como arranca nuestro sistema operativo. Las opciones de configuración globales de GRUB están en \emph{/etc/default/grub}
-
-En este archivo, tendremos que localizar la línea donde están las opciones de arranque, la podemos identificar por \emph{GRUB\_CMDLINE\_LINUX} y el archivo es algo parecido a:
-
-\begin{verbatim}
-GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 quiet"
-GRUB_CMDLINE_LINUX=""
-...
-\end{verbatim}
-
-Tendremos que añadir las siguientes opciones:
-
-\begin{itemize}
-\setlength\itemsep{-0.2em}
-\item \emph{iommu=pt}
-\item \emph{amd\_iommu=on} o \emph{intel\_iommu=on}, dependiendo de si tenemos una cpu Intel o AMD.
-\item \emph{video=efifb:off}
-\end{itemize}
-
-Al finalizar, nuestro archivo debería verse así:
-
-\begin{verbatim}
-GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 quiet"
-GRUB_CMDLINE_LINUX="amd_iommu=on iommu=pt video=efifb:off"
-...
-\end{verbatim}
-
-Una vez editado el archivo, debemos actualizar nuestra configuración de GRUB, ejecutando el siguiente comando con permisos de administrador:
-
-\begin{verbatim}
-grub-mkconfig -o /boot/grub/grub.cfg
-\end{verbatim}
-
-Después de esto vamos a reiniciar nuestro ordenador para avanzar al siguiente paso.
-
-\subsection{Identificar el ID de nuestra gráfica y los grupos IOMMU}
-
-Después de esto ya podemos asignar el driver VFIO a nuestra tarjeta gráfica para poder usarla en nuestra máquina virtual.
-
-Necesitamos conocer el identificador de nuestra gráfica, que es una cadena de caracteres que identifica inequívocamente un dispositivo PCI \emph{(en nuestro caso nuestra tarjeta gráfica)}. Para poder obtener esta información, deberás ejecutar esta función con BASH.
-
-\begin{verbatim}
-shopt -s nullglob
-for g in /sys/kernel/iommu_groups/*; do
-    echo "IOMMU Group ${g##*/}:"
-    for d in $g/devices/*; do
-        echo -e "\t$(lspci -nns ${d##*/})"
-    done;
-done;
-\end{verbatim}
-
-Una vez ejecutes este bloque de comandos, deberás obtener una salida parecida a la siguiente:
-
-\begin{lstlisting}[basicstyle=\scriptsize\ttfamily]
-IOMMU Group 15:
-  08:00.0 VGA compatible controller [0300]: NVIDIA TU116 [GeForce GTX 1660] [10de:21c4] (rev a1)
-  08:00.1 Audio device [0403]: NVIDIA TU116 High Definition Audio Controller [10de:1aeb] (rev a1)
-  08:00.2 USB controller [0c03]: NVIDIA Device [10de:1aec] (rev a1)
-  08:00.3 Serial bus controller [0c80]: NVIDIA TU116 [GeForce GTX 1650] [10de:1aed] (rev a1)
-\end{lstlisting}
-
-Debes fijarte en que grupo se encuentra tu tarjeta gráfica, en este caso, se trata de una MSI GTX 1660.
-
-Ahora que tienes identificado en que grupo esta tu tarjeta gráfica, nos tenemos que fijar en las ID, que están contenidas por corchetes, para nuestro ejemplo serían:
-
-\begin{itemize}
-	\setlength\itemsep{-0.2em}
-	\item \emph{[10de:21c4]} Tarjeta de video (GPU) compatible con VGA, se corresondería con el procesador gráfico.
-	\item \emph{[10de:1aeb]} Es el dispostivo de audio de nuestra gráfica, se encarga por ejemplo, de darnos audio através de HDMI
-	\item \emph{[10de:1aec]} Este es el controlador USB de nuestra gráfica
-	\item \emph{[10de:1aed]} Este es el controlador de bus serie de nuestra gráfica
-\end{itemize}
-
-Ahora debemos añadir cada uno de estos ID \emph{(sólo el texto contenido por los corchetes, sin incluir a estos últimos)}, separados por comas a la opción de GRUB; \emph{vfio-pci.ids=}
-
-Si añadimos esta opción a nuestro archivo de configuración de GRUB, este quedaría como:
-
-\begin{lstlisting}[basicstyle=\ttfamily]
-GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 quiet"
-GRUB_CMDLINE_LINUX="amd_iommu=on iommu=pt video=efifb:off
-vfio-pci.ids=10de:21c4,10de:1aeb,10de:1aec,10de:1aed"
-\end{lstlisting}
-
-Ejecutamos de nuevo:
-
-\begin{verbatim}
-grub-mkconfig -o /boot/grub/grub.cfg
-\end{verbatim}
-
-Esto lo que hace es decirle al kernel que utilice el driver VFIO para todos esos dispositivos PCI, por el contrario, si no hiciésemos esto, el kernel le asignaría el driver \emph{nvidia} o el correspondiente para un uso normal.
-
-\subsection{Módulos del kernel}
-
-Ahora cada vez que iniciemos nuestro ordenador el kernel intentará asignarle a esos dispositivos PCI el driver VFIO, \emph{pero hay un problema}. El driver VFIO por defecto, no se carga en memoria a la hora del arranque del sistema \emph{(cosa que tiene sentido, poca es la gente que utiliza esta función del sistema operativo y cargarla en memoria por defecto sería un desperdicio de memoria)}.
-
-Debemos entonces configurar que cuando arranquemos el ordenador, se nos cargue el driver VFIO, para poder asignarselo a nuestra gráfica.
-
-Para esto debemos editar \emph{/etc/mkinitcpio.conf} y añadir los módulos del kernel que vamos a usar. El archivo se vería algo asi:
-
-\begin{verbatim}
-MODULES=()
-BINARIES=()
-FILES=()
-HOOKS=(base udev autodetect modconf block filesystems keyboard fsck)
-\end{verbatim}
-
-Esto es una simplificación, y el archivo real tendría un montón de lineas de comentario, encabezadas por \#, pero nos sirve para ilustrarnos.
-
-Debemos localizar la línea con \emph{MODULES=()} y añadir los módulos que queremos cargar con el arranque del ordenador. Si antes los paréntesis no contenían nada, ahora la línea pasaría a verse así:
-
-\begin{verbatim}
-MODULES=(vfio_pci vfio vfio_iommu_type1 )
-\end{verbatim}
-
-Una vez editado nuestro archivo debemos regenerar el \href{https://en.wikipedia.org/wiki/Initial\_ramdisk}{initramfs (Initial RAM File System)} ejecutando con permisos de administrador el comando:
-
-\begin{verbatim}
-mkinitcpio -P
-\end{verbatim}
-
-Vamos a comprobar que los cambios se han realizado correctamente. Para esto vamos a reiniciar nuestro ordenador y cuando arranque el ordenador de nuevo, vamos a ejecutar:
-
-\begin{verbatim}
-dmesg | grep -i vfio
-\end{verbatim}
-
-Si tenemos como salida algo parecido a:
-
-\begin{lstlisting}[basicstyle=\scriptsize\ttfamily]
-[    3.416692] vfio_pci: add [10de:21c4[ffffffff:ffffffff]] class 0x000000/00000000
-[    3.433353] vfio_pci: add [10de:1aeb[ffffffff:ffffffff]] class 0x000000/00000000
-[    3.450019] vfio_pci: add [10de:1aec[ffffffff:ffffffff]] class 0x000000/00000000
-[    3.466953] vfio_pci: add [10de:1aed[ffffffff:ffffffff]] class 0x000000/00000000
-\end{lstlisting}
-
-donde podemos ver que el driver vfio\_pci se ha añadido a nuestros dispositivos, entonces hemos realizado correctamente todos los pasos.
-
-\subsection{Instalación del sistema operativo}
-
-Ya tenemos lista nuestra gráfica para ser usada por nuestra máquina virtual, queda instalar nuestra máquina virtual y configurarla para usarla cómodamente.
-
-Primero vamos a descargar la ISO de Windows desde \href{https://www.microsoft.com/en-us/software-download/windows10ISO}{https://www.microsoft.com/en-us/software-download/windows10ISO}, y \href{https://github.com/virtio-win/virtio-win-pkg-scripts/blob/master/README.md}{el ISO con los drivers estables de virtio para Windows}.
-
-Una vez descargada la ISO, abriremos \emph{virt-manager} y crearemos una máquina virtual, vamos a seleccionar nuestra ISO y el tamaño que queremos asignarle al disco:
-
-\begin{multicols}{2}
-\begin{minipage}[t]{\linewidth}%
-\vspace{0pt}
-\includegraphics[width=0.75\textwidth]{assets/vmm_iso_selection.png}
-\end{minipage}
-\begin{minipage}[t]{\linewidth}%
-\vspace{0pt}
-\includegraphics[width=0.75\textwidth]{assets/vmm_disk_creation.png}
-\end{minipage}
-\end{multicols}
-
-Vamos a asignarle la memoria RAM \emph{(mi recomendación es asignar, como mínimo, 8GB)} a nuestra máquina virtual. Y en el último paso, vamos a elegir el \emph{customizar nuestra máquina virtual antes de la instalación}.
-
-\begin{multicols}{2}
-\begin{minipage}[t]{\linewidth}%
-\vspace{0pt}
-\includegraphics[width=0.75\textwidth]{assets/vmm_memory_setup.png}
-\end{minipage}
-\begin{minipage}[t]{\linewidth}%
-\vspace{0pt}
-\includegraphics[width=0.75\textwidth]{assets/vmm_name.png}
-\end{minipage}
-\end{multicols}
-
-Ahora deberás hacer las siguientes modificaciones:
-
-\begin{itemize}
-\setlength\itemsep{-0.3em}
-\item Cambiar el chipset a \emph{Q35}, y elegir el firmware \emph{UEFI: x86\_64: /usr/share/edk2/x64/OVMF\_CODE.fd}
-\item En la pestaña \emph{CPUs} activa el recuadro \emph{Copiar configuración de la CPU del anfitrión}, despliega el menú \emph{Topología} y ajusta la topología de la forma siguiente:
-\subitem 1 \emph{Socket}, Tantos \emph{Centros} comos núcleos tenga tu procesador y tantos \emph{Hilos} como hilos tenga tu procesador por núcleo. Por ejemplo para un \emph{i7-10700k} con 8 núcleos y 16 hilos, elegiríamos: \emph{1 Socket, 8 Núcleos, 2 Hilos}. Esto es, si queremos asignar todos los núcleos a nuestra máquina virtual.
-\item Nos dirigimos a \emph{SATA Disk 1} y cambiamos el bus a VirtIO, de forma que ahora aparezca \emph{VirtIO Disk 1}. Abrimos las opciones avanzadas, y cambiamos el modo de caché a \emph{writeback}.
-\item En los ajustes del \emph{NIC} cambiamos el modelo de dispositivo a \emph{virtio}
-\item Por último dale a \emph{Añadir hardware} y añade un almacenamiento de tipo de dispositivo CDROM y escribe al lado de \emph{Administrar...} la localización de el ISO con los drivers virtio, por ejemplo: \emph{/home/usuario/Downloads/virtio-win.iso}.
-\end{itemize}
-
-\begin{multicols}{2}
-\begin{minipage}[t]{\linewidth}%
-\vspace{0pt}
-\centering
-\includegraphics[width=\textwidth]{assets/Screenshot_win10-7.png}
-\end{minipage}
-\begin{minipage}[t]{\linewidth}%
-\vspace{0pt}
-\centering
-\includegraphics[width=\textwidth]{assets/Screenshot_win10-9.png}
-\end{minipage}
-\end{multicols}
-
-Dale a \emph{Iniciar la instalación} y cuando veas la selección de disco del instalador de windows verás que está vacío. Primero debes darle a \emph{Cargar driver} o \emph{Load driver}, en inglés.
-
-Selecciona el CD con los drivers virtio y la carpeta que contiene los drivers para Windows 10. Entonces aparecerá tu disco duro virtual y podrás continuar la instalación de Windows. Cuando esta finalize, apaga la máquina virtual.
-
-\begin{multicols}{2}
-\begin{minipage}[t]{\linewidth}%
-\vspace{0pt}
-\centering
-\includegraphics[width=\textwidth]{assets/Screenshot_win10-91.png}
-\end{minipage}
-\begin{minipage}[t]{\linewidth}%
-\vspace{0pt}
-\centering
-\includegraphics[width=\textwidth]{assets/Screenshot_win10-92.png}
-\end{minipage}
-\end{multicols}
-
-\subsection{Looking Glass en el Host}
-
-Para poder usar nuestra máquina virtual de forma cómoda vamos a configurar \href{https://looking-glass.io/}{Looking Glass}. Una aplicación que nos permite ver la pantalla conectada a nuestra gráfica a través de una ventana y poder controlar nuestra máquina virtual sin necesidad de conectar teclado y ratón a nuestra máquina virtual. El único problema es que para usar looking glass sin necesidad de dos monitores, necesitamos comprar un \href{https://www.amazon.com/s?k=display+dummy}{display dummy}. Por lo menos, su precio suele rondar los 5-7€.
-
-Looking Glass nos muestra una imagen de lo que esta haciendo nuestra gráfica con una latencia muy baja, suficiente para poder jugar a juegos o editar video \emph{(y otros usos posibles)} sin problema en nuestra máquina virtual. Logra esto mandando la información através de un archivo compartido entre máquina virtual y host.
-
-Primero necesitamos configurar \href{dsada}{tmpfilesd} para que cada vez que iniciamos el sistema, cree el archivo que compartirán máquina virtual y host para enviarse información. Tenemos que ejecutar el siguiente comando \emph{(sustituyendo usuario por el nombre de tu usuario)}:
-
-\begin{verbatim}
-echo "f /dev/shm/looking-glass 0660 usuario kvm -" | \
-doas tee -a /etc/tmpfiles.d/looking-glass.conf
-\end{verbatim}
-
-Tenemos que instalar el servicio que se encarga de crear estos archivos con:
-
-\begin{verbatim}
-doas pacman -Sy --noconfirm etmpfiles
-\end{verbatim}
-
-\subsection{Añadir Gráfica y Looking Glass en el Guest}
-
-Ahora ya tenemos casi todo listo, queda instalar los drivers de video e instalar Looking Glass en nuestra máquina virtual \emph{(a la hora de la instalación debió de haberse instalado ya en nuestro linux)}.
-
-Primero tenemos que añadir nuestra tarjeta gráfica a nuestra máquina virtual. Para ello tenemos que ir a los ajustes de nuestra máquina virtual y en \emph{"Añadir Dispositivo"}, busca la pestaña para añadir dispositivos PCI y añade tu gráfica.
-
-\emph{Pendiente: Añadir imagen de como añadimos la gráfica}
-
-Ahora configura el servidor Spice para que use el puerto 6000 en vez de asignar un puerto automáticamente
-
-\emph{Pendiente: Añadir imagen de como configuramos spice}
-
-Ahora tenemos que activar la edición de XML en Virt-Manager y editar el código XML de nuestra máquina virtual. Añadiremos estas lineas de código al final para que el archivo acabe viéndose así:
-
-\emph{Pendiente: Añadir imagen de como activamos edición del XML y como queda el XML modificado}
-
-Finalmente iniciamos nuestra máquina virtual e instalamos nuestros drivers de \href{https://www.nvidia.es/Download/index.aspx?lang=es}{NVIDIA} o \href{https://www.amd.com/es/support}{AMD} y \href{https://looking-glass.io/downloads}{Looking Glass Host}.
-
-Finalmente cambiamos el driver virtual de video de \emph{QXL} a \emph{None} y borramos el dispositivo de tableta táctil. La próxima vez que iniciemos la máquina virtual solo tenemos que iniciarla en Virt-Manager e ínteractuaremos con nuestra máquina virtual abriendo Looking Glass \emph{(Podemos abrirlo seleccionando "Looking Glass" en el menú que aparece cuando hacemos clic derecho en alguna parte vacía del Escritorio)}.
-
-\emph{Pendiente: Añadir imagen de como realizamos los pasos mencionados}
-
-Para que esto funcione debemos reiniciar nuestro ordenador o ejecutar el comando.
-
-\begin{verbatim}
-doas install -g kvm -o $(whoami) -m 0660 /dev/null /dev/shm/looking-glass
-\end{verbatim}
-
-\begin{mybox}{Nota}
-	Para más información sobre como configurar un VFIO passthought puede consultar:
-	\begin{itemize}
-		\setlength\itemsep{0em}
-		\item \href{https://qqq.ninja/blog/post/vfio-on-arch/}{https://qqq.ninja/blog/post/vfio-on-arch/}
-		\item \href{https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/home}{https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/home}
-		\item \href{https://wiki.archlinux.org/title/PCI\_passthrough\_via\_OVMF}{https://wiki.archlinux.org/title/PCI\_passthrough\_via\_OVMF}
-	\end{itemize}
-\end{mybox}
-
-\section{GRUB config}
-
-\label{sec:tsc}
-
-Para un mayor rendimiento es recomendable añadir a las opciones de arranque de GRUB \emph{tsc-reliable} y \emph{clocksource=tsc}:
-
-\begin{verbatim}
-GRUB_CMDLINE_LINUX="tsc-reliable clocksource=tsc"
-\end{verbatim}
-
-También esto ayuda a que el script \ref{sec:wake} funcione correctamente.
-
 \section{SSH}
 
 Si queremos conectarnos a un equipo remoto a través de internet debemos configurar \href{https://es.wikipedia.org/wiki/OpenSSH}{OpenSSH}. Por defecto incluyo un script que configura SSH de forma muy básica, configurando SSH para poder acceder a tu equipo remoto con una contraseña. Para activar SSH simplemente ejecuta:
@@ -615,35 +250,6 @@ ssh usuario1@255.255.255.255 -L 5900:localhost:5900
 Sustituye \emph{usuario1} por el usuario de tu máquina, y \emph{255.255.255.255} por la dirección IP de tu máquina.
 
 Para conectarte a tu torre debes tener instalado algún cliente VNC, mi recomendación es \href{https://github.com/FreeRDP/Remmina}{remmina}. Abre tu cliente VNC y conéctate a \emph{localhost:5900}, eso es todo.
-
-\section{Firewall}
-
-Instalar y configurar un firewall no es posible dentro de un chroot. Por eso configurar el firewall debe hacerse una vez reiniciemos y hallamos arrancado nuestro sistema operativo. Para instalar el firewall ejecuta:
-
-\begin{verbatim}
-doas sh -c 'pacman -Sy ufw-openrc; rc-update add ufw default; ufw enable'
-\end{verbatim}
-
-Ahora, la próxima vez que inicies tu equipo tendras un firewall ya instalado. Para configurarlo puedes ejecutar los siguientes comandos, que establecen unas reglas de filtrado de paquetes bastante permisivas.
-
-\begin{verbatim}
-doas ufw limit 22/tcp
-doas ufw allow 80/tcp
-doas ufw allow 443/tcp
-doas ufw allow syncthing
-doas ufw default deny incoming
-doas ufw default allow outgoing
-\end{verbatim}
-
-\section{Syncthing}
-
-\href{https://github.com/syncthing/syncthing}{Syncthing} es un software para sincronizar archivos entre dispositivos, es lo que uso para poder trabajar en todos mis equipos sin necesidad de estar intercambiando pen-drives como un troglodita.
-
-Viene instalado por defecto y se ejecuta cuando inicias tu ordenador. Para configurarlo tiene una \href{http://localhost:8384/}{interfaz gráfica} a la que puedes acceder desde tu navegador.
-
-\begin{mybox}{Información}
-Aquí puedes encontrar documentación sobre como usar syncthing: \href{https://docs.syncthing.net/}{https://docs.syncthing.net/}
-\end{mybox}
 
 \section{Monitores de altas tasas de refresco}
 
@@ -679,71 +285,8 @@ resizemouse(const Arg *arg)
 
 y realizar el mismo tipo de modificación. Para hacer los cambios efectivos re-compila dwm ejecutando \emph{doas make install} desde la carpeta de dwm, y reinicia dwm pulsando \emph{Alt Izq. + Shift + F11}.
 
-\section{Firefox}
+\section{Chromium}
 
-\subsection{Activar extensiones}
-
-Por defecto, nuestro Firefox viene instalado con varias extensiones útiles, pero estas vienen desactivadas.
-
-Para activarlas, pulsa en el icono con forma de pieza de puzle, que esta situado a la derecha de la barra de búsqueda. Te encontrarás con una lista como la de la imagen de abajo. Simplemente activa cada extensión con haciendo clic en el deslizador que hay a la izquierda de los 3 puntos y dale a aceptar en los menús flotantes que aparezcan pidiendo confirmación
-
-\begin{center}
-	\includegraphics[width=0.5\textwidth]{assets/extensions.jpg}
-\end{center}
-
-\subsection{Cambiar buscador por defecto}
-
-Pese a usar al configuración reforzada de Firefox, \href{https://github.com/arkenfox/user.js}{arkenfox}, esta no cambia el que el buscador por defecto de Firefox es Google. Mi recomendación es cambiar Google por DuckDuckGo.
-
-\begin{center}
-	\includegraphics[width=0.75\textwidth]{assets/search-engine.jpg}
-\end{center}
-
-\subsection{KeePassXC Browser}
-
-Por defecto tenemos instalado KeePassXC, un administrador de contraseñas. Podemos activar la integración con el navegador abriendo KeePassXC y en \emph{Herramientras/Parámetros} vamos a \emph{Integración con el Navegador}, la activamos y seleccionamos Firefox.
-
-Si tenemos activada nuestra extensión de KeepassXC en el navegador, cuando esten abiertas ambas aplicaciones y nuestra base de contraseñas este desbloqueada, podremos permitir a la extensión tener acceso a nuestra base de contraseñas para auto-completar los campos de inicio de sesión.
-
-\subsection{Desactivar baúl de contraseñas}
-
-Por defecto Firefox intentará manejar nuestras contraseñas, si ya estamos usando la extensión de Keepass que viene incluida con nuestra instalación, las ventanas de Firefox que aparecen preguntando si queremos guardar nuestra contraseña pueden ser bastante molestas.
-
-Para desactivar esta función, simplemente busca \emph{Contraseña} en el menu de configuración de Firefox y desactiva el \emph{Ask to save passwords} o \emph{Preguntar para guardar contraseñas}, en español.
-
-\begin{center}
-	\includegraphics[width=0.4\textwidth]{assets/passwords.jpg}
-\end{center}
-
-\subsection{Violentmonkey}
-
-Violentmonkey es una extensión para cargar pequeños scripts de javascript después de cargar la página para automatizar ciertas tareas o añadir funcionalidades. Si vas a los ajustes de la extensión, verás que hay una pestaña donde puedes importar tus ajustes. Podemos importar nuestros ajustes que están en el archivo:
-
-\begin{verbatim}
-~/.dotfiles/violentmonkey.zip
-\end{verbatim}
-
-\begin{center}
-	\includegraphics[width=0.8\textwidth]{assets/violentmonkey.jpg}
-\end{center}
-
-\subsection{Desactivar las cuentas de Mozilla}
-
-Las cuentas de mozilla sirven, entre otras cosas, para sincronizar tus marcadores y ajustes entre dispositivos, para eso ya estamos usando la extensión xbrowsersync. Así que nos interesa desactivar el uso de las cuentas de mozilla.
-
-Para hacerlo escribe en la barra de direcciones \emph{about:config} y busca los siguientes dos ajutes y cambialos de \emph{true} a \emph{false}.
-
-\begin{mybox}{Nota}
-Cuando abras por primera vez esta página aparecera una aviso advirtiendo de los riesgos de cambiar los ajustes de Firefox manualmente. Dale a Aceptar los riesgos y continuar.
-\end{mybox}
-
-\begin{itemize}
-\item identity.fxaccounts.enabled
-\item identity.fxaccounts.toolbar.enabled
-\end{itemize}
-
-\subsection{Desactivar Pocket}
-
-Para desactivar pocket dirigete a \emph{about:config} y cambia el ajuste \emph{extensions.pocket.enabled} de \emph{true} a \emph{false}
+\subsection{Instalar extensiones}
 
 \end{document}
