@@ -7,4 +7,6 @@ cat <<EOF | xmenu
 |M| Centered Master	3
 ||| Columns		4
 TTT Bottom stack	5
+[@] Spiral		6
+[\\] Dwindle		7
 EOF
