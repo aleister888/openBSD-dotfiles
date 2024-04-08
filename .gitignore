@@ -30,3 +30,6 @@ st/config.h
 st/st
 st.o
 x.o
+
+# ZSH repos
+.config/zsh/zsh-you-should-use
