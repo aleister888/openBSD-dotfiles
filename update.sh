@@ -54,7 +54,7 @@ file:///home/$(whoami)/Music" > ~/.dotfiles/.config/gtk-3.0/bookmarks
 # Establacer fondo de pantalla
 mkdir -p ~/.config/nitrogen
 echo "[xin_-1]
-file=/home/$(whoami)/.dotfiles/img/wallpaper.jpg
+file=/home/$(whoami)/.dotfiles/img/wallpaper.png
 mode=5
 bgcolor=#000000" > ~/.config/nitrogen/bg-saved.cfg
 

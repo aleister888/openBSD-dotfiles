@@ -176,17 +176,6 @@ doas mv /tmp/crontab /etc/crontab
 fi
 }
 
-# Configurar nitrogen
-nitrogen_configure() {
-# Crear el directorio ~/.config/nitrogen si no existe
-mkdir -p "$HOME/.config/nitrogen"
-# Crear el archivo de configuración bg-saved.cfg
-echo "[xin_-1]
-file=$HOME/.dotfiles/img/wallpaper.png
-mode=5
-bgcolor=#000000" > "$HOME/.config/nitrogen/bg-saved.cfg"
-}
-
 # Añadir el usuario a los grupos deseados
 groups_add() {
 	# Añadir el usuario actual a los grupos especificados
@@ -299,12 +288,6 @@ if crontab_install; then
 	echo "Cronie se configuró correctamente"
 else
 	echo "Hubo un error al configurar Cronie"
-fi
-
-if nitrogen_configure; then
-	echo "Nitrogen se configuró correctamente"
-else
-	echo "Hubo un error al configurar nitrogen"
 fi
 
 # configures startx and runs syspatch
