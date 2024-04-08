@@ -1,0 +1,99 @@
+#!/usr/bin/env bash
+# Script para comprobar y corregir la corrupción de los archivos flac de un directorio
+
+OG_DIR="$1" # Directorio a Verificar
+LOG_FILE="/tmp/corruption.log" # Fichero donde guardar los errores
+TMP_LOG_FILE="/tmp/check.log" # Fichero temporal para comprobar los errores
+FINAL_LOG="/tmp/flac_corrupted.log" # Fichero donde guardar los nombres de archivos corruptos
+RECODE_LOG="/tmp/recode.log"
+OUT_FOLDER="/tmp/flac" # Carpeta de salida para archivos cortados
+[ ! -d $OUT_FOLDER ] && mkdir $OUT_FOLDER
+
+# Limpiar los archivos de guardado
+> "$LOG_FILE"
+> "$FINAL_LOG"
+gfind "$OUT_FOLDER" -type f -delete
+
+# Verificar si el directorio existe
+if [ ! -d "$OG_DIR" ]; then
+	echo "El directorio $OG_DIR no existe."
+	exit 1
+fi
+
+# Función para verificar la integridad de los archivos flac
+flac_check() {
+	# Verificar integridad del archivo FLAC
+	flac -t "$1" 2>&1 | grep "FLAC__STREAM_DECODER_ERROR" > "$TMP_LOG_FILE"
+
+	# Si hubo errores añade el archivo a un archivo .log
+	if [ -s "$TMP_LOG_FILE" ]; then
+		echo "$1" >> "$2"
+	fi
+
+	# Limpiar el archivo .log
+	rm -f "$TMP_LOG_FILE"
+}
+
+# Buscar archivos FLAC y comprobar si es posible que esten corruptos
+gfind "$OG_DIR" -type f -name "*.flac" | while read -r FILE; do
+	flac_check "$FILE" "$LOG_FILE"
+done
+
+# Aveces flac -t da falsos positivos si el archivo se codifico de una
+# forma extraña en la que la finalización del audio no se realiza correctamente.
+#
+# Para evitar esto,vamos a recodificar los archivos en la lista y ver su duración,
+# si la duración coincide con la duración original podemos estar seguros que ese
+# archivo no esta corrupto
+
+process_flac() {
+	local FILE="$1"
+	# Recodificar el archivo FLAC
+	ffmpeg -y -i "$FILE" "$OUT_FOLDER/$(basename "$FILE")" >/dev/null 2>&1
+	# Leemos la duración del archivo original y el recodificado
+	local og_duration=$(ffprobe -i "$FILE" -show_entries format=duration -v quiet -of csv="p=0" | sed 's/\..*//')
+	local recode_duration=$(ffprobe -i "$OUT_FOLDER/$(basename "$FILE")" -show_entries format=duration -v quiet -of csv="p=0" | sed 's/\..*//')
+	# Si la duraciones del archivo recodificado y el original son diferentes,
+	# es porque el recodificado se ha recodifcado hasta donde habia un error/corrupción,
+	# podriamos afirmar entonces que el archivo esta corrupto.
+	if [ "$og_duration" -ne "$recode_duration" ]; then
+	    echo "$FILE" >> "$FINAL_LOG"
+	fi
+}
+
+# Crear la carpeta de salida si no existe
+mkdir -p "$OUT_FOLDER"
+
+# Obtener el número total de líneas en el fichero
+# con los posibles archivos corruptos
+total_lines=$(wc -l < "$LOG_FILE")
+# Iterar sobre las líneas del archivo utilizando sed
+# Usar "read -r" daba problemas
+for (( i = 1; i <= total_lines; i++ )); do
+	file_path=$(sed -n "${i}p" "$LOG_FILE")
+	# Llamar a la función de procesamiento para cada línea
+	process_flac "$file_path"
+done
+
+# Ahora vamos arreglar los falsos positivos recodificandolos
+
+gfind "$OUT_FOLDER" -type f -delete # Borramos los archivos temporales usados anteriormente
+
+flac_recode() {
+	local FILE="$1"
+	local RECODED="$OUT_FOLDER/$(basename "$FILE")"
+	ffmpeg -y -i "$FILE" "$RECODED" >/dev/null 2>&1 && \
+	mv "$RECODED" "$FILE" # Recodificamos el archivo y lo sobreescribimos
+}
+
+# Vamos a excluir los archivos que tienen error en el nombre
+# (flac -t | grep -i "error") también los podria coger equivocamente,
+# esto se puede mejorar mejorando mas tarde el patrón de
+grep -v -f "$FINAL_LOG" "$LOG_FILE" > "$RECODE_LOG"
+
+lines_recode=$(wc -l < "$RECODE_LOG")
+for (( i = 1; i <= lines_recode; i++ )); do
+	file_path=$(sed -n "${i}p" "$RECODE_LOG")
+	# Llamar a la función de procesamiento para cada línea
+	flac_recode "$file_path"
+done

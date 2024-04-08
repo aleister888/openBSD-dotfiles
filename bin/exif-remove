@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+# Directorio de imágenes
+image_dir="$1"
+
+# Verificar si el directorio existe
+if [ ! -d "$image_dir" ]; then
+	echo "El directorio no existe: $image_dir"
+	exit 1
+fi
+
+# Eliminar metadatos EXIF de las imágenes
+find "$image_dir" -type f -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.gif" -o -iname "*.bmp" | while read -r image; do
+	echo "Eliminando metadatos EXIF de: $image"
+	exiftool -overwrite_original_in_place -all= "$image" >/dev/null 2>&1
+	if [ $? -eq 0 ]; then
+		echo "Metadatos EXIF eliminados con éxito de: $image"
+	else
+		echo "Error al eliminar metadatos EXIF de: $image"
+	fi
+done
+
+echo "Proceso completado."

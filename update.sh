@@ -1,10 +1,38 @@
 #!/usr/local/bin/bash
 
-rm ~/.config/mimeapps.list 2>/dev/null
+ensure_directory() { # Crear directorio si no existe
+    [ ! -d "$1" ] && mkdir -p "$1"
+}
+create_symlink() { # Crear enlaces simbólicos
+    # $1: Origen, $2: Destino
+    ln -s "$1" "$2"
+}
+# Eliminar el archivo ~/.profile si existe y enlazarlo al archivo ~/.dotfiles/.profile
+remove_and_link_profile() {
+    [ -f "$HOME/.profile" ] && rm "$HOME/.profile"
+    ln -s "$HOME/.dotfiles/.profile" "$HOME/.profile"
+}
+
+#######################################
+# Archivos de configuración y scripts #
+#######################################
 
 # Stow archivos de configuración y scripts
+
+# Directorio con los scripts
+ensure_directory "$HOME/.local/bin"
 sh -c "cd $HOME/.dotfiles && stow --target="${HOME}/.local/bin/" bin/" >/dev/null
+
+# Directorio de configuración
+ensure_directory "$HOME/.config"
 sh -c "cd $HOME/.dotfiles && stow --target="${HOME}/.config/" .config/" >/dev/null
+
+# Directorio dwm
+ensure_directory "$HOME/.local/share/dwm"
+create_symlink "$HOME/.dotfiles/dwm/autostart.sh" "$HOME/.local/share/dwm/autostart.sh"
+
+remove_and_link_profile
+
 # Borrar enlaces rotos
 find "$HOME/.local/bin" -type l ! -exec test -e {} \; -delete
 find "$HOME/.config"    -type l ! -exec test -e {} \; -delete
@@ -14,6 +42,61 @@ ln -s ~/.dotfiles/dwm/autostart.sh ~/.local/share/dwm 2>/dev/null
 
 # Enlazar nuestro perfil al directorio home
 ln -s ~/.dotfiles/.profile ~ 2>/dev/null
+
+# Hacer ciertas configuraciones independientes del nombre de usuario
+echo "file:///home/$(whoami)
+file:///home/$(whoami)/Downloads
+file:///home/$(whoami)/Documents
+file:///home/$(whoami)/Pictures
+file:///home/$(whoami)/Videos
+file:///home/$(whoami)/Music" > ~/.dotfiles/.config/gtk-3.0/bookmarks
+
+# Establacer fondo de pantalla
+mkdir -p ~/.config/nitrogen
+echo "[xin_-1]
+file=/home/$(whoami)/.dotfiles/img/wallpaper.jpg
+mode=5
+bgcolor=#000000" > ~/.config/nitrogen/bg-saved.cfg
+
+# Configurar QT5
+mkdir -p $HOME/.config/qt5ct
+echo "[Appearance]
+color_scheme_path=$HOME/.config/qt5ct/colors/Gruvbox.conf
+custom_palette=true
+icon_theme=gruvbox-dark-icons-gtk
+standard_dialogs=default
+style=Fusion
+
+[Fonts]
+fixed=\"Iosevka Nerd Font Mono,12,-1,5,50,0,0,0,0,0,Bold\"
+general=\"Iosevka Nerd Font,12,-1,5,63,0,0,0,0,0,SemiBold\"" > "$HOME/.dotfiles/.config/qt5ct/qt5ct.conf"
+
+###############
+# Plugins ZSH #
+###############
+
+plugin_install(){
+	git clone "https://github.com/$1" "$HOME/.dotfiles/.config/zsh/$(basename "$1")"
+}
+
+[ ! -e $HOME/.config/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh ] && \
+     plugin_install zsh-users/zsh-autosuggestions
+[ ! -e $HOME/.config/zsh/zsh-history-substring-search/zsh-history-substring-search.plugin.zsh ] && \
+     plugin_install zsh-users/zsh-history-substring-search
+[ ! -e $HOME/.config/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ] && \
+     plugin_install zsh-users/zsh-syntax-highlighting
+[ ! -e $HOME/.config/zsh/zsh-you-should-use/you-should-use.plugin.zsh ] && \
+	plugin_install MichaelAquilina/zsh-you-should-use
+
+# Actualizar plugins de zsh
+sh -c "cd $HOME/.config/zsh/zsh-autosuggestions && git pull"
+sh -c "cd $HOME/.config/zsh/zsh-history-substring-search && git pull"
+sh -c "cd $HOME/.config/zsh/zsh-syntax-highlighting && git pull"
+sh -c "cd $HOME/.config/zsh/zsh-you-should-use && git pull"
+
+#######################
+# Copias de seguridad #
+#######################
 
 # Directorio de respaldo
 backup_dir="$HOME/.dotfiles/bckp"
@@ -27,15 +110,6 @@ for file in $files; do
 		echo "Se ha creado una copia de seguridad de $filename en $backup_dir."
 	fi
 done
-
-# Hacer ciertas configuraciones independientes del nombre de usuario
-
-echo "file:///home/$(whoami)
-file:///home/$(whoami)/Downloads
-file:///home/$(whoami)/Documents
-file:///home/$(whoami)/Pictures
-file:///home/$(whoami)/Videos
-file:///home/$(whoami)/Music" > ~/.dotfiles/.config/gtk-3.0/bookmarks
 
 # Hacer una copia de seguridad de /etc/login.conf
 perform_backup() {
@@ -59,32 +133,54 @@ perform_backup "default" "datasize"  "$HOME/.dotfiles/bckp/default"
 perform_backup "default" "maxproc"   "$HOME/.dotfiles/bckp/default"
 perform_backup "default" "openfiles" "$HOME/.dotfiles/bckp/default"
 
-# Establacer fondo de pantalla
-mkdir -p ~/.config/nitrogen
-echo "[xin_-1]
-file=/home/$(whoami)/.dotfiles/img/wallpaper.jpg
-mode=5
-bgcolor=#000000" > ~/.config/nitrogen/bg-saved.cfg
-
-# Configurar QT5
-mkdir -p $HOME/.config/qt5ct
-	echo "[Appearance]
-color_scheme_path=$HOME/.config/qt5ct/colors/Gruvbox.conf
-custom_palette=true
-icon_theme=gruvbox-dark-icons-gtk
-standard_dialogs=default
-style=Fusion
-
-[Fonts]
-fixed=\"Iosevka Nerd Font Mono,12,-1,5,50,0,0,0,0,0,Bold\"
-general=\"Iosevka Nerd Font,12,-1,5,63,0,0,0,0,0,SemiBold\"" > "$HOME/.dotfiles/.config/qt5ct/qt5ct.conf"
+################################
+# Aplicaciones predeterminadas #
+################################
 
 # Arreglar los permisos de la webcam
 if [ ! "$(gstat -c "%a" /dev/video0)" = "640" ]; then
 	doas chmod 640 /dev/video0
 fi
 
-# Actualizar plugins de zsh
-sh -c "cd $HOME/.config/zsh/zsh-autosuggestions && git pull"
-sh -c "cd $HOME/.config/zsh/zsh-history-substring-search && git pull"
-sh -c "cd $HOME/.config/zsh/zsh-syntax-highlighting && git pull"
+############################
+# Aplicaciones por defecto #
+############################
+
+# Borramos ajustes ya guardados
+rm -f $HOME/.config/mimeapps.list
+rm -f $HOME/.local/share/applications/defaults.list
+doas rm -f /usr/local/share/applications/mimeinfo.cache
+update-mime-database ~/.local/share/mime
+
+[ ! -d "$HOME/.local/share/applications" ] && mkdir -p "$HOME/.local/share/applications"
+# Creamos el archivo .desktop para lf
+[ ! -e "$HOME/.local/share/applications/lft.desktop" ] && \
+echo '[Desktop Entry]
+Type=Application
+Name=lf File Manager (St)
+Comment=Simple terminal-based file manager
+Exec=st -e lf %u
+Terminal=false
+Icon=utilities-terminal
+Categories=System;FileTools;FileManager
+GenericName=File Manager
+MimeType=inode/directory;' > "$HOME/.local/share/applications/lft.desktop"
+
+# Creamos el archivo .desktop para nvim
+[ ! -e "$HOME/.local/share/applications/nvimt.desktop" ] && \
+echo '[Desktop Entry]
+Type=Application
+Name=Neovim (St)
+Comment=Simple terminal-based text editor
+Exec=st -e nvim %F
+Terminal=false
+Icon=nvim
+Categories=Utility;TextEditor;
+MimeType=text/english;text/plain;text/x-makefile;text/x-c++hdr;text/x-c++src;text/x-chdr;text/x-csrc;text/x-java;text/x-moc;text/x-pascal;text/x-tcl;text/x-tex;application/x-shellscript;text/x-c;text/x-c++;' > "$HOME/.local/share/applications/nvimt.desktop"
+
+# Establecemos por defecto el administrador de archivos
+xdg-mime default lfst.desktop inode/directory
+xdg-mime default lfst.desktop x-directory/normal
+update-desktop-database "$HOME/.local/share/applications"
+
+xdg-settings set default-web-browser chromium-browser.desktop 2>/dev/null

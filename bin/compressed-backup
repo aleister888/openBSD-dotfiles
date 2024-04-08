@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+# Script para crear copias de seguridad comprimidas
+
+# Verificar que se hayan proporcionado dos argumentos
+if [ "$#" -ne 2 ]; then
+    echo "Uso: $0 <directorio_original> <directorio_destino>"
+    exit 1
+fi
+og_dir="$1"
+bak_dir="$2"
+# Verificar que los directorios proporcionados existan y sean válidos
+if [ ! -d "$og_dir" ]; then
+    echo "El directorio de origen '$og_dir' no existe o no es válido."
+    exit 1
+elif [ ! -d "$bak_dir" ]; then
+    echo "El directorio de destino '$bak_dir' no existe o no es válido."
+    exit 1
+fi
+
+cd "$og_dir"
+bak_name="$(date +'%Y-%m-%d_%H:%M:%S').tar.gz"
+
+# Crear un archivo tar.gz
+tar -czf "${bak_dir}/${bak_name}" .
+
+# Eliminar las copias de seguridad con mas de 1 mes de antigüedad
+find "$bak_dir" -type f -mtime +30 -exec rm {} \;
+
+echo "Copia de seguridad creada en ${bak_dir}/${bak_name}"

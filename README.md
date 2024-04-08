@@ -48,6 +48,6 @@ of the screen where the lock icon will be displayed.
 
 ## TODO
 
-- Deploy dotfiles with update.sh from install.sh to avoid duplicate functions
-- Translate scripts comments to Spanish
-- Finish PDF and add and test cronie scripts (imported from Artix installation)
+- Terminar el PDF, explicando paso a paso como configurar chrome
+- Traducir el README y los scripts al Español
+- Testear el script de instalación en OpenBSD 7.5

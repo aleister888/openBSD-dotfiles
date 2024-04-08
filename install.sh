@@ -28,7 +28,7 @@ packageinstall() {
 	playerctl poppler-utils qt5ct redshift remmina ripgrep stow texlive_texmf-full thunderbird transmission-gtk unrar unzip-- \
 	wget wpa_supplicant xarchiver xclip xcursor-themes xdg-user-dirs xdotool yarn youtube-dl zathura zathura-pdf-mupdf zim zsh \
 	neofetch gsed gawk ggrep gnuwatch symbola-ttf meson ninja cmake xcb libconfig libev uthash chromium zathura-cb \
-	curl syncthing xcursor-themes workrave polkit gsimplecal
+	curl syncthing xcursor-themes workrave polkit gsimplecal findutils
 
 }
 
@@ -63,46 +63,12 @@ fontdownload() {
 	fi
 }
 
-# Instalar nuestros plugins de zsh
-plugindownload(){
-	git clone https://github.com/zsh-users/zsh-history-substring-search.git "$HOME/.dotfiles/.config/zsh/zsh-history-substring-search" >/dev/null
-	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$HOME/.dotfiles/.config/zsh/zsh-syntax-highlighting" >/dev/null
-	git clone https://github.com/zsh-users/zsh-autosuggestions.git "$HOME/.dotfiles/.config/zsh/zsh-autosuggestions" >/dev/null
-}
-
 # Instalar pfetch
 pfetch_install() {
 	# Clonar el repositorio pfetch y copiar el script a /usr/local/bin/
 	git clone https://github.com/dylanaraps/pfetch.git "$HOME/.dotfiles/bin/pfetch"
 	doas cp "$HOME/.dotfiles/bin/pfetch/pfetch" /usr/local/bin/ && \
 	rm -rf "$HOME/.dotfiles/bin/pfetch"
-}
-
-# Instalar los archivos de configuración
-dotfiles_install() {
-	ensure_directory() { # Crear directorio si no existe
-	    [ ! -d "$1" ] && mkdir -p "$1"
-	}
-	create_symlink() { # Crear enlaces simbólicos
-	    # $1: Origen, $2: Destino
-	    ln -s "$1" "$2"
-	}
-	# Eliminar el archivo ~/.profile si existe y enlazarlo al archivo ~/.dotfiles/.profile
-	remove_and_link_profile() {
-	    [ -f "$HOME/.profile" ] && rm "$HOME/.profile"
-	    ln -s "$HOME/.dotfiles/.profile" "$HOME/.profile"
-	}
-	# Directorio con los scripts
-	ensure_directory "$HOME/.local/bin"
-	sh -c "cd $HOME/.dotfiles && stow --target=$HOME/.local/bin/ bin/" >/dev/null
-	# Directorio de configuración
-	ensure_directory "$HOME/.config"
-	sh -c "cd $HOME/.dotfiles && stow --target=$HOME/.config/ .config/" >/dev/null
-	# Directorio dwm
-	ensure_directory "$HOME/.local/share/dwm"
-	create_symlink "$HOME/.dotfiles/dwm/autostart.sh" "$HOME/.local/share/dwm/autostart.sh"
-	# Enlazar .profile
-	remove_and_link_profile
 }
 
 # Instalar los temas GTK
@@ -180,17 +146,6 @@ atool2_install() {
 	gmake --directory "$HOME/.local/src/atool2" >/dev/null 2>&1
 	# Copiar binarios a ~/.local/bin
 	sh -c "cd $HOME/.local/src/atool2 && cp -f acat adiff als apack arepack atool aunpack $HOME/.local/bin/"
-}
-
-# Configurar neovim e instalar los plugins
-vim_configure() {
-	# Instalar VimPlug
-	sh -c "curl -fLo ${XDG_DATA_HOME:-$HOME/.local/share}/nvim/site/autoload/plug.vim --create-dirs \
-		   https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim" >/dev/null
-	# Crear enlace simbólico de neovim a vim
-	doas ln -s /usr/local/bin/nvim /usr/local/bin/vim 2>/dev/null
-	# Instalar los plugins
-	nvim +'PlugInstall --sync' +qa >/dev/null 2>&1
 }
 
 # Hacemos la configuración de QT5 independiente del nombre de usuario
@@ -275,19 +230,13 @@ else
 	echo "Hubo un error al descargar o extraer las fuentes"
 fi
 
-if plugindownload; then
-	echo "Los plugins de zsh se descargaron correctamente"
-else
-	echo "Hubo un error al descargar los plugins de zsh"
-fi
-
 if pfetch_install; then
 	echo "pfetch se instaló correctamente"
 else
 	echo "Hubo un error al instalar pfetch"
 fi
 
-if dotfiles_install; then
+if $HOME/.dotfiles/update.sh; then
 	echo "Los archivos de configuración se instalaron correctamente"
 else
 	echo "Hubo un error al instalar los archivos de configuración"
@@ -335,12 +284,6 @@ if atool2_install; then
 	echo "atool2 se instaló correctamente"
 else
 	echo "Hubo un error al instalar atool2"
-fi
-
-if vim_configure; then
-	echo "Neovim se configuró correctamente"
-else
-	echo "Hubo un error al configurar Neovim"
 fi
 
 if qt_config; then

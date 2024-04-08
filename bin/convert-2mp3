@@ -1,0 +1,89 @@
+#!/usr/bin/env bash
+OG_DIR="$1"
+BK_DIR="$2"
+TMP_DIR="/tmp"
+
+# Crear archivos temporales
+OG_TMP="$TMP_DIR/OG_DIR.$$"
+BK_TMP="$TMP_DIR/BK_DIR.$$"
+SYNC_DIFF="$TMP_DIR/SYNC_DIFF.$$"
+
+echo "Buscando archivos desactualizados o sobrantes..."
+
+# Almacenar la lista de archivos en variables temporales
+gfind "$OG_DIR" -type f -printf '%P\n' | sed 's/\.[^.]*$//' > "$OG_TMP"
+gfind "$BK_DIR" -type f -printf '%P\n' | sed 's/\.[^.]*$//' > "$BK_TMP"
+
+# Encontrar archivos que han sido eliminados en el directorio original
+grep -vFxf "$OG_TMP" "$BK_TMP" | uniq > "$SYNC_DIFF"
+
+rm -f "$OG_TMP" "$BK_TMP"
+
+sed -i -e "s|^|rm -rf \"$BK_DIR/|" -e 's|$|.mp3"|' -e '1i #!/bin/sh' "$SYNC_DIFF" >/dev/null 2>&1
+
+# Función para comparar y añadir archivos obsoletos al archivo SYNC_DIFF
+compare_and_append() {
+	while read -r file; do
+	    local og_file="$OG_DIR/$file"
+	    local og_time=$(date -r "$og_file" +%Y%m%d%H%M%S 2>/dev/null)
+	    local extension="${file##*.}"  # Extraer la extensión del archivo
+
+	if [ -e "$og_file" ]; then
+		if [ "$extension" == "flac" ]; then
+			bk_file="$BK_DIR/${file%.flac}.mp3"
+		else
+			bk_file="$BK_DIR/${file%.???}.mp3"
+		fi
+
+		if [ -e "$bk_file" ]; then
+	            bk_time=$(date -r "$bk_file" +%Y%m%d%H%M%S 2>/dev/null)
+			if [ "$og_time" -gt "$bk_time" ]; then
+				echo "rm -rf \"$bk_file\"" >> "$SYNC_DIFF"
+			fi
+		fi
+	fi
+	done
+}
+
+# Buscar archivos de audio y comparar fechas de modificación
+gfind "$OG_DIR" -type f \( -name '*.mp3' -o -name '*.m4a' -o -name '*.amr' -o -name '*.aac' -o -name '*.wav' -o -name '*.flac' \) -printf '%P\n' | compare_and_append
+
+echo "Hecho!"
+
+# Limpiar archivos temporales
+if [ -s "$SYNC_DIFF" ]; then
+	chmod +x "$SYNC_DIFF" && sed -i 's/\$/\\$/g' "$SYNC_DIFF"
+	echo "Borrando $(grep -vc '#!/bin/sh' "$SYNC_DIFF") archivos..."
+	. "$SYNC_DIFF"
+	rm "$SYNC_DIFF"
+	echo "Hecho!"
+else
+	echo "No hay archivos que borrar"
+	rm "$SYNC_DIFF"
+fi
+
+# Función para realizar la conversión de archivos
+convert_file() {
+	local file="$1"
+	local dest_file
+	local extension="${file##*.}"  # Extraer la extensión del archivo
+
+	# Eliminar la extensión según el tipo de archivo
+	if [ "$extension" == "flac" ]; then
+		dest_file="$BK_DIR/${file%.flac}.mp3"
+	else
+		dest_file="$BK_DIR/${file%.???}.mp3"
+	fi
+
+	if [ ! -e "$dest_file" ]; then
+		mkdir -p "$(dirname "$dest_file")"
+		echo "Convirtiendo $(basename "$file") a formato MP3"
+
+		ffmpeg -n -nostdin -i "$OG_DIR/$file" -vf scale=480:480 -metadata:s:v:0 title="cover.jpg" -metadata:s:v:0 comment="Cover (front)" -ar 44100 -ac 2 -b:a 320k -vcodec mjpeg -qscale:v 2 -field_order tt -r 1 "$dest_file" >/dev/null 2>&1
+	fi
+}
+
+# Convertir archivos de formatos compatibles
+gfind "$OG_DIR" -type f \( -name '*.mp3' -o -name '*.m4a' -o -name '*.amr' -o -name '*.aac' -o -name '*.wav' -o -name '*.flac' \) -printf '%P\n' | while read -r file; do
+convert_file "$file"
+done
