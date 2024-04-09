@@ -13,6 +13,11 @@ remove_and_link_profile() {
     ln -s "$HOME/.dotfiles/.profile" "$HOME/.profile"
 }
 
+# Arreglar los permisos de la webcam
+if [ ! "$(gstat -c "%a" /dev/video0)" = "640" ]; then
+	doas chmod 640 /dev/video0
+fi
+
 #######################################
 # Archivos de configuración y scripts #
 #######################################
@@ -137,15 +142,6 @@ perform_backup "default" "openfiles" "$HOME/.dotfiles/bckp/default"
 # Aplicaciones predeterminadas #
 ################################
 
-# Arreglar los permisos de la webcam
-if [ ! "$(gstat -c "%a" /dev/video0)" = "640" ]; then
-	doas chmod 640 /dev/video0
-fi
-
-############################
-# Aplicaciones por defecto #
-############################
-
 # Borramos ajustes ya guardados
 rm -f $HOME/.config/mimeapps.list
 rm -f $HOME/.local/share/applications/defaults.list
@@ -182,5 +178,19 @@ MimeType=text/english;text/plain;text/x-makefile;text/x-c++hdr;text/x-c++src;tex
 xdg-mime default lfst.desktop inode/directory
 xdg-mime default lfst.desktop x-directory/normal
 update-desktop-database "$HOME/.local/share/applications"
+
+# Nuestra función para establecer nuestro visor de imagenes, video, audio y editor de texto
+set_default_mime_types(){
+	local pattern="$1"
+	local desktop_file="$2"
+	awk -v pattern="$pattern" '$0 ~ pattern {print $1}' /usr/share/misc/mime.types | while read -r line; do
+		xdg-mime default "$desktop_file" "$line"
+	done
+}
+
+set_default_mime_types "^image" "nsxiv.desktop"
+set_default_mime_types "^video" "mpv.desktop"
+set_default_mime_types "^audio" "mpv.desktop"
+set_default_mime_types "^text" "nvimt.desktop"
 
 xdg-settings set default-web-browser chromium-browser.desktop 2>/dev/null
