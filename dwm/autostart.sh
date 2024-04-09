@@ -18,9 +18,6 @@ xrandr --dpi 96
 
 doas /usr/bin/mixerctl outputs.hp_boost=on >/dev/null
 
-# Iniciar syncthing
-pgrep syncthing || syncthing --no-browser >/tmp/syncthing.log 2>/dev/null &
-
 # Establecer distribucción de teclado
 setxkbmap -model pc104 -layout es,us  -option grp:win_space_toggle -option caps:none &
 
@@ -43,5 +40,5 @@ pgrep redshift		|| redshift -l $LOCATION &
 # Borrar archivos basura
 while true; do
 	rm ~/.serverauth* ~/*.core ~/.pki
-	sleep 60;
+	sleep 120;
 done &
