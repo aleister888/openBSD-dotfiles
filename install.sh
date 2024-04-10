@@ -27,7 +27,7 @@ error(){
 # Dependencias para compilar Tauon Music Box, libappindicator no esta disponible
 tauon_packages='py3-dbus py-gobject py3-pip ffmpeg libnotify sdl2 sdl2-audiolib sdl2-gfx sdl2-image sdl2-mixer sdl2-net sdl2-pango sdl2-ttf wavpack flac libvorbis opusfile libopenmpt libsamplerate mpg123 coreutils'
 # GUI
-packages='arandr czkawka-gui dragon-drop easytag gimp%snapshot gcolor2 gnome-calculator libreoffice lxappearance mpv nsxiv pavucontrol zathura zathura-pdf-mupdf chromium zathura-cb workrave gsimplecal'
+packages='arandr czkawka-gui dragon-drop easytag gimp%snapshot gcolor2 mate-calc libreoffice lxappearance mpv nsxiv pavucontrol zathura zathura-pdf-mupdf chromium zathura-cb workrave gsimplecal'
 # Otros paquetes
 packages+=' ghostscript-- automake-1.16.5 avahi bash bat cdrtools chafa cups dash-- dbus dunst eza feh ffmpegthumbnailer fzf gcc%8 git gmake gnome-keyring go gnupg hplip htop i3lock imagemagick imlib2 jdk%8 jdk%11 jq keepassxc--browser latexmk lf mediainfo neovim nitrogen node obsdfreqd odt2txt p5-File-MimeInfo p7zip pandoc papirus-icon-theme picom playerctl poppler-utils qt5ct redshift remmina ripgrep stow texlive_texmf-full thunderbird transmission-gtk unrar unzip-- wget wpa_supplicant xarchiver xclip xcursor-themes xdg-user-dirs xdotool yarn youtube-dl zsh neofetch gsed gawk ggrep gnuwatch symbola-ttf meson ninja cmake xcb libconfig libev uthash curl syncthing xcursor-themes polkit findutils'
 
@@ -182,43 +182,13 @@ MAILTO=$USER
 root_install(){
 # Configurar el kernel
 	cp /etc/sysctl.conf /etc/sysctl.conf.bak
-	echo '# Enable hyper-threading
-hw.smt=1
-# Maximum file descriptors
-kern.maxfiles=16384
-# Memory freeing
-kern.bufcachepercent=90
-# Shared Memory
-kern.shminfo.shmall=131072
-kern.shminfo.shmmni=1024
-# Maximum number of threads
-kern.maxthread=4096
-
-# Smophores
-kern.shminfo.shmseg=2048
-kern.seminfo.semmns=4096
-kern.seminfo.semmni=1024
-
-kern.maxvnodes=8192
-kern.somaxconn=2048
-machdep.allowaperture=1
-
-# Improve networking
-net.inet.udp.recvspace=262144
-net.inet.udp.sendspace=262144
-net.inet.icmp.errppslimit=256' | doas tee /etc/sysctl.conf
+	doas cp -f "$HOME/.dotfiles/assets/sysctl.conf" /etc/sysctl.conf
 
 # Configurar xinit para iniciar X11
-	echo '#!/bin/sh
-[ -f $HOME/.config/Xresources ] && xrdb $HOME/.config/Xresources
-while true; do
-	/usr/local/bin/dwm >/dev/null 2>&1
-done' | doas tee /etc/X11/xinit/xinitrc
+	doas install -m 755 "$HOME/.dotfiles/assets" /etc/X11/xinit/xinitrc
 
 # Crear un script para ejecutar tauon
-	echo '#!/bin/sh
-python3 $HOME/.local/src/tauon-music-box/tauon.py' | doas tee /usr/local/bin/tauon
-doas chmod 0755 /usr/local/bin/tauon
+	doas install -m 755 "$HOME/.dotfiles/assets/tauon" /usr/local/bin/tauon
 
 # Auto-montar discos externos automáticamente
 doas cp "$HOME/.dotfiles/attach" /etc/hotplug/attach

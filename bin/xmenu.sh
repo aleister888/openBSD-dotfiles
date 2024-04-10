@@ -42,7 +42,7 @@ IMG:$ICONPATH/applications-office.svg				Oficina
 	IMG:$ICONPATH/libreoffice-calc.svg			Libre Office Calc	libreoffice --calc
 	IMG:$ICONPATH/libreoffice-impress.svg			Libre Office Impress	libreoffice --impress
 	IMG:$ICONPATH/zathura.svg				Zathura			zathura
-	IMG:$ICONPATH/gnome-calculator.svg			Calculadora		gnome-calculator
+	IMG:$ICONPATH/accessories-calculator.svg		Calculadora		mate-calc
 	IMG:$ICONPATH/remmina.svg				Visor VNC		remmina
 	IMG:$ICONPATH/accessories-notes.svg			Aula Virtual		xdg-open https://aulavirtual.ual.es/
 	IMG:$ICONPATH/system-users.svg				Campus Virtual		xdg-open https://campus.ual.es/
