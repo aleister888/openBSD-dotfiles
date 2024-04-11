@@ -261,37 +261,17 @@ Para conectarte a tu torre debes tener instalado algún cliente VNC, mi recomend
 
 \section{Monitores de altas tasas de refresco}
 
-Por defecto dwm actualiza el movimiento de las ventanas a 60 FPS. Si tienes un monitor de mas de 60 Hz esto puede hacer la experiencia de usar dwm insatisfactoria. Para cambiar este comportamiento, debes editar el archivo \emph{dwm.c}, primero debes ir a la función:
+Por defecto dwm actualiza el movimiento de las ventanas a 60 FPS. Si tienes un monitor de mas de 60 Hz esto puede hacer la experiencia de usar dwm insatisfactoria. Para cambiar este comportamiento, debes editar el archivo \emph{dwm.c}. En el encontrarás varias funciones con esta misma linea de código:
 
 \begin{verbatim}
-void
-movemouse(const Arg *arg)
+if ((ev.xmotion.time - lasttime) <= (1000 / 60))
 \end{verbatim}
 
-Encontrar las lineas:
-
-\begin{verbatim}
-    break;
-case MotionNotify:
-    if ((ev.xmotion.time - lasttime) <= (1000 / 60))
-        continue;
-    lasttime = ev.xmotion.time;
-\end{verbatim}
-
-Y cambiar el valor \emph{60} por la tasa de refresco de tu monitor. Por ejemplo, para un monitor de 144 Hz, la línea a cambiar debería verse así:
+Deberás cambiar el valor \emph{60} por la tasa de refresco de tu monitor en cada aparición de esta linea. Por ejemplo, para un monitor de \emph{144 Hz}, la líneas a cambiar deberían verse así:
 
 \begin{verbatim}
 if ((ev.xmotion.time - lasttime) <= (1000 / 144))
 \end{verbatim}
-
-Ahora debes encontrar la misma línea en:
-
-\begin{verbatim}
-void
-resizemouse(const Arg *arg)
-\end{verbatim}
-
-y realizar el mismo tipo de modificación. Para hacer los cambios efectivos re-compila dwm ejecutando \emph{doas make install} desde la carpeta de dwm, y reinicia dwm pulsando \emph{Alt Izq. + Shift + F11}.
 
 \section{Chromium}
 
