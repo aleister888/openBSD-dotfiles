@@ -2,7 +2,7 @@
 
 ## OpenBSD Dotfiles
 
-`OpenBSD` dotfiles for my `Thinkpad X270`
+`OpenBSD` dotfiles para mi `Thinkpad X270`
 
 <p float="center">
     <img src="https://raw.githubusercontent.com/aleister888/openBSD-dotfiles/main/img/screenshot1.jpg" width="49%" />
@@ -11,43 +11,25 @@
 
 ## Steps to Install
 
-- Log in as root, configure doas (Put these lines in /etc/doas.conf)
+- Inicia sesión como root, y configura doas añadiendo estas lineas a `/etc/doas.conf`
     - `permit persist keepenv setenv { XAUTHORITY LANG LC_ALL } :wheel`
     - `permit nopass :wheel as root cmd /usr/bin/mixerctl`
-- Add yourself to the staff login group, and the wheel group with:
+- Añadete a ti mismo al grupo de sesión `staff` y al grupo `wheel` con:
     - `usermod -L staff username`
     - `usermod -G wheel username`
-- Log in as your regular user and install bash and git with:
+- Inicia sesión con tu usuario regular e instala bash y git con:
     - `doas pkg_add bash git`
-- Clone into your __HOME__ directory with:
+- Clona el repositorio en tu carpeta  __HOME__ con:
     - `git clone https://github.com/aleister888/openBSD-dotfiles.git ~/.dotfiles`,
-- cd into `~/.dotfiles` and run `install.sh`
+- Desde la carpeta `~/.dotfiles` ejecuta `install.sh`
 
-For only stowing dotfiles install "stow" and run instead `update.sh`
-
-_NOTE:_ With the `persist` option in `doas.conf`, doas will not require authentication via password-entry for five minutes after the last time doas was ran. If the installation of packages takes more than 5 minutes (and it will most likely will) password authentication will be required again. To make the script fully automated replace `persist` with `nopass` in the first `doas.conf` example line.
-
-## Software used
-
-- [dwm](https://dwm.suckless.org/) [(my build)](https://github.com/aleister888/openBSD-dotfiles/tree/main/dwm)
-- [dmenu](https://tools.suckless.org/dmenu/) [(my build)](https://github.com/aleister888/openBSD-dotfiles/tree/main/dmenu)
-- [st](https://st.suckless.org/) [(my build)](https://github.com/aleister888/openBSD-dotfiles/tree/main/st)
-- [dwmblocks](https://github.com/torrinfail/dwmblocks)
-- [Tauon Music Box](https://github.com/Taiko2k/TauonMusicBox)
-
-## Useful Stuff
+_NOTA:_ Con la opción `persist` en `doas.conf` doas no te pedirá autentificación si ya te autentificaste hahce menos de 5 minutos, si alguna parte de la instalación dura mas de 5 minutos tendras que introducir la contraseña varias veces. Para hacer el proceso de configuración mas automático, sustituye `persist` por `nopass`. Lo que hará que doas no te pida ninguna contraseña.
 
 ### i3lock-fancy
 
-OpenBSD doesn't have a `i3lock-fancy` port, so i added a script that
-simulates `i3lock-fancy` behaviour by manually adding blur and a lock icon.
-
-It detects if it should display a dark or light icon even better than
-the original i3lock-fancy because it reads brightness only from the part
-of the screen where the lock icon will be displayed.
+OpenBSD no tiene un port de `ì3lock-fancy`, así que he añadido un script que simula el comportamiento de i3lock-fancy. Es solo un script que utiliza ImageMagick para añadir blur a tu pantalla y un icono de candado oscuro o claro, en función de si el centro de la pantalla es mas o menos brillante.
 
 ## TODO
 
 - Terminar el PDF, explicando paso a paso como configurar chrome
-- Traducir el README y los scripts al Español
 - Testear el script de instalación en OpenBSD 7.5

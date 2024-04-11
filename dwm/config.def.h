@@ -47,6 +47,8 @@ static const char *colors[][3]      = {
 	[SchemeInfoSel]     = { foreground, background_sel, "#000000"   }, // Información (Seleccionada)
 	[SchemeScratchNorm] = { "#000000",  "#000000",      col_blue    }, // Scratchpad (Normal)
 	[SchemeScratchSel]  = { "#000000",  "#000000",      col_purple  }, // Scratchpad (Selecteccionado)
+	[SchemeStickyNorm]  = { "#000000",  "#000000",      background_sel }, // Scratchpad (Normal)
+	[SchemeStickySel]   = { "#000000",  "#000000",      col_yellow }, // Scratchpad (Selecteccionado)
 	[SchemeTag1]        = { col_purple, background_sel, "#000000"   }, // Colores de los espacios 1-12
 	[SchemeTag2]        = { col_aqua,   background_sel, "#000000"   },
 	[SchemeTag3]        = { col_orange, background_sel, "#000000"   },
@@ -199,9 +201,6 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask|ControlMask, XK_o,      spawn,            SHCMD("screenshot selection_save") },
 	// Mostrar/Ocultar barra
 	{ MODKEY,                       XK_b,      togglebar,        {0} },
-	// Hacer/Deshacer ventana permamente
-	{ MODKEY|ShiftMask,             XK_a,      togglesticky,     {0} },
-	{ MODKEY|ControlMask,           XK_a,      togglesticky,     {0} },
 	// Cambiar de espacio
 	{ MODKEY,                       XK_q,      shiftviewclients, { .i = -1 } },
 	{ MODKEY,                       XK_w,      shiftviewclients, { .i = +1 } },
@@ -229,10 +228,11 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_dead_acute, tagmon,       {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_ccedilla,   tagmon,       {.i = +1 } },
 	// Scratchpads
-        { MODKEY,                       XK_s,      togglescratch,    {.v = scratchpadcmd } },
-        { MODKEY|ControlMask,           XK_s,      removescratch,    {.v = scratchpadcmd } },
-        { MODKEY|ShiftMask,             XK_s,      setscratch,       {.v = scratchpadcmd } },
+	{ MODKEY,                       XK_s,      togglescratch,    {.v = scratchpadcmd } },
+	{ MODKEY|ShiftMask,             XK_s,      scratchtoggle,    {.v = scratchpadcmd } },
 	{ MODKEY,                       XK_f,      spawn,            {.v = spawnscratchpadcmd } },
+	// Hacer/Deshacer ventana permamente
+	{ MODKEY|ControlMask,           XK_s,      togglesticky,     {0} },
 	// Cambiar la distribución de las ventanas
 	{ MODKEY,                       XK_e,      setlayout,        {.v = &layouts[0]} },
 	{ MODKEY,                       XK_r,      setlayout,        {.v = &layouts[1]} },
